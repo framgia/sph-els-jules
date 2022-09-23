@@ -48,6 +48,13 @@ module.exports = {
       avatar_url: "default_img.jpeg",
     });
 
-    res.send(ResponseHelper.generateResponse(200, "Success", { user }));
+    res.send(
+      ResponseHelper.generateResponse(200, "Success", {
+        id: user.id,
+        email: user.email,
+        createdAt: user.createdAt,
+        updatedAt: user.updatedAt,
+      })
+    );
   },
 };
