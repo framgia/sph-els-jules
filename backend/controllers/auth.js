@@ -10,27 +10,17 @@ module.exports = {
 
     const user = await User.findOne({ where: { email } });
     if (!user) {
-      res
-        .status(401)
-        .send(
-          ResponseHelper.generateResponse(
-            401,
-            "Email or password is incorrect."
-          )
-        );
+      res.send(
+        ResponseHelper.generateResponse(401, "Email or password is incorrect.")
+      );
       return;
     }
 
     const passwordCheck = await bcrypt.compare(password, user.password);
     if (!passwordCheck) {
-      res
-        .status(401)
-        .send(
-          ResponseHelper.generateResponse(
-            401,
-            "Email or Password is incorrect."
-          )
-        );
+      res.send(
+        ResponseHelper.generateResponse(401, "Email or Password is incorrect.")
+      );
       return;
     }
 
