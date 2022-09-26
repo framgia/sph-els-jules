@@ -1,4 +1,5 @@
-const { User } = require("../models");
+const ResponseHelper = require("../helpers/response");
+const { User, Activity_log, User_follow } = require("../models");
 
 module.exports = {
   getUsers: async (req, res) => {
@@ -8,5 +9,22 @@ module.exports = {
     } catch (err) {
       console.log(err);
     }
+  },
+  getActivityLogsByUserId: async (req, res) => {
+    const { user_id } = req.query;
+    const followedUsers = await User_follow.findAll({
+      where: { follower_id: user_id },
+    });
+    console.log("followedUsers", followedUsers);
+
+    const idList = [+user_id, ...followedUsers.map((user) => user.user_id)];
+    console.log("idList", idList);
+    const activity_logs = await Activity_log.findAll({
+      where: { user_id: idList },
+    });
+
+    res.send(
+      ResponseHelper.generateResponse(200, "Success", { activity_logs })
+    );
   },
 };
