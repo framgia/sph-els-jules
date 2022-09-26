@@ -5,32 +5,65 @@ import { EyeInvisibleOutlined, EyeTwoTone } from "@ant-design/icons";
 import { Row, Col, Button, Form, Input, message } from "antd";
 
 import api from "../helpers/api";
-import loginIllustration from "../images/login_illustration.svg";
+import signupIllustration from "../images/signup_illustration.svg";
 
 import AuthLayout from "../layouts/authLayout";
 
-const Login = () => {
+const Signup = () => {
   const navigate = useNavigate();
-  const login = async (values) => {
-    const { email, password } = values;
-    const { data } = await api.post("/login", { email, password });
-    const { data: userData, meta } = data;
+
+  const register = async (values) => {
+    const { first_name, last_name, email, password } = values;
+    const { data } = await api.post("/signup", {
+      first_name,
+      last_name,
+      email,
+      password,
+    });
+
+    const { data: newUser, meta } = data;
 
     if (meta.code === 200) {
-      localStorage.setItem("user", JSON.stringify(userData.user));
-      return navigate("/");
+      return navigate("/login");
     }
 
     message.error(meta.message);
   };
+
   return (
-    <AuthLayout illustration={loginIllustration}>
+    <AuthLayout illustration={signupIllustration}>
       <div style={{ textAlign: "center", width: "min(25vw, 400px)" }}>
-        <Form onFinish={login} autoComplete="off">
-          <h1>Sign In</h1>
+        <Form onFinish={register} autoComplete="off">
+          <h1>Sign Up</h1>
           <h4 style={{ color: "#8c8c8c", marginBottom: "20px" }}>
             Welcome to E-Learning App
           </h4>
+          <Form.Item
+            name="first_name"
+            rules={[
+              { required: true, message: "Please input your first name" },
+              {
+                whitespace: true,
+                message: "Missing Value",
+              },
+            ]}
+          >
+            <Input className="form-input" placeholder="First Name" />
+          </Form.Item>
+
+          <Form.Item
+            name="last_name"
+            rules={[
+              { required: true, message: "Please input your last name" },
+              {
+                whitespace: true,
+                message: "Missing Value",
+              },
+            ]}
+          >
+            <Input className="form-input" placeholder="Last Name" />
+          </Form.Item>
+
           <Form.Item
             name="email"
             rules={[
@@ -41,11 +74,7 @@ const Login = () => {
               },
             ]}
           >
-            <Input
-              className="form-input"
-              placeholder="Email Address"
-              style={{ padding: "0.7em 1em" }}
-            />
+            <Input className="form-input" placeholder="Email Address" />
           </Form.Item>
 
           <Form.Item
@@ -74,7 +103,7 @@ const Login = () => {
             style={{ borderRadius: "7px", height: "3em" }}
             block
           >
-            Login
+            Register
           </Button>
         </Form>
         <Row style={{ marginTop: "10px" }} gutter={5}>
@@ -85,13 +114,13 @@ const Login = () => {
                 marginBottom: 0,
               }}
             >
-              Don't have an account yet?
+              Already have an account?
             </h4>
           </Col>
           <Col>
-            <Link to="/signup">
+            <Link to="/login">
               <Button type="link" style={{ padding: 0 }}>
-                Sign Up!
+                Sign In!
               </Button>
             </Link>
           </Col>
@@ -101,4 +130,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Signup;
