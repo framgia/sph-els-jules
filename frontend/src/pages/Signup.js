@@ -7,7 +7,7 @@ import { Row, Col, Button, Form, Input, message } from "antd";
 import api from "../helpers/api";
 import signupIllustration from "../images/signup_illustration.svg";
 
-import AuthLayout from "../layouts/authLayout";
+import AuthLayout from "../layouts/AuthLayout";
 
 const Signup = () => {
   const navigate = useNavigate();

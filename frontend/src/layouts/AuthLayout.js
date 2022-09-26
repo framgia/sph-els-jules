@@ -4,7 +4,7 @@ import { blue } from "@ant-design/colors";
 import { BoxPlotTwoTone } from "@ant-design/icons";
 import { Row, Col, Avatar } from "antd";
 
-import Illustration from "../pages/components/authIllustration";
+import AuthIllustration from "../pages/components/AuthIllustration";
 
 const AuthLayout = ({ children, illustration }) => {
   return (
@@ -17,7 +17,7 @@ const AuthLayout = ({ children, illustration }) => {
         />
         {children}
       </Col>
-      <Illustration illustration={illustration} />
+      <AuthIllustration illustration={illustration} />
     </Row>
   );
 };
