@@ -27,6 +27,39 @@ module.exports = {
           createdAt: new Date(),
           updatedAt: new Date(),
         },
+        {
+          first_name: "Jane",
+          last_name: "Dough",
+          email: "jane123@gmail.com",
+          password:
+            "$2a$11$.wtauGiDNCnjK9Hhrqheeu1NZhCoEIYtupKBX/xWwOL9iAtfNw1uu", // pass
+          user_type: "user",
+          avatar_url: "default_img.jpeg",
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          first_name: "Joe",
+          last_name: "Blow",
+          email: "joeblow@gmail.com",
+          password:
+            "$2a$11$.wtauGiDNCnjK9Hhrqheeu1NZhCoEIYtupKBX/xWwOL9iAtfNw1uu", // pass
+          user_type: "user",
+          avatar_url: "default_img.jpeg",
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          first_name: "Juan",
+          last_name: "Cruz",
+          email: "juancruz@gmail.com",
+          password:
+            "$2a$11$.wtauGiDNCnjK9Hhrqheeu1NZhCoEIYtupKBX/xWwOL9iAtfNw1uu", // pass
+          user_type: "user",
+          avatar_url: "default_img.jpeg",
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
       ],
       {}
     );
