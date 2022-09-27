@@ -15,10 +15,8 @@ module.exports = {
     const followedUsers = await User_follow.findAll({
       where: { follower_id: user_id },
     });
-    console.log("followedUsers", followedUsers);
 
     const idList = [+user_id, ...followedUsers.map((user) => user.user_id)];
-    console.log("idList", idList);
     const activity_logs = await Activity_log.findAll({
       where: { user_id: idList },
     });

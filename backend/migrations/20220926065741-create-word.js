@@ -1,42 +1,42 @@
-'use strict';
+"use strict";
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('words', {
+    await queryInterface.createTable("words", {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       question: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
       },
       correct_answer: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
       },
       choice1: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
       },
       choice2: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
       },
       choice3: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
       },
       choice4: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
       },
       createdAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
       },
       updatedAt: {
         allowNull: false,
-        type: Sequelize.DATE
-      }
+        type: Sequelize.DATE,
+      },
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('words');
-  }
+    await queryInterface.dropTable("words");
+  },
 };
