@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment } from "react";
 
 import { blue } from "@ant-design/colors";
 import { Layout, Avatar } from "antd";
@@ -8,11 +8,11 @@ const { Header, Content } = Layout;
 
 const HomeLayout = ({ children }) => {
   return (
-    <>
+    <Fragment>
       <Layout style={{ height: "100vh" }}>
         <Header style={{ backgroundColor: blue[6] }}>
           <div style={{ display: "flex" }}>
-            <Link to="/" style={{ color: "#e6f7ff" }}>
+            <Link to="/" style={{ color: "#E6F7FF" }}>
               E-Learning
             </Link>
             <ul>
@@ -37,7 +37,7 @@ const HomeLayout = ({ children }) => {
         </Header>
         <Content>{children}</Content>
       </Layout>
-    </>
+    </Fragment>
   );
 };
 
