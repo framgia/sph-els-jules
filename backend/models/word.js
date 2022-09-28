@@ -3,16 +3,7 @@ const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
   class Word extends Model {
     static associate(models) {
-      const { Lesson_word, Lesson, Result } = models;
-
-      Word.belongsToMany(Lesson, {
-        through: Lesson_word,
-        foreignKey: "word_id",
-      });
-      Lesson.belongsToMany(Word, {
-        through: Lesson_word,
-        foreignKey: "word_id",
-      });
+      const { Lesson_word, Result } = models;
 
       Word.hasMany(Lesson_word, { foreignKey: "word_id" });
       Lesson_word.belongsTo(Word, { foreignKey: "word_id" });
