@@ -1,8 +1,10 @@
 "use strict";
 
+const { User_follow } = require("../models");
+
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.bulkInsert("user_follows", [
+    const data = [
       {
         id: 1,
         user_id: 2,
@@ -31,7 +33,11 @@ module.exports = {
         createdAt: new Date(),
         updatedAt: new Date(),
       },
-    ]);
+    ];
+
+    await User_follow.bulkCreate(data, {
+      updateOnDuplicate: Object.keys(User_follow.getAttributes()),
+    });
   },
 
   async down(queryInterface, Sequelize) {

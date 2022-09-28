@@ -10,8 +10,32 @@ html {
   box-sizing: inherit;
 }
 
+body {
+  font-family: "Poppins", sans-serif;
+}
+
 h1 {
   margin: 0;
+}
+
+ul {
+  list-style: none;
+  display: flex;
+  gap: 32px;
+  margin-left: auto;
+  color: #E6F7FF;
+  font-weight: 500;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+  font-size: 32px;
+  font-weight: 500;
+}
+
+a:hover {
+  color: inherit;
 }
 
 .center {

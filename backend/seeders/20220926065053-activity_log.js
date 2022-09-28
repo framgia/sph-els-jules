@@ -1,8 +1,10 @@
 "use strict";
 
+const { Activity_log } = require("../models/");
+
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.bulkInsert("activity_logs", [
+    const data = [
       {
         id: 1,
         user_id: 1,
@@ -15,13 +17,13 @@ module.exports = {
         id: 2,
         user_id: 2,
         relatable_id: 1,
-        relatable_type: "result",
+        relatable_type: "lesson",
         createdAt: new Date("06/12/2022"),
         updatedAt: new Date("06/12/2022"),
       },
       {
         id: 3,
-        user_id: 3,
+        user_id: 2,
         relatable_id: 2,
         relatable_type: "follow",
         createdAt: new Date("01/01/2022"),
@@ -30,12 +32,16 @@ module.exports = {
       {
         id: 4,
         user_id: 1,
-        relatable_id: 2,
-        relatable_type: "result",
-        createdAt: new Date("12/25/2021"),
-        updatedAt: new Date("12/25/2021"),
+        relatable_id: 1,
+        relatable_type: "lesson",
+        createdAt: new Date(),
+        updatedAt: new Date(),
       },
-    ]);
+    ];
+
+    await Activity_log.bulkCreate(data, {
+      updateOnDuplicate: Object.keys(Activity_log.getAttributes()),
+    });
   },
 
   async down(queryInterface, Sequelize) {

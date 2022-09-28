@@ -35,7 +35,7 @@ const Signup = () => {
       <div style={{ textAlign: "center", width: "min(25vw, 400px)" }}>
         <Form onFinish={register} autoComplete="off">
           <h1>Sign Up</h1>
-          <h4 style={{ color: "#8c8c8c", marginBottom: "20px" }}>
+          <h4 style={{ color: "#8C8C8C", marginBottom: "20px" }}>
             Welcome to E-Learning App
           </h4>
           <Form.Item
@@ -110,7 +110,7 @@ const Signup = () => {
           <Col className="center">
             <h4
               style={{
-                color: "#8c8c8c",
+                color: "#8C8C8C",
                 marginBottom: 0,
               }}
             >
