@@ -83,4 +83,52 @@ module.exports = {
       ResponseHelper.generateResponse(200, "Success", { activity_logs })
     );
   },
+  getLearningsCountByUserId: async (req, res) => {
+    const { user_id } = req.query;
+
+    const activity_logs = await Activity_log.findAll({
+      where: { user_id },
+      include: [
+        {
+          model: Lesson,
+          attributes: ["id", "title"],
+          include: [
+            {
+              model: Result,
+              where: { user_id },
+            },
+          ],
+        },
+      ],
+    });
+
+    const learnedLessons = activity_logs.reduce((count, activity) => {
+      if (activity.relatable_type === "lesson") return count + 1;
+      return count;
+    }, 0);
+
+    const learnedWords = activity_logs.reduce((count, activity) => {
+      if (activity.relatable_type === "lesson") {
+        const {
+          Lesson: { Results },
+        } = activity;
+
+        // Count the correct answers per lesson
+        const correctAnswers = Results.reduce((count, result) => {
+          if (result.is_correct) return count + 1;
+          return count;
+        }, 0);
+
+        return correctAnswers;
+      }
+      return count;
+    }, 0);
+
+    res.send(
+      ResponseHelper.generateResponse(200, "Success", {
+        learnedLessons,
+        learnedWords,
+      })
+    );
+  },
 };
