@@ -5,6 +5,7 @@ const cors = require("cors");
 const db = require("./models");
 const authRoutes = require("./routes/auth");
 const usersRoutes = require("./routes/users");
+const wordRoutes = require("./routes/words");
 
 const app = express();
 const PORT = process.env.PORT || 8080;
@@ -14,6 +15,7 @@ app.use(express.json());
 
 app.use(authRoutes);
 app.use("/users", usersRoutes);
+app.use("/words", wordRoutes);
 
 db.sequelize
   .authenticate()
