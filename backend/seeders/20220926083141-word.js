@@ -1,8 +1,10 @@
 "use strict";
 
+const { Word } = require("../models");
+
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.bulkInsert("words", [
+    const data = [
       {
         id: 1,
         question: "はい。",
@@ -168,7 +170,11 @@ module.exports = {
         createdAt: new Date(),
         updatedAt: new Date(),
       },
-    ]);
+    ];
+
+    await Word.bulkCreate(data, {
+      updateOnDuplicate: Object.keys(Word.getAttributes()),
+    });
   },
 
   async down(queryInterface, Sequelize) {

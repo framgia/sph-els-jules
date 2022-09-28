@@ -1,8 +1,10 @@
 "use strict";
 
+const { Lesson_word } = require("../models");
+
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.bulkInsert("lesson_words", [
+    const data = [
       {
         id: 1,
         lesson_id: 1,
@@ -108,7 +110,11 @@ module.exports = {
         createdAt: new Date(),
         updatedAt: new Date(),
       },
-    ]);
+    ];
+
+    await Lesson_word.bulkCreate(data, {
+      updateOnDuplicate: Object.keys(Lesson_word.getAttributes()),
+    });
   },
 
   async down(queryInterface, Sequelize) {

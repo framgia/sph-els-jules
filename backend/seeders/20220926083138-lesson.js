@@ -1,8 +1,10 @@
 "use strict";
 
+const { Lesson } = require("../models");
+
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.bulkInsert("lessons", [
+    const data = [
       {
         id: 1,
         title: "Basic 500",
@@ -27,7 +29,11 @@ module.exports = {
         createdAt: new Date(),
         updatedAt: new Date(),
       },
-    ]);
+    ];
+
+    await Lesson.bulkCreate(data, {
+      updateOnDuplicate: Object.keys(Lesson.getAttributes()),
+    });
   },
 
   async down(queryInterface, Sequelize) {

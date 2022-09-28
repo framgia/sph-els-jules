@@ -8,7 +8,7 @@ module.exports = (sequelize, DataTypes) => {
       Lesson.hasMany(Lesson_word, { foreignKey: "lesson_id" });
       Lesson_word.belongsTo(Lesson, { foreignKey: "lesson_id" });
 
-      Word.hasMany(Word, { foreignKey: "word_id" });
+      Word.hasMany(Lesson_word, { foreignKey: "word_id" });
       Lesson_word.belongsTo(Word, { foreignKey: "word_id" });
     }
   }
