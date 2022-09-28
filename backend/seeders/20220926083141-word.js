@@ -2,23 +2,176 @@
 
 module.exports = {
   async up(queryInterface, Sequelize) {
-    /**
-     * Add seed commands here.
-     *
-     * Example:
-     * await queryInterface.bulkInsert('People', [{
-     *   name: 'John Doe',
-     *   isBetaMember: false
-     * }], {});
-     */
+    await queryInterface.bulkInsert("words", [
+      {
+        id: 1,
+        question: "はい。",
+        choice1: "Please",
+        choice2: "Thank you",
+        choice3: "You are welcome",
+        choice4: "Test",
+        correct_answer: "Yes",
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        id: 2,
+        question: "いいえ",
+        choice1: "Please",
+        choice2: "Yes",
+        choice3: "You are welcome",
+        choice4: "Test",
+        correct_answer: "No",
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        id: 3,
+        question: "おねがいします。",
+        choice1: "No",
+        choice2: "Yes",
+        choice3: "You are welcome",
+        choice4: "Test",
+        correct_answer: "Please",
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        id: 4,
+        question: "ありがとう。",
+        choice1: "No",
+        choice2: "Yes",
+        choice3: "You are welcome",
+        choice4: "Test",
+        correct_answer: "Thank you",
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        id: 5,
+        question: "どういたしまして。",
+        choice1: "No",
+        choice2: "Yes",
+        choice3: "Thank you",
+        choice4: "Test",
+        correct_answer: "You are welcome",
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        id: 6,
+        question: "すみません",
+        choice1: "Water please",
+        choice2: "Refill, please",
+        choice3: "How much is this?",
+        choice4: "Test",
+        correct_answer: "Excuse me",
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        id: 7,
+        question: "これください",
+        choice1: "Water please",
+        choice2: "Refill, please",
+        choice3: "How much is this?",
+        choice4: "Test",
+        correct_answer: "This one please",
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        id: 8,
+        question: "いくらですか",
+        choice1: "Water please",
+        choice2: "Refill, please",
+        choice3: "This one please",
+        choice4: "Test",
+        correct_answer: "How much is this?",
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        id: 9,
+        question: "お水ください",
+        choice1: "Refill, please",
+        choice2: "How much is this?",
+        choice3: "This one please",
+        choice4: "Test",
+        correct_answer: "Water please",
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        id: 10,
+        question: "大盛りお願いします",
+        choice1: "Refill, please",
+        choice2: "How much is this?",
+        choice3: "This one please",
+        choice4: "Test",
+        correct_answer: "I'd like a large portion",
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        id: 11,
+        question: "はい。",
+        choice1: "Please",
+        choice2: "Thank you",
+        choice3: "You are welcome",
+        choice4: "Test",
+        correct_answer: "Yes",
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        id: 12,
+        question: "いいえ",
+        choice1: "Please",
+        choice2: "Yes",
+        choice3: "You are welcome",
+        choice4: "Test",
+        correct_answer: "No",
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        id: 13,
+        question: "おねがいします。",
+        choice1: "No",
+        choice2: "Yes",
+        choice3: "You are welcome",
+        choice4: "Test",
+        correct_answer: "Please",
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        id: 14,
+        question: "ありがとう。",
+        choice1: "No",
+        choice2: "Yes",
+        choice3: "You are welcome",
+        choice4: "Test",
+        correct_answer: "Thank you",
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        id: 15,
+        question: "どういたしまして。",
+        choice1: "No",
+        choice2: "Yes",
+        choice3: "Thank you",
+        choice4: "Test",
+        correct_answer: "You are welcome",
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+    ]);
   },
 
   async down(queryInterface, Sequelize) {
-    /**
-     * Add commands to revert seed here.
-     *
-     * Example:
-     * await queryInterface.bulkDelete('People', null, {});
-     */
+    await queryInterface.bulkDelete("words", null, {});
   },
 };

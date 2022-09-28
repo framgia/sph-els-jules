@@ -7,22 +7,16 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       const { User_follow, Activity_log, Result } = models;
 
-      User.belongsToMany(User, {
+      User.hasMany(User_follow, { foreignKey: "follower_id", as: "Follower" });
+      User_follow.belongsTo(User, {
+        foreignKey: "follower_id",
         as: "Follower",
-        through: User_follow,
-        foreignKey: "user_id",
       });
-      User.belongsToMany(User, {
-        as: "Following",
-        through: User_follow,
-        foreignKey: "user_id",
-      });
+      User.hasMany(User_follow, { foreignKey: "user_id", as: "Following" });
+      User_follow.belongsTo(User, { foreignKey: "user_id", as: "Following" });
 
-      User.hasMany(User_follow, { foreignKey: "user_id" });
-      User_follow.belongsTo(User, { foreignKey: "user_id" });
-
-      User.hasMany(Result);
-      Result.belongsTo(User);
+      User.hasMany(Result, { foreignKey: "user_id" });
+      Result.belongsTo(User, { foreignKey: "user_id" });
 
       User.hasMany(Activity_log, { foreignKey: "user_id" });
       Activity_log.belongsTo(User, { foreignKey: "user_id" });
@@ -30,6 +24,12 @@ module.exports = (sequelize, DataTypes) => {
   }
   User.init(
     {
+      id: {
+        allowNull: false,
+        autoIncrement: true,
+        primaryKey: true,
+        type: DataTypes.INTEGER,
+      },
       first_name: DataTypes.STRING,
       last_name: DataTypes.STRING,
       email: DataTypes.STRING,

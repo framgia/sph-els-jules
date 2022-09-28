@@ -6,6 +6,7 @@ module.exports = {
       "users",
       [
         {
+          id: 1,
           first_name: "John",
           last_name: "Doe",
           email: "johndoe@gmail.com",
@@ -17,6 +18,7 @@ module.exports = {
           updatedAt: new Date(),
         },
         {
+          id: 2,
           first_name: "James",
           last_name: "Bow",
           email: "jamesbow@gmail.com",
@@ -28,6 +30,7 @@ module.exports = {
           updatedAt: new Date(),
         },
         {
+          id: 3,
           first_name: "Jane",
           last_name: "Dough",
           email: "jane123@gmail.com",
@@ -39,6 +42,7 @@ module.exports = {
           updatedAt: new Date(),
         },
         {
+          id: 4,
           first_name: "Joe",
           last_name: "Blow",
           email: "joeblow@gmail.com",
@@ -50,6 +54,7 @@ module.exports = {
           updatedAt: new Date(),
         },
         {
+          id: 5,
           first_name: "Juan",
           last_name: "Cruz",
           email: "juancruz@gmail.com",
