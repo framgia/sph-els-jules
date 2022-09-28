@@ -1,21 +1,22 @@
-import React, { useState, useEffect } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 
-import dayjs from "dayjs";
-import relativeTime from "dayjs/plugin/relativeTime";
-import { blue } from "@ant-design/colors";
 import { useNavigate } from "react-router-dom";
-import { Row, Col, Card, Avatar, List, Empty, Typography } from "antd";
+import { blue } from "@ant-design/colors";
+import { Row, Col, Card, Avatar, Typography, Empty, Button } from "antd";
+import { Link } from "react-router-dom";
 
 import api from "../helpers/api";
 
 import HomeLayout from "../layouts/HomeLayout";
+import Activities from "./components/Activities";
 
 const { Text } = Typography;
 
 const Dashboard = () => {
   const navigate = useNavigate();
   const [activities, setActivities] = useState([]);
-  const [currentUser, setCurrentUser] = useState([]);
+  const [learnings, setLearnings] = useState({});
+  const [currentUser, setCurrentUser] = useState({});
 
   useEffect(() => {
     const loggedInUser = localStorage.getItem("user");
@@ -34,92 +35,80 @@ const Dashboard = () => {
       setActivities(data.data.activity_logs);
     };
 
+    const getLearnings = async () => {
+      const { data } = await api.get("/users/learn-count/", {
+        params: {
+          user_id: currentUser.id,
+        },
+      });
+      setLearnings(data.data);
+    };
+
     getActivities();
+    getLearnings();
   }, [navigate]);
-
-  const renderTitle = (activity) => {
-    const { user_id, relatable_type } = activity;
-
-    let title;
-    const you = user_id === currentUser.id ? "(You)" : "";
-
-    if (relatable_type === "follow") {
-      const {
-        User_follow: { user_id: following_id, Follower, Following },
-      } = activity;
-      const currentUserFollowed =
-        following_id === currentUser.id ? "(You)" : "";
-      const action = <Text type="warning">followed</Text>;
-
-      title = (
-        <Text>
-          {Follower.first_name} {Follower.last_name} {you} {action}{" "}
-          {Following.first_name} {Following.last_name} {currentUserFollowed}
-        </Text>
-      );
-    } else if (relatable_type === "lesson") {
-      const { score, item_count, Lesson, User } = activity;
-      const action = <Text type="success">learned</Text>;
-      const lesson = <Text type="danger">{Lesson.title}</Text>;
-
-      title = (
-        <Text>
-          {User.first_name} {User.last_name} {you} {action} {score} of{" "}
-          {item_count} words in {lesson}
-        </Text>
-      );
-    }
-
-    return title;
-  };
-
-  const renderDate = (date) => {
-    dayjs.extend(relativeTime);
-    return dayjs(date).fromNow();
-  };
 
   return (
     <HomeLayout>
-      <div style={{ padding: "2.5rem 5rem", height: "100%" }}>
+      <div
+        style={{
+          marginInline: "auto",
+          padding: "2.5rem 0",
+          height: "100%",
+          width: "min(80vw, 1000px)",
+        }}
+      >
         <h1 style={{ marginBottom: "8px" }}>Dashboard</h1>
         <Row gutter={24}>
           <Col span="8">
-            <Card>
-              <h1>User</h1>
-            </Card>
-          </Col>
-          <Col span="16">
-            <Card
-              title={
-                <Text style={{ fontSize: "30px" }} strong>
-                  Activities
-                </Text>
-              }
-              style={{ maxHeight: "700px", overflow: "auto" }}
-            >
-              {activities.length > 0 ? (
-                <List>
-                  {activities.map((activity) => {
-                    return (
-                      <List.Item key={activity.id}>
-                        <List.Item.Meta
-                          avatar={
-                            <Avatar
-                              src="https://joeschmoe.io/api/v1/random"
-                              style={{ backgroundColor: blue[0] }}
-                            />
-                          }
-                          title={renderTitle(activity)}
-                          description={renderDate(activity.updatedAt)}
-                        ></List.Item.Meta>
-                      </List.Item>
-                    );
-                  })}
-                </List>
+            <Card className="center">
+              {Object.keys(learnings).length ? (
+                <Fragment>
+                  <Avatar
+                    src="https://joeschmoe.io/api/v1/random"
+                    shape="square"
+                    style={{
+                      backgroundColor: blue[0],
+                      width: "100%",
+                      height: "auto",
+                      aspectRatio: "1 / 1",
+                    }}
+                  />
+                  <div className="center" style={{ flexDirection: "column" }}>
+                    <Text
+                      style={{ fontSize: "1.5rem" }}
+                      strong
+                    >{`${learnings.user.first_name} ${learnings.user.last_name}`}</Text>
+                    <Text type="secondary">{`${learnings.user.email}`}</Text>
+                    <Link
+                      to="/"
+                      style={{
+                        fontSize: "1rem",
+                        margin: "0.5rem 0",
+                        width: "100%",
+                      }}
+                    >
+                      <Button style={{ padding: "0 1.5em", width: "100%" }}>
+                        {`Learned ${learnings.learnedLessons} lessons`}
+                      </Button>
+                    </Link>
+                    <Link to="/" style={{ fontSize: "1rem", width: "100%" }}>
+                      <Button
+                        type="primary"
+                        style={{ padding: "0 1.5em", width: "100%" }}
+                      >
+                        {`Learned ${learnings.learnedWords} words`}
+                      </Button>
+                    </Link>
+                  </div>
+                </Fragment>
               ) : (
                 <Empty />
               )}
             </Card>
+          </Col>
+          <Col span="16">
+            <Activities activities={activities} currentUser={currentUser} />
           </Col>
         </Row>
       </div>

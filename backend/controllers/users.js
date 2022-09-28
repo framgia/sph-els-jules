@@ -99,6 +99,10 @@ module.exports = {
             },
           ],
         },
+        {
+          model: User,
+          attributes: ["id", "first_name", "last_name", "email"],
+        },
       ],
     });
 
@@ -124,10 +128,13 @@ module.exports = {
       return count;
     }, 0);
 
+    const { User: user } = activity_logs[0];
+
     res.send(
       ResponseHelper.generateResponse(200, "Success", {
         learnedLessons,
         learnedWords,
+        user,
       })
     );
   },

@@ -54,7 +54,7 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
-        id: 1,
+        id: 5,
         first_name: "Juan",
         last_name: "Cruz",
         email: "juancruz@gmail.com",
