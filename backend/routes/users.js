@@ -6,5 +6,6 @@ const router = Router();
 
 router.get("/", usersController.getUsers);
 router.get("/activity-logs", usersController.getActivityLogsByUserId);
+router.get("/learn-count", usersController.getLearningsCountByUserId);
 
 module.exports = router;
