@@ -9,7 +9,7 @@ const {
   Word,
 } = require("../models");
 
-const _getActivities = async (idList) => {
+const getActivities = async (idList) => {
   return await Activity_log.findAll({
     where: { user_id: idList },
     include: [
@@ -45,23 +45,30 @@ const _getActivities = async (idList) => {
   });
 };
 
-const _addLessonScore = async (activity_logs) => {
+const addLessonScore = async (activity_logs) => {
   return await Promise.all(
-    activity_logs.map(async (al) => {
-      if (al.relatable_type === "lesson") {
-        const newAl = JSON.parse(JSON.stringify(al));
+    activity_logs.map(async (activity_log) => {
+      if (activity_log.relatable_type === "lesson") {
+        const new_activity_log = JSON.parse(JSON.stringify(activity_log));
+        const { user_id, Lesson } = new_activity_log;
+
         const results = await Result.findAll({
-          where: { lesson_id: al.Lesson.id, user_id: al.user_id },
+          where: {
+            lesson_id: Lesson.id,
+            user_id: user_id,
+          },
         });
         const score = results.reduce((score, question) => {
           if (question.is_correct) return score + 1;
           return score;
         }, 0);
-        newAl.score = score;
-        newAl.item_count = al.Lesson.Lesson_words.length;
-        return newAl;
+
+        new_activity_log.score = score;
+        new_activity_log.item_count = Lesson.Lesson_words.length;
+
+        return new_activity_log;
       }
-      return al;
+      return activity_log;
     })
   );
 };
@@ -82,9 +89,9 @@ module.exports = {
     });
 
     const idList = [+user_id, ...followedUsers.map((user) => user.user_id)];
-    let activity_logs = await _getActivities(idList);
+    let activity_logs = await getActivities(idList);
     activity_logs = activity_logs.sort((a, b) => b.updatedAt - a.updatedAt);
-    activity_logs = await _addLessonScore(activity_logs);
+    activity_logs = await addLessonScore(activity_logs);
 
     res.send(
       ResponseHelper.generateResponse(200, "Success", { activity_logs })
@@ -168,6 +175,7 @@ module.exports = {
         attributes: ["id", "first_name", "last_name"],
       },
     });
+
     const following = await User_follow.findAll({
       where: {
         follower_id: user_id,
@@ -179,9 +187,9 @@ module.exports = {
       },
     });
 
-    let activity_logs = await _getActivities(user_id);
+    let activity_logs = await getActivities(user_id);
     activity_logs = activity_logs.sort((a, b) => b.updatedAt - a.updatedAt);
-    activity_logs = await _addLessonScore(activity_logs);
+    activity_logs = await addLessonScore(activity_logs);
 
     res.send(
       ResponseHelper.generateResponse(200, "Success", {
