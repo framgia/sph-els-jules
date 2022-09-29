@@ -6,7 +6,6 @@ const {
   Result,
   Lesson,
   Lesson_word,
-  Word,
 } = require("../models");
 
 const getActivities = async (idList) => {
@@ -49,8 +48,8 @@ const addLessonScore = async (activity_logs) => {
   return await Promise.all(
     activity_logs.map(async (activity_log) => {
       if (activity_log.relatable_type === "lesson") {
-        const new_activity_log = JSON.parse(JSON.stringify(activity_log));
-        const { user_id, Lesson } = new_activity_log;
+        const newActivityLog = JSON.parse(JSON.stringify(activity_log));
+        const { user_id, Lesson } = newActivityLog;
 
         const results = await Result.findAll({
           where: {
@@ -63,10 +62,10 @@ const addLessonScore = async (activity_logs) => {
           return score;
         }, 0);
 
-        new_activity_log.score = score;
-        new_activity_log.item_count = Lesson.Lesson_words.length;
+        newActivityLog.score = score;
+        newActivityLog.item_count = Lesson.Lesson_words.length;
 
-        return new_activity_log;
+        return newActivityLog;
       }
       return activity_log;
     })
@@ -99,6 +98,18 @@ module.exports = {
   },
   getLearningsCountByUserId: async (req, res) => {
     const { user_id } = req.query;
+
+    if (!user_id) {
+      return res.send(ResponseHelper.generateResponse(400, "Missing query id"));
+    }
+
+    const user = await User.findByPk(user_id, {
+      attributes: ["id", "first_name", "last_name", "email"],
+    });
+
+    if (!user) {
+      return res.send(ResponseHelper.generateNotFoundResponse("User"));
+    }
 
     const activity_logs = await Activity_log.findAll({
       where: { user_id },
@@ -141,8 +152,6 @@ module.exports = {
       }
       return count;
     }, 0);
-
-    const { User: user } = activity_logs[0];
 
     res.send(
       ResponseHelper.generateResponse(200, "Success", {
