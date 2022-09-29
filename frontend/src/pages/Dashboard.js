@@ -9,6 +9,7 @@ import api from "../helpers/api";
 
 import HomeLayout from "../layouts/HomeLayout";
 import Activities from "./components/Activities";
+import WordsLearned from "./components/WordsLearned";
 
 const { Text } = Typography;
 
@@ -17,6 +18,7 @@ const Dashboard = () => {
   const [activities, setActivities] = useState([]);
   const [learnings, setLearnings] = useState({});
   const [currentUser, setCurrentUser] = useState({});
+  const [displayWords, setDisplayWords] = useState(false);
 
   useEffect(() => {
     const loggedInUser = localStorage.getItem("user");
@@ -88,18 +90,23 @@ const Dashboard = () => {
                         width: "100%",
                       }}
                     >
-                      <Button style={{ padding: "0 1.5em", width: "100%" }}>
-                        {`Learned ${learnings.learnedLessons} lessons`}
+                      <Button style={{ width: "100%" }}>
+                        {`Learned ${learnings.learnedLessons} ${
+                          learnings.learnedLessons > 1 ? "lessons" : "lesson"
+                        }`}
                       </Button>
                     </Link>
-                    <Link to="/" style={{ fontSize: "1rem", width: "100%" }}>
-                      <Button
-                        type="primary"
-                        style={{ padding: "0 1.5em", width: "100%" }}
-                      >
-                        {`Learned ${learnings.learnedWords} words`}
-                      </Button>
-                    </Link>
+                    <Button
+                      type="primary"
+                      onClick={() => {
+                        setDisplayWords(true);
+                      }}
+                      style={{ width: "100%" }}
+                    >
+                      {`Learned ${learnings.learnedWords} ${
+                        learnings.learnedWords > 1 ? "words" : "word"
+                      }`}
+                    </Button>
                   </div>
                 </Fragment>
               ) : (
@@ -108,7 +115,14 @@ const Dashboard = () => {
             </Card>
           </Col>
           <Col span="16">
-            <Activities activities={activities} currentUser={currentUser} />
+            {displayWords ? (
+              <WordsLearned
+                user_id={currentUser.id}
+                setDisplayWords={setDisplayWords}
+              />
+            ) : (
+              <Activities activities={activities} currentUser={currentUser} />
+            )}
           </Col>
         </Row>
       </div>

@@ -6,6 +6,10 @@ module.exports = {
   getWordsLearnedByUserId: async (req, res) => {
     const { user_id } = req.query;
 
+    if (!user_id) {
+      return res.send(ResponseHelper.generateResponse(400, "Missing query id"));
+    }
+
     const results = await Result.findAll({
       where: { user_id, is_correct: true },
       include: { model: Word },
