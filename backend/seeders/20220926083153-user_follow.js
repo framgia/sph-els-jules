@@ -33,6 +33,20 @@ module.exports = {
         createdAt: new Date(),
         updatedAt: new Date(),
       },
+      {
+        id: 5,
+        user_id: 1,
+        follower_id: 3,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        id: 6,
+        user_id: 1,
+        follower_id: 4,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
     ];
 
     await User_follow.bulkCreate(data, {

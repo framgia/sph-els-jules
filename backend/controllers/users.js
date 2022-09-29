@@ -6,8 +6,71 @@ const {
   Result,
   Lesson,
   Lesson_word,
-  Word,
 } = require("../models");
+
+const getActivities = async (idList) => {
+  return await Activity_log.findAll({
+    where: { user_id: idList },
+    include: [
+      {
+        model: User_follow,
+        include: [
+          {
+            model: User,
+            as: "Follower",
+            attributes: ["first_name", "last_name"],
+          },
+          {
+            model: User,
+            as: "Following",
+            attributes: ["first_name", "last_name"],
+          },
+        ],
+      },
+      {
+        model: User,
+        attributes: ["first_name", "last_name"],
+      },
+      {
+        model: Lesson,
+        attributes: ["id", "title"],
+        include: [
+          {
+            model: Lesson_word,
+          },
+        ],
+      },
+    ],
+  });
+};
+
+const addLessonScore = async (activity_logs) => {
+  return await Promise.all(
+    activity_logs.map(async (activity_log) => {
+      if (activity_log.relatable_type === "lesson") {
+        const newActivityLog = JSON.parse(JSON.stringify(activity_log));
+        const { user_id, Lesson } = newActivityLog;
+
+        const results = await Result.findAll({
+          where: {
+            lesson_id: Lesson.id,
+            user_id: user_id,
+          },
+        });
+        const score = results.reduce((score, question) => {
+          if (question.is_correct) return score + 1;
+          return score;
+        }, 0);
+
+        newActivityLog.score = score;
+        newActivityLog.item_count = Lesson.Lesson_words.length;
+
+        return newActivityLog;
+      }
+      return activity_log;
+    })
+  );
+};
 
 module.exports = {
   getUsers: async (req, res) => {
@@ -25,59 +88,9 @@ module.exports = {
     });
 
     const idList = [+user_id, ...followedUsers.map((user) => user.user_id)];
-    let activity_logs = await Activity_log.findAll({
-      where: { user_id: idList },
-      include: [
-        {
-          model: User_follow,
-          include: [
-            {
-              model: User,
-              as: "Follower",
-              attributes: ["first_name", "last_name"],
-            },
-            {
-              model: User,
-              as: "Following",
-              attributes: ["first_name", "last_name"],
-            },
-          ],
-        },
-        {
-          model: User,
-          attributes: ["first_name", "last_name"],
-        },
-        {
-          model: Lesson,
-          attributes: ["id", "title"],
-          include: [
-            {
-              model: Lesson_word,
-            },
-          ],
-        },
-      ],
-    });
+    let activity_logs = await getActivities(idList);
     activity_logs = activity_logs.sort((a, b) => b.updatedAt - a.updatedAt);
-
-    activity_logs = await Promise.all(
-      activity_logs.map(async (al) => {
-        if (al.relatable_type === "lesson") {
-          const newAl = JSON.parse(JSON.stringify(al));
-          const results = await Result.findAll({
-            where: { lesson_id: al.Lesson.id, user_id: al.user_id },
-          });
-          const score = results.reduce((score, question) => {
-            if (question.is_correct) return score + 1;
-            return score;
-          }, 0);
-          newAl.score = score;
-          newAl.item_count = al.Lesson.Lesson_words.length;
-          return newAl;
-        }
-        return al;
-      })
-    );
+    activity_logs = await addLessonScore(activity_logs);
 
     res.send(
       ResponseHelper.generateResponse(200, "Success", { activity_logs })
@@ -85,6 +98,18 @@ module.exports = {
   },
   getLearningsCountByUserId: async (req, res) => {
     const { user_id } = req.query;
+
+    if (!user_id) {
+      return res.send(ResponseHelper.generateResponse(400, "Missing query id"));
+    }
+
+    const user = await User.findByPk(user_id, {
+      attributes: ["id", "first_name", "last_name", "email"],
+    });
+
+    if (!user) {
+      return res.send(ResponseHelper.generateNotFoundResponse("User"));
+    }
 
     const activity_logs = await Activity_log.findAll({
       where: { user_id },
@@ -128,13 +153,59 @@ module.exports = {
       return count;
     }, 0);
 
-    const { User: user } = activity_logs[0];
-
     res.send(
       ResponseHelper.generateResponse(200, "Success", {
         learnedLessons,
         learnedWords,
         user,
+      })
+    );
+  },
+  getUserProfile: async (req, res) => {
+    const { user_id } = req.query;
+
+    if (!user_id) {
+      return res.send(ResponseHelper.generateResponse(400, "Missing query id"));
+    }
+
+    const user = await User.findByPk(user_id, {
+      attributes: ["id", "first_name", "last_name", "email"],
+    });
+
+    if (!user) {
+      return res.send(ResponseHelper.generateNotFoundResponse("User"));
+    }
+
+    const followers = await User_follow.findAll({
+      where: { user_id },
+      include: {
+        model: User,
+        as: "Follower",
+        attributes: ["id", "first_name", "last_name"],
+      },
+    });
+
+    const following = await User_follow.findAll({
+      where: {
+        follower_id: user_id,
+      },
+      include: {
+        model: User,
+        as: "Following",
+        attributes: ["id", "first_name", "last_name"],
+      },
+    });
+
+    let activity_logs = await getActivities(user_id);
+    activity_logs = activity_logs.sort((a, b) => b.updatedAt - a.updatedAt);
+    activity_logs = await addLessonScore(activity_logs);
+
+    res.send(
+      ResponseHelper.generateResponse(200, "Success", {
+        user,
+        followers,
+        following,
+        activity_logs,
       })
     );
   },
