@@ -37,6 +37,38 @@ module.exports = {
         createdAt: new Date(),
         updatedAt: new Date(),
       },
+      {
+        id: 5,
+        user_id: 4,
+        relatable_id: 6,
+        relatable_type: "follow",
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        id: 6,
+        user_id: 2,
+        relatable_id: 3,
+        relatable_type: "follow",
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        id: 7,
+        user_id: 3,
+        relatable_id: 4,
+        relatable_type: "follow",
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        id: 8,
+        user_id: 3,
+        relatable_id: 5,
+        relatable_type: "follow",
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
     ];
 
     await Activity_log.bulkCreate(data, {

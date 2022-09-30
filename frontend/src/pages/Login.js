@@ -14,10 +14,11 @@ const Login = () => {
   const login = async (values) => {
     const { email, password } = values;
     const { data } = await api.post("/login", { email, password });
-    const { data: userData, meta } = data;
-    const { user } = userData;
 
-    if (meta.code === 200) {
+    if (data.meta.code === 200) {
+      const { data: userData } = data;
+      const { user } = userData;
+
       localStorage.setItem(
         "user",
         JSON.stringify({
@@ -28,10 +29,11 @@ const Login = () => {
           user_type: user.user_type,
         })
       );
+
       return navigate("/");
     }
 
-    message.error(meta.message);
+    message.error(data.meta.message);
   };
   return (
     <AuthLayout illustration={loginIllustration}>
