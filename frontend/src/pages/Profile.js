@@ -16,42 +16,51 @@ import WordsLearned from "./components/WordsLearned";
 
 const { Text } = Typography;
 
-const Dashboard = () => {
-  const navigate = useNavigate();
+const Profile = () => {
+  const userProfile = useSelector((state) => state.profile.user);
   const dispatch = useDispatch();
-  const currentUser = useSelector((state) => state.currentUser.user);
+  const navigate = useNavigate();
+
   const [activities, setActivities] = useState([]);
+  const [followers, setFollowers] = useState([]);
+  const [following, setFollowing] = useState([]);
   const [learnings, setLearnings] = useState({});
   const [displayWords, setDisplayWords] = useState(false);
 
   useEffect(() => {
-    const currentUser = checkLogin(navigate);
-    if (!currentUser) return;
+    let currentUser;
+    if (!userProfile?.id) {
+      currentUser = checkLogin(navigate);
+      dispatch(setCurrentUser(currentUser));
+      dispatch(setUserProfile(currentUser));
+      return;
+    }
 
-    dispatch(setCurrentUser(currentUser));
-    dispatch(setUserProfile(currentUser));
-
-    const getActivities = async () => {
-      const { data } = await api.get("/users/activity-logs", {
+    const getUserProfile = async () => {
+      const { data } = await api.get("/users/profile", {
         params: {
-          user_id: currentUser.id,
+          user_id: userProfile.id ? userProfile.id : currentUser.id,
         },
       });
-      setActivities(data.data.activity_logs);
+      const { data: newData } = data;
+
+      setFollowers(newData.followers);
+      setFollowing(newData.following);
+      setActivities(newData.activity_logs);
     };
 
     const getLearnings = async () => {
       const { data } = await api.get("/users/learn-count/", {
         params: {
-          user_id: currentUser.id,
+          user_id: userProfile.id ? userProfile.id : currentUser.id,
         },
       });
       setLearnings(data.data);
     };
 
-    getActivities();
+    getUserProfile();
     getLearnings();
-  }, [navigate, dispatch]);
+  }, [navigate, dispatch, userProfile]);
 
   return (
     <HomeLayout>
@@ -59,11 +68,10 @@ const Dashboard = () => {
         style={{
           marginInline: "auto",
           padding: "2.5rem 0",
-          height: "100%",
           width: "min(80vw, 60%)",
         }}
       >
-        <h1 style={{ marginBottom: "8px" }}>Dashboard</h1>
+        <h1 style={{ marginBottom: "8px" }}>Profile</h1>
         <Row gutter={24}>
           <Col span="8">
             <Card className="center">
@@ -85,6 +93,7 @@ const Dashboard = () => {
                       strong
                     >{`${learnings.user.first_name} ${learnings.user.last_name}`}</Text>
                     <Text type="secondary">{`${learnings.user.email}`}</Text>
+
                     <Button
                       style={{
                         margin: "0.5rem 0",
@@ -107,6 +116,30 @@ const Dashboard = () => {
                         learnings.learnedWords > 1 ? "words" : "word"
                       }`}
                     </Button>
+                    <Row
+                      justify="center"
+                      gutter={48}
+                      style={{ marginTop: "1.5em" }}
+                    >
+                      <Col>
+                        <Row justify="center">
+                          <Text strong style={{ fontSize: "1.5rem" }}>
+                            {followers.length}
+                          </Text>
+                        </Row>
+                        <Row justify="center">
+                          {followers.length > 1 ? "Followers" : "Follower"}
+                        </Row>
+                      </Col>
+                      <Col>
+                        <Row justify="center">
+                          <Text strong style={{ fontSize: "1.5rem" }}>
+                            {following.length}
+                          </Text>
+                        </Row>
+                        <Row justify="center">Following</Row>
+                      </Col>
+                    </Row>
                   </div>
                 </Fragment>
               ) : (
@@ -117,7 +150,7 @@ const Dashboard = () => {
           <Col span="16">
             {displayWords ? (
               <WordsLearned
-                user_id={currentUser.id}
+                user_id={userProfile.id}
                 setDisplayWords={setDisplayWords}
               />
             ) : (
@@ -130,4 +163,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+export default Profile;
