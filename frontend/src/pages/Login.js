@@ -15,9 +15,19 @@ const Login = () => {
     const { email, password } = values;
     const { data } = await api.post("/login", { email, password });
     const { data: userData, meta } = data;
+    const { user } = userData;
 
     if (meta.code === 200) {
-      localStorage.setItem("user", JSON.stringify(userData.user));
+      localStorage.setItem(
+        "user",
+        JSON.stringify({
+          id: user.id,
+          first_name: user.first_name,
+          last_name: user.last_name,
+          email: user.email,
+          user_type: user.user_type,
+        })
+      );
       return navigate("/");
     }
 

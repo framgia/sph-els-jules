@@ -4,22 +4,25 @@ import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { blue } from "@ant-design/colors";
 import { Card, Typography, List, Avatar, Empty } from "antd";
+import { useSelector } from "react-redux";
 
 const { Text } = Typography;
 
-const Activities = ({ activities, currentUser }) => {
+const Activities = ({ activities }) => {
+  const userProfile = useSelector((state) => state.profile.user);
+
   const renderTitle = (activity) => {
     const { user_id, relatable_type } = activity;
 
     let title;
-    const you = user_id === currentUser.id ? "(You)" : "";
+    const you = user_id === userProfile.id ? "(You)" : "";
 
     if (relatable_type === "follow") {
       const {
         User_follow: { user_id: following_id, Follower, Following },
       } = activity;
       const currentUserFollowed =
-        following_id === currentUser.id ? "(You)" : "";
+        following_id === userProfile.id ? "(You)" : "";
       const action = <Text type="warning">followed</Text>;
 
       title = (
@@ -56,7 +59,10 @@ const Activities = ({ activities, currentUser }) => {
           Activities
         </Text>
       }
-      style={{ height: "min(60vh, 800px)", overflow: "auto" }}
+      style={{
+        height: "min(60vh, 800px)",
+        overflow: "auto",
+      }}
     >
       {activities.length > 0 ? (
         <List>

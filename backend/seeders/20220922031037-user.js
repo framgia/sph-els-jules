@@ -23,7 +23,7 @@ module.exports = {
         last_name: "Bow",
         email: "jamesbow@gmail.com",
         password:
-          "$2a$11$.wtauGiDNCnjK9Hhrqheeu1NZhCoEIYtupKBX/xWwOL9iAtfNw1uu", // pass
+          "$2a$11$.wtauGiDNCnjK9Hhrqheeu1NZhCoEIYtupKBX/xWwOL9iAtfNw1uu", // test
         user_type: "user",
         avatar_url: "default_img.jpeg",
         createdAt: new Date(),
@@ -35,7 +35,7 @@ module.exports = {
         last_name: "Dough",
         email: "jane123@gmail.com",
         password:
-          "$2a$11$.wtauGiDNCnjK9Hhrqheeu1NZhCoEIYtupKBX/xWwOL9iAtfNw1uu", // pass
+          "$2a$11$.wtauGiDNCnjK9Hhrqheeu1NZhCoEIYtupKBX/xWwOL9iAtfNw1uu", // test
         user_type: "user",
         avatar_url: "default_img.jpeg",
         createdAt: new Date(),
@@ -47,7 +47,7 @@ module.exports = {
         last_name: "Blow",
         email: "joeblow@gmail.com",
         password:
-          "$2a$11$.wtauGiDNCnjK9Hhrqheeu1NZhCoEIYtupKBX/xWwOL9iAtfNw1uu", // pass
+          "$2a$11$.wtauGiDNCnjK9Hhrqheeu1NZhCoEIYtupKBX/xWwOL9iAtfNw1uu", // test
         user_type: "user",
         avatar_url: "default_img.jpeg",
         createdAt: new Date(),
@@ -59,7 +59,7 @@ module.exports = {
         last_name: "Cruz",
         email: "juancruz@gmail.com",
         password:
-          "$2a$11$.wtauGiDNCnjK9Hhrqheeu1NZhCoEIYtupKBX/xWwOL9iAtfNw1uu", // pass
+          "$2a$11$.wtauGiDNCnjK9Hhrqheeu1NZhCoEIYtupKBX/xWwOL9iAtfNw1uu", // test
         user_type: "user",
         avatar_url: "default_img.jpeg",
         createdAt: new Date(),
