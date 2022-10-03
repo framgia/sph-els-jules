@@ -28,6 +28,7 @@ module.exports = (sequelize, DataTypes) => {
       },
       user_id: DataTypes.INTEGER,
       follower_id: DataTypes.INTEGER,
+      is_followed: DataTypes.BOOLEAN,
     },
     {
       sequelize,

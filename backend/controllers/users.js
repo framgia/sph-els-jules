@@ -209,7 +209,7 @@ module.exports = {
       })
     );
   },
-  followUser: async (req, res) => {
+  toggleFollow: async (req, res) => {
     const { follower_id, following_id } = req.body;
 
     if (!follower_id || !following_id) {
@@ -228,53 +228,42 @@ module.exports = {
       return res.send(ResponseHelper.generateNotFoundResponse("Following"));
     }
 
-    const user_follow = await User_follow.create({
-      user_id: following_id,
-      follower_id,
+    let user_follow = await User_follow.findOne({
+      where: { user_id: following_id, follower_id },
     });
 
-    const activity_log = await Activity_log.create({
-      user_id: follower_id,
-      relatable_id: user_follow.id,
-      relatable_type: "follow",
-    });
+    let activity_log;
+
+    if (!user_follow) {
+      user_follow = await User_follow.create({
+        user_id: following_id,
+        follower_id,
+        isFollowed: true,
+      });
+
+      activity_log = await Activity_log.create({
+        user_id: follower_id,
+        relatable_id: user_follow.id,
+        relatable_type: "follow",
+      });
+    } else {
+      user_follow.set({
+        is_followed: !user_follow.is_followed,
+      });
+
+      await user_follow.save();
+
+      activity_log = await Activity_log.create({
+        user_id: follower_id,
+        relatable_id: user_follow.id,
+        relatable_type: "follow",
+      });
+    }
 
     res.send(
       ResponseHelper.generateResponse(201, "Success", {
         user_follow,
         activity_log,
-      })
-    );
-  },
-  unfollowUser: async (req, res) => {
-    const { follower_id, following_id } = req.body;
-
-    if (!follower_id || !following_id) {
-      return res.send(
-        ResponseHelper.generateResponse(400, "Missing follower or following id")
-      );
-    }
-
-    const follower = await User.findByPk(follower_id);
-    if (!follower) {
-      return res.send(ResponseHelper.generateNotFoundResponse("Follower"));
-    }
-
-    const following = await User.findByPk(following_id);
-    if (!following) {
-      return res.send(ResponseHelper.generateNotFoundResponse("Following"));
-    }
-
-    const user_follow = await User_follow.findOne({
-      where: { user_id: following_id, follower_id },
-    });
-
-    await User_follow.destroy({ where: { id: user_follow.id } });
-    await Activity_log.destroy({ where: { relatable_id: user_follow.id } });
-
-    res.send(
-      ResponseHelper.generateResponse(200, "Success", {
-        user_follow,
       })
     );
   },
