@@ -4,8 +4,6 @@ const ResponseHelper = require("../helpers/response");
 
 const { User } = require("../models");
 
-const salt = 11;
-
 module.exports = {
   login: async (req, res) => {
     const { email, password } = req.body;
@@ -38,6 +36,7 @@ module.exports = {
       return;
     }
 
+    const salt = 11;
     const hash = await bcrypt.hash(password, salt);
     const user = await User.create({
       first_name,
@@ -45,7 +44,7 @@ module.exports = {
       email,
       password: hash,
       user_type: "user",
-      avatar_url: "default_img.jpeg",
+      avatar_url: `${process.env.BACKEND_URL}/images/default_img.jpeg`,
     });
 
     res.send(

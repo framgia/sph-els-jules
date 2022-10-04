@@ -27,6 +27,7 @@ const Login = () => {
           last_name: user.last_name,
           email: user.email,
           user_type: user.user_type,
+          avatar_url: user.avatar_url,
         })
       );
 

@@ -43,7 +43,7 @@ const Dashboard = () => {
               {Object.keys(learnings).length ? (
                 <Fragment>
                   <Avatar
-                    src="https://joeschmoe.io/api/v1/random"
+                    src={user.avatar_url}
                     shape="square"
                     style={{
                       backgroundColor: blue[0],
