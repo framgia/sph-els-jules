@@ -1,3 +1,5 @@
+const bcrypt = require("bcrypt");
+
 const ResponseHelper = require("../helpers/response");
 const {
   User,
@@ -7,6 +9,8 @@ const {
   Lesson,
   Lesson_word,
 } = require("../models");
+
+const salt = 11;
 
 const includeUserFollow = [
   {
@@ -84,6 +88,63 @@ module.exports = {
     } catch (err) {
       console.log(err);
     }
+  },
+  updateProfileById: async (req, res) => {
+    const { id } = req.query;
+    const {
+      first_name,
+      last_name,
+      email,
+      current_password,
+      new_password,
+      avatar_url,
+    } = req.body;
+
+    const user = await User.findByPk(id);
+    if (!user) {
+      return res.send(ResponseHelper.generateNotFoundResponse("User"));
+    }
+
+    const emailExists = await User.findOne({ where: { email } });
+    if (emailExists) {
+      return res.send(
+        ResponseHelper.generateResponse(404, "Email is already in use")
+      );
+    }
+
+    const passwordIsCorrect = await bcrypt.compare(
+      current_password,
+      user.password
+    );
+    if (!passwordIsCorrect) {
+      return res.send(
+        ResponseHelper.generateResponse(404, "Password is incorrect!")
+      );
+    }
+    const hash = await bcrypt.hash(new_password, salt);
+
+    user.set({
+      first_name,
+      last_name,
+      email,
+      password: hash,
+      avatar_url,
+    });
+    await user.save();
+
+    res.send(
+      ResponseHelper.generateResponse(200, "Success", {
+        user: {
+          id: user.id,
+          first_name: user.first_name,
+          last_name: user.last_name,
+          email: user.email,
+          avatar_url: user.avatar_url,
+          createdAt: user.createdAt,
+          updatedAt: user.updatedAt,
+        },
+      })
+    );
   },
   getActivityLogsByUserId: async (req, res) => {
     const { user_id } = req.query;

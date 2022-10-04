@@ -45,7 +45,7 @@ module.exports = {
       email,
       password: hash,
       user_type: "user",
-      avatar_url: "default_img.jpeg",
+      avatar_url: `${process.env.BACKEND_URL}/images/default_img.jpeg`,
     });
 
     res.send(

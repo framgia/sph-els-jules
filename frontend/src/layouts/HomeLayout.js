@@ -69,7 +69,7 @@ const HomeLayout = ({ children }) => {
               <li style={{ cursor: "pointer" }}>
                 <Dropdown overlay={menu} trigger={["click"]}>
                   <Avatar
-                    src="https://joeschmoe.io/api/v1/random"
+                    src={currentUser.avatar_url}
                     style={{ backgroundColor: blue[0] }}
                   />
                 </Dropdown>

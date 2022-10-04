@@ -4,6 +4,7 @@ const { User } = require("../models");
 
 module.exports = {
   async up(queryInterface, Sequelize) {
+    const { BACKEND_URL } = process.env;
     const data = [
       {
         id: 1,
@@ -13,7 +14,7 @@ module.exports = {
         password:
           "$2a$11$.COfvRUD5iLHaPi0S1bzXePWjbJ5xoOh9cF.Hj7KgwCsVAenTCUm6", // pass
         user_type: "user",
-        avatar_url: "default_img.jpeg",
+        avatar_url: `${BACKEND_URL}/images/default_img.jpeg`,
         createdAt: new Date(),
         updatedAt: new Date(),
       },
@@ -25,7 +26,7 @@ module.exports = {
         password:
           "$2a$11$.wtauGiDNCnjK9Hhrqheeu1NZhCoEIYtupKBX/xWwOL9iAtfNw1uu", // test
         user_type: "user",
-        avatar_url: "default_img.jpeg",
+        avatar_url: `${BACKEND_URL}/images/default_img.jpeg`,
         createdAt: new Date(),
         updatedAt: new Date(),
       },
@@ -37,7 +38,7 @@ module.exports = {
         password:
           "$2a$11$.wtauGiDNCnjK9Hhrqheeu1NZhCoEIYtupKBX/xWwOL9iAtfNw1uu", // test
         user_type: "user",
-        avatar_url: "default_img.jpeg",
+        avatar_url: `${BACKEND_URL}/images/default_img.jpeg`,
         createdAt: new Date(),
         updatedAt: new Date(),
       },
@@ -49,7 +50,7 @@ module.exports = {
         password:
           "$2a$11$.wtauGiDNCnjK9Hhrqheeu1NZhCoEIYtupKBX/xWwOL9iAtfNw1uu", // test
         user_type: "user",
-        avatar_url: "default_img.jpeg",
+        avatar_url: `${BACKEND_URL}/images/default_img.jpeg`,
         createdAt: new Date(),
         updatedAt: new Date(),
       },
@@ -61,7 +62,7 @@ module.exports = {
         password:
           "$2a$11$.wtauGiDNCnjK9Hhrqheeu1NZhCoEIYtupKBX/xWwOL9iAtfNw1uu", // test
         user_type: "user",
-        avatar_url: "default_img.jpeg",
+        avatar_url: `${BACKEND_URL}/images/default_img.jpeg`,
         createdAt: new Date(),
         updatedAt: new Date(),
       },
