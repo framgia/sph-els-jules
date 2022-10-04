@@ -15,18 +15,18 @@ const includeUserFollow = [
       {
         model: User,
         as: "Follower",
-        attributes: ["first_name", "last_name"],
+        attributes: ["id", "first_name", "last_name", "email"],
       },
       {
         model: User,
         as: "Following",
-        attributes: ["first_name", "last_name"],
+        attributes: ["id", "first_name", "last_name", "email"],
       },
     ],
   },
   {
     model: User,
-    attributes: ["first_name", "last_name"],
+    attributes: ["id", "first_name", "last_name", "email"],
   },
 ];
 
@@ -185,7 +185,7 @@ module.exports = {
       include: {
         model: User,
         as: "Follower",
-        attributes: ["id", "first_name", "last_name"],
+        attributes: ["id", "first_name", "last_name", "email"],
       },
     });
 
@@ -197,7 +197,7 @@ module.exports = {
       include: {
         model: User,
         as: "Following",
-        attributes: ["id", "first_name", "last_name"],
+        attributes: ["id", "first_name", "last_name", "email"],
       },
     });
 
