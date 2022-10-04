@@ -8,29 +8,33 @@ const {
   Lesson_word,
 } = require("../models");
 
+const includeUserFollow = [
+  {
+    model: User_follow,
+    include: [
+      {
+        model: User,
+        as: "Follower",
+        attributes: ["first_name", "last_name"],
+      },
+      {
+        model: User,
+        as: "Following",
+        attributes: ["first_name", "last_name"],
+      },
+    ],
+  },
+  {
+    model: User,
+    attributes: ["first_name", "last_name"],
+  },
+];
+
 const getActivities = async (idList) => {
   return await Activity_log.findAll({
     where: { user_id: idList },
     include: [
-      {
-        model: User_follow,
-        include: [
-          {
-            model: User,
-            as: "Follower",
-            attributes: ["first_name", "last_name"],
-          },
-          {
-            model: User,
-            as: "Following",
-            attributes: ["first_name", "last_name"],
-          },
-        ],
-      },
-      {
-        model: User,
-        attributes: ["first_name", "last_name"],
-      },
+      ...includeUserFollow,
       {
         model: Lesson,
         attributes: ["id", "title"],
@@ -84,7 +88,7 @@ module.exports = {
   getActivityLogsByUserId: async (req, res) => {
     const { user_id } = req.query;
     const followedUsers = await User_follow.findAll({
-      where: { follower_id: user_id },
+      where: { follower_id: user_id, is_followed: true },
     });
 
     const idList = [+user_id, ...followedUsers.map((user) => user.user_id)];
@@ -177,7 +181,7 @@ module.exports = {
     }
 
     const followers = await User_follow.findAll({
-      where: { user_id },
+      where: { user_id, is_followed: true },
       include: {
         model: User,
         as: "Follower",
@@ -188,6 +192,7 @@ module.exports = {
     const following = await User_follow.findAll({
       where: {
         follower_id: user_id,
+        is_followed: true,
       },
       include: {
         model: User,
@@ -231,20 +236,24 @@ module.exports = {
     let user_follow = await User_follow.findOne({
       where: { user_id: following_id, follower_id },
     });
-
     let activity_log;
 
     if (!user_follow) {
       user_follow = await User_follow.create({
         user_id: following_id,
         follower_id,
-        isFollowed: true,
+        is_followed: true,
       });
 
       activity_log = await Activity_log.create({
         user_id: follower_id,
         relatable_id: user_follow.id,
         relatable_type: "follow",
+      });
+
+      activity_log = await Activity_log.findOne({
+        where: { id: activity_log.id },
+        include: includeUserFollow,
       });
     } else {
       user_follow.set({
@@ -256,12 +265,17 @@ module.exports = {
       activity_log = await Activity_log.create({
         user_id: follower_id,
         relatable_id: user_follow.id,
-        relatable_type: "follow",
+        relatable_type: user_follow.is_followed ? "follow" : "unfollow",
+      });
+
+      activity_log = await Activity_log.findOne({
+        where: { id: activity_log.id },
+        include: includeUserFollow,
       });
     }
 
     res.send(
-      ResponseHelper.generateResponse(201, "Success", {
+      ResponseHelper.generateResponse(200, "Success", {
         user_follow,
         activity_log,
       })

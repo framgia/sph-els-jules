@@ -8,22 +8,26 @@ import { useSelector } from "react-redux";
 
 const { Text } = Typography;
 
-const Activities = ({ activities }) => {
-  const userProfile = useSelector((state) => state.profile.user);
+const Activities = ({ title, activities }) => {
+  const currentUser = useSelector((state) => state.currentUser.user);
 
   const renderTitle = (activity) => {
     const { user_id, relatable_type } = activity;
 
     let title;
-    const you = user_id === userProfile.id ? "(You)" : "";
+    const you = user_id === currentUser.id ? "(You)" : "";
 
-    if (relatable_type === "follow") {
+    if (relatable_type.includes("follow")) {
       const {
         User_follow: { user_id: following_id, Follower, Following },
       } = activity;
       const currentUserFollowed =
-        following_id === userProfile.id ? "(You)" : "";
-      const action = <Text type="warning">followed</Text>;
+        following_id === currentUser.id ? "(You)" : "";
+      const action = (
+        <Text type="warning">
+          {relatable_type === "follow" ? "followed" : "unfollowed"}
+        </Text>
+      );
 
       title = (
         <Text>
@@ -56,7 +60,7 @@ const Activities = ({ activities }) => {
     <Card
       title={
         <Text style={{ fontSize: "30px" }} strong>
-          Activities
+          {title}
         </Text>
       }
       style={{
@@ -64,7 +68,7 @@ const Activities = ({ activities }) => {
         overflow: "auto",
       }}
     >
-      {activities.length > 0 ? (
+      {activities ? (
         <List>
           {activities.map((activity) => {
             return (

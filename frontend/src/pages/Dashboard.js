@@ -5,10 +5,7 @@ import { Row, Col, Card, Avatar, Typography, Empty, Button } from "antd";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 
-import api from "../helpers/api";
-import { checkLogin } from "../helpers/checkLogin";
-import { setCurrentUser } from "../store/currentUserSlice";
-import { setUserProfile } from "../store/profileSlice";
+import { authenticate } from "../helpers/auth";
 
 import HomeLayout from "../layouts/HomeLayout";
 import Activities from "./components/Activities";
@@ -17,41 +14,17 @@ import WordsLearned from "./components/WordsLearned";
 const { Text } = Typography;
 
 const Dashboard = () => {
+  const { user, userFeed, learnings } = useSelector(
+    (state) => state.currentUser
+  );
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const currentUser = useSelector((state) => state.currentUser.user);
-  const [activities, setActivities] = useState([]);
-  const [learnings, setLearnings] = useState({});
   const [displayWords, setDisplayWords] = useState(false);
 
   useEffect(() => {
-    const currentUser = checkLogin(navigate);
-    if (!currentUser) return;
-
-    dispatch(setCurrentUser(currentUser));
-    dispatch(setUserProfile(currentUser));
-
-    const getActivities = async () => {
-      const { data } = await api.get("/users/activity-logs", {
-        params: {
-          user_id: currentUser.id,
-        },
-      });
-      setActivities(data.data.activity_logs);
-    };
-
-    const getLearnings = async () => {
-      const { data } = await api.get("/users/learn-count/", {
-        params: {
-          user_id: currentUser.id,
-        },
-      });
-      setLearnings(data.data);
-    };
-
-    getActivities();
-    getLearnings();
-  }, [navigate, dispatch]);
+    authenticate(navigate, dispatch);
+    if (!user.id) return;
+  }, [navigate, dispatch, user.id]);
 
   return (
     <HomeLayout>
@@ -60,7 +33,7 @@ const Dashboard = () => {
           marginInline: "auto",
           padding: "2.5rem 0",
           height: "100%",
-          width: "min(80vw, 60%)",
+          width: "max(60vw, 600px)",
         }}
       >
         <h1 style={{ marginBottom: "8px" }}>Dashboard</h1>
@@ -83,8 +56,8 @@ const Dashboard = () => {
                     <Text
                       style={{ fontSize: "1.5rem" }}
                       strong
-                    >{`${learnings.user.first_name} ${learnings.user.last_name}`}</Text>
-                    <Text type="secondary">{`${learnings.user.email}`}</Text>
+                    >{`${user.first_name} ${user.last_name}`}</Text>
+                    <Text type="secondary">{`${user.email}`}</Text>
                     <Button
                       style={{
                         margin: "0.5rem 0",
@@ -117,11 +90,11 @@ const Dashboard = () => {
           <Col span="16">
             {displayWords ? (
               <WordsLearned
-                user_id={currentUser.id}
+                userId={user.id}
                 setDisplayWords={setDisplayWords}
               />
             ) : (
-              <Activities activities={activities} />
+              <Activities title="User Feed" activities={userFeed} />
             )}
           </Col>
         </Row>

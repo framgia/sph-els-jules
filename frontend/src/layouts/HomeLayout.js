@@ -8,15 +8,12 @@ import {
 } from "@ant-design/icons";
 import { Layout, Avatar, Dropdown, Menu } from "antd";
 import { Link, useNavigate } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
-
-import { setUserProfile } from "../store/profileSlice";
+import { useSelector } from "react-redux";
 
 const { Header, Content } = Layout;
 
 const HomeLayout = ({ children }) => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
   const currentUser = useSelector((state) => state.currentUser.user);
 
   const menu = (
@@ -28,8 +25,7 @@ const HomeLayout = ({ children }) => {
           label: "My Profile",
           icon: <UserOutlined style={{ fontSize: "1em" }} />,
           onClick: () => {
-            dispatch(setUserProfile(currentUser));
-            navigate("/profile");
+            navigate(`/profile?user_id=${currentUser.id}`);
           },
         },
         {
@@ -43,7 +39,7 @@ const HomeLayout = ({ children }) => {
           label: "Logout",
           icon: <PoweroffOutlined style={{ fontSize: "1em" }} />,
           onClick: () => {
-            localStorage.removeItem("user");
+            localStorage.clear();
             navigate("/login");
           },
         },

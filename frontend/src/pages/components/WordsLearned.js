@@ -6,14 +6,14 @@ import api from "../../helpers/api";
 
 const { Text } = Typography;
 
-const WordsLearned = ({ user_id, setDisplayWords }) => {
+const WordsLearned = ({ userId, setDisplayWords }) => {
   const [wordsLearned, setWordsLearned] = useState([]);
 
   useEffect(() => {
     const getWordsLearned = async () => {
       const { data } = await api.get("/words/user", {
         params: {
-          user_id,
+          user_id: userId,
         },
       });
 
@@ -22,8 +22,8 @@ const WordsLearned = ({ user_id, setDisplayWords }) => {
 
       message.error(meta.message);
     };
-    if (user_id) getWordsLearned();
-  }, [user_id]);
+    getWordsLearned();
+  }, [userId]);
 
   const columns = [
     {
