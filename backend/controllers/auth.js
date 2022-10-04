@@ -4,8 +4,6 @@ const ResponseHelper = require("../helpers/response");
 
 const { User } = require("../models");
 
-const salt = 11;
-
 module.exports = {
   login: async (req, res) => {
     const { email, password } = req.body;
@@ -38,6 +36,7 @@ module.exports = {
       return;
     }
 
+    const salt = 11;
     const hash = await bcrypt.hash(password, salt);
     const user = await User.create({
       first_name,

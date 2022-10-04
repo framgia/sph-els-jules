@@ -10,8 +10,6 @@ const {
   Lesson_word,
 } = require("../models");
 
-const salt = 11;
-
 const includeUserFollow = [
   {
     model: User_follow,
@@ -100,27 +98,10 @@ module.exports = {
       avatar_url,
     } = req.body;
 
-    const user = await User.findByPk(id);
-    if (!user) {
-      return res.send(ResponseHelper.generateNotFoundResponse("User"));
-    }
+    const user = await User.validateUser(id, email, current_password, res);
+    if (!user) return;
 
-    const emailExists = await User.findOne({ where: { email } });
-    if (emailExists) {
-      return res.send(
-        ResponseHelper.generateResponse(404, "Email is already in use")
-      );
-    }
-
-    const passwordIsCorrect = await bcrypt.compare(
-      current_password,
-      user.password
-    );
-    if (!passwordIsCorrect) {
-      return res.send(
-        ResponseHelper.generateResponse(404, "Password is incorrect!")
-      );
-    }
+    const salt = 11;
     const hash = await bcrypt.hash(new_password, salt);
 
     user.set({

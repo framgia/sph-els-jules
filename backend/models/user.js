@@ -1,6 +1,9 @@
 "use strict";
 
+const bcrypt = require("bcrypt");
 const { Model } = require("sequelize");
+
+const ResponseHelper = require("../helpers/response");
 
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
@@ -42,5 +45,30 @@ module.exports = (sequelize, DataTypes) => {
       modelName: "User",
     }
   );
+
+  User.validateUser = async (id, email, current_password, res) => {
+    const user = await User.findByPk(id);
+    if (!user) {
+      res.send(ResponseHelper.generateNotFoundResponse("User"));
+      return;
+    }
+
+    const emailExists = await User.findOne({ where: { email } });
+    if (emailExists) {
+      res.send(ResponseHelper.generateResponse(404, "Email is already in use"));
+      return;
+    }
+
+    const passwordIsCorrect = await bcrypt.compare(
+      current_password,
+      user.password
+    );
+    if (!passwordIsCorrect) {
+      res.send(ResponseHelper.generateResponse(404, "Password is incorrect!"));
+      return;
+    }
+    return user;
+  };
+
   return User;
 };
