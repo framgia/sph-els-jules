@@ -44,7 +44,7 @@ export const currentUserSlice = createSlice({
         state.following.splice(getIndex, 1);
       }
 
-      state.following.push(action.payload);
+      if (action.payload.is_followed) state.following.push(action.payload);
     },
     setLearnings: (state, action) => {
       state.learnings = action.payload;

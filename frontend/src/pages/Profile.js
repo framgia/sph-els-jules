@@ -10,6 +10,7 @@ import {
   Empty,
   Button,
   Divider,
+  Modal,
   message,
 } from "antd";
 import { useNavigate, useLocation } from "react-router-dom";
@@ -27,6 +28,7 @@ import {
 import HomeLayout from "../layouts/HomeLayout";
 import Activities from "./components/Activities";
 import WordsLearned from "./components/WordsLearned";
+import UserFollows from "./components/UserFollows";
 
 const { Text } = Typography;
 
@@ -44,6 +46,10 @@ const Profile = () => {
   const [following, setFollowing] = useState([]);
   const [learnings, setLearnings] = useState({});
   const [displayWords, setDisplayWords] = useState(false);
+  const [modal, setModal] = useState({
+    name: "",
+    show: false,
+  });
 
   useEffect(() => {
     authenticate(navigate, dispatch);
@@ -100,6 +106,28 @@ const Profile = () => {
           width: "max(60vw, 600px)",
         }}
       >
+        <Modal
+          title={modal.name}
+          open={modal.show}
+          onCancel={() => setModal({ name: "", show: false })}
+          footer={[
+            <Button
+              key="ok"
+              onClick={() => setModal({ name: "", show: false })}
+            >
+              OK
+            </Button>,
+          ]}
+        >
+          <UserFollows
+            data={
+              modal.name === "Followers"
+                ? followers.map((user) => user.Follower)
+                : following.map((user) => user.Following)
+            }
+            setModal={setModal}
+          />
+        </Modal>
         <h1 style={{ marginBottom: "8px" }}>Profile</h1>
         <Row gutter={24}>
           <Col span="8">
@@ -133,7 +161,12 @@ const Profile = () => {
                       justify="space-evenly"
                       style={{ marginTop: ".75em", width: "100%" }}
                     >
-                      <Col>
+                      <Col
+                        style={{ cursor: "pointer" }}
+                        onClick={() => {
+                          setModal({ name: "Followers", show: true });
+                        }}
+                      >
                         <Row justify="center">
                           <Text strong style={{ fontSize: "1.5rem" }}>
                             {followers.length}
@@ -143,7 +176,12 @@ const Profile = () => {
                           {followers.length > 1 ? "Followers" : "Follower"}
                         </Row>
                       </Col>
-                      <Col>
+                      <Col
+                        style={{ cursor: "pointer" }}
+                        onClick={() => {
+                          setModal({ name: "Following", show: true });
+                        }}
+                      >
                         <Row justify="center">
                           <Text strong style={{ fontSize: "1.5rem" }}>
                             {following.length}
