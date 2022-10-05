@@ -88,28 +88,38 @@ module.exports = {
     }
   },
   updateProfileById: async (req, res) => {
-    const { id } = req.query;
     const {
+      user_id,
       first_name,
       last_name,
       email,
       current_password,
       new_password,
-      avatar_url,
     } = req.body;
 
-    const user = await User.validateUser(id, email, current_password, res);
+    const user = await User.validateUser(user_id, email, current_password, res);
     if (!user) return;
 
-    const salt = 11;
-    const hash = await bcrypt.hash(new_password, salt);
+    let hash;
+    if (current_password && new_password) {
+      const salt = 11;
+      hash = await bcrypt.hash(new_password, salt);
+    }
+
+    let avatar_url;
+    if (req.file) {
+      avatar_url =
+        process.env.BACKEND_URL +
+        "/" +
+        req.file.path.replace(/\\/g, "/").split("/").slice(1).join("/");
+    }
 
     user.set({
-      first_name,
-      last_name,
-      email,
-      password: hash,
-      avatar_url,
+      first_name: first_name ? first_name : user.first_name,
+      last_name: last_name ? last_name : user.last_name,
+      email: email ? email : user.email,
+      password: hash ? hash : user.password,
+      avatar_url: avatar_url ? avatar_url : user.avatar_url,
     });
     await user.save();
 

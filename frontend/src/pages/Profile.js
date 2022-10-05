@@ -99,151 +99,140 @@ const Profile = () => {
 
   return (
     <HomeLayout>
-      <div
-        style={{
-          marginInline: "auto",
-          padding: "2.5rem 0",
-          width: "max(60vw, 600px)",
-        }}
+      <Modal
+        title={modal.name}
+        open={modal.show}
+        onCancel={() => setModal({ name: "", show: false })}
+        footer={[
+          <Button key="ok" onClick={() => setModal({ name: "", show: false })}>
+            OK
+          </Button>,
+        ]}
       >
-        <Modal
-          title={modal.name}
-          open={modal.show}
-          onCancel={() => setModal({ name: "", show: false })}
-          footer={[
-            <Button
-              key="ok"
-              onClick={() => setModal({ name: "", show: false })}
-            >
-              OK
-            </Button>,
-          ]}
-        >
-          <UserFollows
-            data={
-              modal.name === "Followers"
-                ? followers.map((user) => user.Follower)
-                : following.map((user) => user.Following)
-            }
-            setModal={setModal}
-          />
-        </Modal>
-        <h1 style={{ marginBottom: "8px" }}>Profile</h1>
-        <Row gutter={24}>
-          <Col span="8">
-            <Card className="center">
-              {Object.keys(learnings).length ? (
-                <Fragment>
-                  <Avatar
-                    src="https://joeschmoe.io/api/v1/random"
-                    shape="square"
+        <UserFollows
+          data={
+            modal.name === "Followers"
+              ? followers.map((user) => user.Follower)
+              : following.map((user) => user.Following)
+          }
+          setModal={setModal}
+        />
+      </Modal>
+      <h1 style={{ marginBottom: "8px" }}>Profile</h1>
+      <Row gutter={24}>
+        <Col span="8">
+          <Card className="center">
+            {Object.keys(user).length ? (
+              <Fragment>
+                <Avatar
+                  src="https://joeschmoe.io/api/v1/random"
+                  shape="square"
+                  style={{
+                    backgroundColor: blue[0],
+                    width: "100%",
+                    height: "auto",
+                    aspectRatio: "1 / 1",
+                  }}
+                />
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    flexDirection: "column",
+                  }}
+                >
+                  <Text
+                    style={{ fontSize: "1.5rem" }}
+                    strong
+                  >{`${learnings?.user?.first_name} ${learnings?.user?.last_name}`}</Text>
+                  <Text type="secondary">{`${learnings?.user?.email}`}</Text>
+
+                  <Row
+                    justify="space-evenly"
+                    style={{ marginTop: ".75em", width: "100%" }}
+                  >
+                    <Col
+                      style={{ cursor: "pointer" }}
+                      onClick={() => {
+                        setModal({ name: "Followers", show: true });
+                      }}
+                    >
+                      <Row justify="center">
+                        <Text strong style={{ fontSize: "1.5rem" }}>
+                          {followers.length}
+                        </Text>
+                      </Row>
+                      <Row justify="center">
+                        {followers.length > 1 ? "Followers" : "Follower"}
+                      </Row>
+                    </Col>
+                    <Col
+                      style={{ cursor: "pointer" }}
+                      onClick={() => {
+                        setModal({ name: "Following", show: true });
+                      }}
+                    >
+                      <Row justify="center">
+                        <Text strong style={{ fontSize: "1.5rem" }}>
+                          {following.length}
+                        </Text>
+                      </Row>
+                      <Row justify="center">Following</Row>
+                    </Col>
+                  </Row>
+                  {user.id !== +query.user_id && (
+                    <Button
+                      type="primary"
+                      style={{
+                        marginTop: "1.5em",
+                        borderRadius: "1.5rem",
+                        width: "100%",
+                      }}
+                      onClick={async () => await handleFollow()}
+                    >
+                      {isFollowed(+query.user_id) ? "Follow" : "Unfollow"}
+                    </Button>
+                  )}
+                  <Divider />
+                  <Button
                     style={{
-                      backgroundColor: blue[0],
+                      marginBottom: ".5rem",
                       width: "100%",
-                      height: "auto",
-                      aspectRatio: "1 / 1",
-                    }}
-                  />
-                  <div
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      flexDirection: "column",
+                      cursor: "default",
                     }}
                   >
-                    <Text
-                      style={{ fontSize: "1.5rem" }}
-                      strong
-                    >{`${learnings.user.first_name} ${learnings.user.last_name}`}</Text>
-                    <Text type="secondary">{`${learnings.user.email}`}</Text>
-
-                    <Row
-                      justify="space-evenly"
-                      style={{ marginTop: ".75em", width: "100%" }}
-                    >
-                      <Col
-                        style={{ cursor: "pointer" }}
-                        onClick={() => {
-                          setModal({ name: "Followers", show: true });
-                        }}
-                      >
-                        <Row justify="center">
-                          <Text strong style={{ fontSize: "1.5rem" }}>
-                            {followers.length}
-                          </Text>
-                        </Row>
-                        <Row justify="center">
-                          {followers.length > 1 ? "Followers" : "Follower"}
-                        </Row>
-                      </Col>
-                      <Col
-                        style={{ cursor: "pointer" }}
-                        onClick={() => {
-                          setModal({ name: "Following", show: true });
-                        }}
-                      >
-                        <Row justify="center">
-                          <Text strong style={{ fontSize: "1.5rem" }}>
-                            {following.length}
-                          </Text>
-                        </Row>
-                        <Row justify="center">Following</Row>
-                      </Col>
-                    </Row>
-                    {user.id !== +query.user_id && (
-                      <Button
-                        type="primary"
-                        style={{
-                          marginTop: "1.5em",
-                          borderRadius: "1.5rem",
-                          width: "100%",
-                        }}
-                        onClick={async () => await handleFollow()}
-                      >
-                        {isFollowed(+query.user_id) ? "Follow" : "Unfollow"}
-                      </Button>
-                    )}
-                    <Divider />
-                    <Button
-                      style={{
-                        marginBottom: ".5rem",
-                        width: "100%",
-                        cursor: "default",
-                      }}
-                    >
-                      {`Learned ${learnings.learnedLessons} ${
-                        learnings.learnedLessons > 1 ? "lessons" : "lesson"
-                      }`}
-                    </Button>
-                    <Button
-                      onClick={() => {
-                        setDisplayWords(true);
-                      }}
-                      style={{ width: "100%" }}
-                    >
-                      {`Learned ${learnings.learnedWords} ${
-                        learnings.learnedWords > 1 ? "words" : "word"
-                      }`}
-                    </Button>
-                  </div>
-                </Fragment>
-              ) : (
-                <Empty />
-              )}
-            </Card>
-          </Col>
-          <Col span="16">
-            {displayWords ? (
-              <WordsLearned
-                userId={query.user_id}
-                setDisplayWords={setDisplayWords}
-              />
+                    {`Learned ${learnings.learnedLessons} ${
+                      learnings.learnedLessons > 1 ? "lessons" : "lesson"
+                    }`}
+                  </Button>
+                  <Button
+                    onClick={() => {
+                      setDisplayWords(true);
+                    }}
+                    style={{ width: "100%" }}
+                  >
+                    {`Learned ${learnings.learnedWords} ${
+                      learnings.learnedWords > 1 ? "words" : "word"
+                    }`}
+                  </Button>
+                </div>
+              </Fragment>
             ) : (
-              <Activities title="Activities" activities={activities} />
+              <Empty />
             )}
-          </Col>
-        </Row>
-      </div>
+          </Card>
+        </Col>
+        <Col span="16">
+          {displayWords ? (
+            <WordsLearned
+              userId={query.user_id}
+              setDisplayWords={setDisplayWords}
+            />
+          ) : (
+            <Activities title="Activities" activities={activities} />
+          )}
+        </Col>
+      </Row>
     </HomeLayout>
   );
 };

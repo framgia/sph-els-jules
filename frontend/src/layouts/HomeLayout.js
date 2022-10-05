@@ -32,6 +32,9 @@ const HomeLayout = ({ children }) => {
           key: "2",
           label: "Edit Profile",
           icon: <SettingOutlined spin style={{ fontSize: "1em" }} />,
+          onClick: () => {
+            navigate(`/edit-profile?user_id=${currentUser.id}`);
+          },
         },
         { type: "divider" },
         {
@@ -77,7 +80,17 @@ const HomeLayout = ({ children }) => {
             </ul>
           </div>
         </Header>
-        <Content>{children}</Content>
+        <Content>
+          <div
+            style={{
+              marginInline: "auto",
+              padding: "2.5rem 0",
+              width: "max(60vw, 600px)",
+            }}
+          >
+            {children}
+          </div>
+        </Content>
       </Layout>
     </Fragment>
   );

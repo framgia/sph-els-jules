@@ -53,19 +53,27 @@ module.exports = (sequelize, DataTypes) => {
       return;
     }
 
-    const emailExists = await User.findOne({ where: { email } });
-    if (emailExists) {
-      res.send(ResponseHelper.generateResponse(404, "Email is already in use"));
-      return;
+    if (email) {
+      const emailExists = await User.findOne({ where: { email } });
+      if (emailExists) {
+        res.send(
+          ResponseHelper.generateResponse(404, "Email is already in use")
+        );
+        return;
+      }
     }
 
-    const passwordIsCorrect = await bcrypt.compare(
-      current_password,
-      user.password
-    );
-    if (!passwordIsCorrect) {
-      res.send(ResponseHelper.generateResponse(404, "Password is incorrect!"));
-      return;
+    if (current_password) {
+      const passwordIsCorrect = await bcrypt.compare(
+        current_password,
+        user.password
+      );
+      if (!passwordIsCorrect) {
+        res.send(
+          ResponseHelper.generateResponse(404, "Password is incorrect!")
+        );
+        return;
+      }
     }
     return user;
   };

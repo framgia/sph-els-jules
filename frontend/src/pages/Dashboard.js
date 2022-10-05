@@ -28,77 +28,65 @@ const Dashboard = () => {
 
   return (
     <HomeLayout>
-      <div
-        style={{
-          marginInline: "auto",
-          padding: "2.5rem 0",
-          height: "100%",
-          width: "max(60vw, 600px)",
-        }}
-      >
-        <h1 style={{ marginBottom: "8px" }}>Dashboard</h1>
-        <Row gutter={24}>
-          <Col span="8">
-            <Card className="center">
-              {Object.keys(learnings).length ? (
-                <Fragment>
-                  <Avatar
-                    src={user.avatar_url}
-                    shape="square"
+      <h1 style={{ marginBottom: "8px" }}>Dashboard</h1>
+      <Row gutter={24}>
+        <Col span="8">
+          <Card className="center">
+            {Object.keys(user).length ? (
+              <Fragment>
+                <Avatar
+                  src={user.avatar_url}
+                  shape="square"
+                  style={{
+                    backgroundColor: blue[0],
+                    width: "100%",
+                    height: "auto",
+                    aspectRatio: "1 / 1",
+                  }}
+                />
+                <div className="center" style={{ flexDirection: "column" }}>
+                  <Text
+                    style={{ fontSize: "1.5rem" }}
+                    strong
+                  >{`${user.first_name} ${user.last_name}`}</Text>
+                  <Text type="secondary">{`${user.email}`}</Text>
+                  <Button
                     style={{
-                      backgroundColor: blue[0],
+                      margin: "0.5rem 0",
                       width: "100%",
-                      height: "auto",
-                      aspectRatio: "1 / 1",
+                      cursor: "default",
                     }}
-                  />
-                  <div className="center" style={{ flexDirection: "column" }}>
-                    <Text
-                      style={{ fontSize: "1.5rem" }}
-                      strong
-                    >{`${user.first_name} ${user.last_name}`}</Text>
-                    <Text type="secondary">{`${user.email}`}</Text>
-                    <Button
-                      style={{
-                        margin: "0.5rem 0",
-                        width: "100%",
-                        cursor: "default",
-                      }}
-                    >
-                      {`Learned ${learnings.learnedLessons} ${
-                        learnings.learnedLessons > 1 ? "lessons" : "lesson"
-                      }`}
-                    </Button>
-                    <Button
-                      type="primary"
-                      onClick={() => {
-                        setDisplayWords(true);
-                      }}
-                      style={{ width: "100%" }}
-                    >
-                      {`Learned ${learnings.learnedWords} ${
-                        learnings.learnedWords > 1 ? "words" : "word"
-                      }`}
-                    </Button>
-                  </div>
-                </Fragment>
-              ) : (
-                <Empty />
-              )}
-            </Card>
-          </Col>
-          <Col span="16">
-            {displayWords ? (
-              <WordsLearned
-                userId={user.id}
-                setDisplayWords={setDisplayWords}
-              />
+                  >
+                    {`Learned ${learnings.learnedLessons} ${
+                      learnings.learnedLessons > 1 ? "lessons" : "lesson"
+                    }`}
+                  </Button>
+                  <Button
+                    type="primary"
+                    onClick={() => {
+                      setDisplayWords(true);
+                    }}
+                    style={{ width: "100%" }}
+                  >
+                    {`Learned ${learnings.learnedWords} ${
+                      learnings.learnedWords > 1 ? "words" : "word"
+                    }`}
+                  </Button>
+                </div>
+              </Fragment>
             ) : (
-              <Activities title="User Feed" activities={userFeed} />
+              <Empty />
             )}
-          </Col>
-        </Row>
-      </div>
+          </Card>
+        </Col>
+        <Col span="16">
+          {displayWords ? (
+            <WordsLearned userId={user.id} setDisplayWords={setDisplayWords} />
+          ) : (
+            <Activities title="User Feed" activities={userFeed} />
+          )}
+        </Col>
+      </Row>
     </HomeLayout>
   );
 };
