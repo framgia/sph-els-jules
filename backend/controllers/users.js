@@ -80,12 +80,23 @@ const addLessonScore = async (activity_logs) => {
 
 module.exports = {
   getUsers: async (req, res) => {
-    try {
-      const users = await User.findAll({});
-      res.json(users);
-    } catch (err) {
-      console.log(err);
-    }
+    const users = await User.findAll({ where: { user_type: "user" } });
+
+    const newUsers = users.map((user) => {
+      return {
+        id: user.id,
+        first_name: user.first_name,
+        last_name: user.last_name,
+        email: user.email,
+        avatar_url: user.avatar_url,
+        createdAt: user.createdAt,
+        updatedAt: user.updatedAt,
+      };
+    });
+
+    res.send(
+      ResponseHelper.generateResponse(200, "Success", { users: newUsers })
+    );
   },
   updateProfileById: async (req, res) => {
     const {
