@@ -26,7 +26,7 @@ const Dashboard = () => {
             {Object.keys(user).length ? (
               <Fragment>
                 <Avatar
-                  className={styles.avatar}
+                  className={styles.userAvatar}
                   src={user.avatar_url}
                   shape="square"
                 />

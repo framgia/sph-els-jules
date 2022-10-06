@@ -26,7 +26,7 @@ const UserFollows = ({ data, setFollowModal }) => {
               avatar={
                 <Avatar
                   style={{ backgroundColor: blue[0] }}
-                  src="https://joeschmoe.io/api/v1/random"
+                  src={item.avatar_url}
                 />
               }
               title={`${item.first_name} ${item.last_name}`}

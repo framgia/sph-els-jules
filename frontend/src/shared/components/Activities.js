@@ -78,7 +78,7 @@ const Activities = ({ title, activities }) => {
                 <List.Item.Meta
                   avatar={
                     <Avatar
-                      src="https://joeschmoe.io/api/v1/random"
+                      src={activity.User.avatar_url}
                       style={{ backgroundColor: blue[0] }}
                     />
                   }
