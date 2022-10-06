@@ -1,7 +1,5 @@
-import React from "react";
-
-import { blue } from "@ant-design/colors";
 import { Col, Image } from "antd";
+import { blue } from "@ant-design/colors";
 
 const AuthIllustration = ({ illustration }) => {
   return (

@@ -1,10 +1,8 @@
-import React from "react";
-
+import { useSelector } from "react-redux";
+import { Avatar, Card, Empty, List, Typography } from "antd";
+import { blue } from "@ant-design/colors";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
-import { blue } from "@ant-design/colors";
-import { Card, Typography, List, Avatar, Empty } from "antd";
-import { useSelector } from "react-redux";
 
 const { Text } = Typography;
 

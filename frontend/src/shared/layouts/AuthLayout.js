@@ -1,8 +1,6 @@
-import React from "react";
-
-import { blue } from "@ant-design/colors";
+import { Avatar, Col, Row } from "antd";
 import { BoxPlotTwoTone } from "@ant-design/icons";
-import { Row, Col, Avatar } from "antd";
+import { blue } from "@ant-design/colors";
 
 import AuthIllustration from "../components/AuthIllustration";
 

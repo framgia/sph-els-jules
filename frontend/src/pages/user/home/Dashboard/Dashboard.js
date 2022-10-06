@@ -1,12 +1,12 @@
-import React, { Fragment } from "react";
-
-import { Row, Col, Card, Avatar, Typography, Empty, Button } from "antd";
+import { Fragment } from "react";
+import { Avatar, Button, Card, Col, Empty, Row, Typography } from "antd";
 import { useSelector } from "react-redux";
 
-import { useDashboard } from "./hooks/useDashboard";
-import HomeLayout from "../../../../shared/layouts/HomeLayout";
 import Activities from "../../../../shared/components/Activities";
+import HomeLayout from "../../../../shared/layouts/HomeLayout";
 import WordsLearned from "../../../../shared/components/WordsLearned";
+
+import { useDashboard } from "./hooks/useDashboard";
 
 import styles from "./Dashboard.module.css";
 

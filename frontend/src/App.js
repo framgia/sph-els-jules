@@ -1,11 +1,12 @@
-import { Routes, Route } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
+
+import Dashboard from "./pages/user/home/Dashboard/Dashboard";
+import EditProfile from "./pages/user/home/Settings/EditProfile";
+import Login from "./pages/user/auth/Login/Login";
+import Profile from "./pages/user/home/Profile/Profile";
+import Signup from "./pages/user/auth/Signup/Signup";
 
 import "./App.css";
-import Dashboard from "./pages/user/home/Dashboard/Dashboard";
-import Login from "./pages/user/auth/Login/Login";
-import Signup from "./pages/user/auth/Signup/Signup";
-import Profile from "./pages/user/home/Profile/Profile";
-import EditProfile from "./pages/user/home/Settings/EditProfile";
 
 function App() {
   return (

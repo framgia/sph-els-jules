@@ -1,14 +1,13 @@
-import React, { Fragment } from "react";
-
-import { blue } from "@ant-design/colors";
-import {
-  UserOutlined,
-  SettingOutlined,
-  PoweroffOutlined,
-} from "@ant-design/icons";
-import { Layout, Avatar, Dropdown, Menu } from "antd";
+import { Fragment } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+import {
+  PoweroffOutlined,
+  SettingOutlined,
+  UserOutlined,
+} from "@ant-design/icons";
+import { blue } from "@ant-design/colors";
+import { Avatar, Dropdown, Menu, Layout } from "antd";
 
 const { Header, Content } = Layout;
 

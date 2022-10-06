@@ -1,6 +1,4 @@
-import React from "react";
-
-import { Card, Typography, PageHeader, Empty, Table } from "antd";
+import { Card, Empty, PageHeader, Table, Typography } from "antd";
 
 import { useWordsLearned } from "../hooks/useWordsLearned";
 

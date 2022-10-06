@@ -1,9 +1,6 @@
-import React from "react";
-
-import { blue } from "@ant-design/colors";
-import { Avatar, List, Button } from "antd";
-
 import { useNavigate } from "react-router-dom";
+import { Avatar, Button, List } from "antd";
+import { blue } from "@ant-design/colors";
 
 const UserFollows = ({ data, setFollowModal }) => {
   const navigate = useNavigate();

@@ -1,27 +1,26 @@
-import React, { Fragment } from "react";
-
-import {
-  Row,
-  Col,
-  Card,
-  Avatar,
-  Typography,
-  Empty,
-  Button,
-  Divider,
-  Modal,
-} from "antd";
+import { Fragment } from "react";
 import { useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
+import {
+  Avatar,
+  Button,
+  Card,
+  Col,
+  Divider,
+  Empty,
+  Modal,
+  Row,
+  Typography,
+} from "antd";
 import urlParse from "url-parse";
+
+import Activities from "../../../../shared/components/Activities";
+import HomeLayout from "../../../../shared/layouts/HomeLayout";
+import WordsLearned from "../../../../shared/components/WordsLearned";
+import UserFollows from "./components/UserFollows/UserFollows";
 
 import { useProfileDetails } from "./hooks/useProfileDetails";
 import { useFollow } from "./hooks/useFollow";
-
-import HomeLayout from "../../../../shared/layouts/HomeLayout";
-import Activities from "../../../../shared/components/Activities";
-import WordsLearned from "../../../../shared/components/WordsLearned";
-import UserFollows from "./components/UserFollows/UserFollows";
 
 import styles from "./Profile.module.css";
 

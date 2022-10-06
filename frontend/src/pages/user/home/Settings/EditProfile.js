@@ -1,23 +1,22 @@
-import React from "react";
-
+import { useSelector } from "react-redux";
 import {
-  Row,
-  Col,
-  Card,
   Avatar,
+  Button,
+  Card,
+  Col,
+  Empty,
   Form,
   Input,
-  Empty,
-  Button,
-  Upload,
   message,
+  Row,
+  Upload,
 } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
-import { useSelector } from "react-redux";
 
-import { useEditProfile } from "./hooks/useEditProfile";
-import { checkFileUpload, isValidFile } from "../../../../helpers/imageHelper";
 import HomeLayout from "../../../../shared/layouts/HomeLayout";
+
+import { checkFileUpload, isValidFile } from "../../../../helpers/imageHelper";
+import { useEditProfile } from "./hooks/useEditProfile";
 
 import styles from "./EditProfile.module.css";
 

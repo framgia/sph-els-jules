@@ -1,13 +1,11 @@
-import React from "react";
-
 import { Link } from "react-router-dom";
+import { Button, Col, Form, Input, Row } from "antd";
 import { EyeInvisibleOutlined, EyeTwoTone } from "@ant-design/icons";
-import { Row, Col, Button, Form, Input } from "antd";
-
-import { useLogin } from "./hooks/useLogin";
-import loginIllustration from "../../../../images/login_illustration.svg";
 
 import AuthLayout from "../../../../shared/layouts/AuthLayout";
+import loginIllustration from "../../../../images/login_illustration.svg";
+
+import { useLogin } from "./hooks/useLogin";
 
 const Login = () => {
   const { login } = useLogin();
