@@ -38,6 +38,21 @@ export const getUserProfile = async (user_id, setUserProfile) => {
   setUserProfile(followers, following, activity_logs);
 };
 
+export const editUserProfile = async (user_id, reqBody) => {
+  const formData = new FormData();
+  formData.append("user_id", user_id);
+
+  for (let key in reqBody) {
+    formData.append(key, reqBody[key]);
+  }
+
+  const { data } = await api.put("/users/profile", formData, {
+    headers: { "Content-Type": "multipart/form-data" },
+  });
+
+  return data;
+};
+
 export const toggleFollow = async (follower_id, following_id) => {
   const { data } = await api.post("/users/toggle-follow", {
     follower_id,

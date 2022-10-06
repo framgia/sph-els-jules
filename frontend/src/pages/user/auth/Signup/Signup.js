@@ -1,34 +1,14 @@
-import React from "react";
-
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { EyeInvisibleOutlined, EyeTwoTone } from "@ant-design/icons";
-import { Row, Col, Button, Form, Input, message } from "antd";
+import { Button, Col, Form, Input, Row } from "antd";
 
-import api from "../helpers/api";
-import signupIllustration from "../images/signup_illustration.svg";
+import AuthLayout from "../../../../shared/layouts/AuthLayout";
+import signupIllustration from "../../../../images/login_illustration.svg";
 
-import AuthLayout from "../layouts/AuthLayout";
+import { useSignup } from "./hooks/useSignup";
 
 const Signup = () => {
-  const navigate = useNavigate();
-
-  const register = async (values) => {
-    const { first_name, last_name, email, password } = values;
-    const { data } = await api.post("/signup", {
-      first_name,
-      last_name,
-      email,
-      password,
-    });
-
-    const { data: newUser, meta } = data;
-
-    if (meta.code === 200) {
-      return navigate("/login");
-    }
-
-    message.error(meta.message);
-  };
+  const { register } = useSignup();
 
   return (
     <AuthLayout illustration={signupIllustration}>
@@ -118,7 +98,7 @@ const Signup = () => {
             </h4>
           </Col>
           <Col>
-            <Link to="/login">
+            <Link to="/login" className="center">
               <Button type="link" style={{ padding: 0 }}>
                 Sign In!
               </Button>

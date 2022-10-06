@@ -1,41 +1,15 @@
-import React from "react";
-
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { Button, Col, Form, Input, Row } from "antd";
 import { EyeInvisibleOutlined, EyeTwoTone } from "@ant-design/icons";
-import { Row, Col, Button, Form, Input, message } from "antd";
 
-import api from "../helpers/api";
-import loginIllustration from "../images/login_illustration.svg";
+import AuthLayout from "../../../../shared/layouts/AuthLayout";
+import loginIllustration from "../../../../images/login_illustration.svg";
 
-import AuthLayout from "../layouts/AuthLayout";
+import { useLogin } from "./hooks/useLogin";
 
 const Login = () => {
-  const navigate = useNavigate();
-  const login = async (values) => {
-    const { email, password } = values;
-    const { data } = await api.post("/login", { email, password });
+  const { login } = useLogin();
 
-    if (data.meta.code === 200) {
-      const { data: userData } = data;
-      const { user } = userData;
-
-      localStorage.setItem(
-        "user",
-        JSON.stringify({
-          id: user.id,
-          first_name: user.first_name,
-          last_name: user.last_name,
-          email: user.email,
-          user_type: user.user_type,
-          avatar_url: user.avatar_url,
-        })
-      );
-
-      return navigate("/");
-    }
-
-    message.error(data.meta.message);
-  };
   return (
     <AuthLayout illustration={loginIllustration}>
       <div style={{ textAlign: "center", width: "min(25vw, 400px)" }}>
@@ -102,7 +76,7 @@ const Login = () => {
             </h4>
           </Col>
           <Col>
-            <Link to="/signup">
+            <Link to="/signup" className="center">
               <Button type="link" style={{ padding: 0 }}>
                 Sign Up!
               </Button>

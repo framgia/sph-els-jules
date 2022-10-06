@@ -1,29 +1,11 @@
-import React, { useState, useEffect } from "react";
+import { Card, Empty, PageHeader, Table, Typography } from "antd";
 
-import { Card, Typography, PageHeader, Empty, Table, message } from "antd";
-
-import api from "../../helpers/api";
+import { useWordsLearned } from "../hooks/useWordsLearned";
 
 const { Text } = Typography;
 
 const WordsLearned = ({ userId, setDisplayWords }) => {
-  const [wordsLearned, setWordsLearned] = useState([]);
-
-  useEffect(() => {
-    const getWordsLearned = async () => {
-      const { data } = await api.get("/words/user", {
-        params: {
-          user_id: userId,
-        },
-      });
-
-      const { meta, data: newData } = data;
-      if (meta.code === 200) return setWordsLearned(newData.words_learned);
-
-      message.error(meta.message);
-    };
-    getWordsLearned();
-  }, [userId]);
+  const { wordsLearned } = useWordsLearned(userId, setDisplayWords);
 
   const columns = [
     {

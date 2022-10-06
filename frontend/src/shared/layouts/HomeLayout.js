@@ -1,18 +1,17 @@
-import React, { Fragment } from "react";
-
-import { blue } from "@ant-design/colors";
-import {
-  UserOutlined,
-  SettingOutlined,
-  PoweroffOutlined,
-} from "@ant-design/icons";
-import { Layout, Avatar, Dropdown, Menu } from "antd";
+import { Fragment } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+import {
+  PoweroffOutlined,
+  SettingOutlined,
+  UserOutlined,
+} from "@ant-design/icons";
+import { blue } from "@ant-design/colors";
+import { Avatar, Dropdown, Menu, Layout } from "antd";
 
 const { Header, Content } = Layout;
 
-const HomeLayout = ({ children }) => {
+const HomeLayout = ({ pageTitle, children }) => {
   const navigate = useNavigate();
   const currentUser = useSelector((state) => state.currentUser.user);
 
@@ -32,6 +31,9 @@ const HomeLayout = ({ children }) => {
           key: "2",
           label: "Edit Profile",
           icon: <SettingOutlined spin style={{ fontSize: "1em" }} />,
+          onClick: () => {
+            navigate(`/edit-profile?user_id=${currentUser.id}`);
+          },
         },
         { type: "divider" },
         {
@@ -77,7 +79,18 @@ const HomeLayout = ({ children }) => {
             </ul>
           </div>
         </Header>
-        <Content>{children}</Content>
+        <Content>
+          <div
+            style={{
+              marginInline: "auto",
+              padding: "2.5rem 0",
+              width: "max(60vw, 600px)",
+            }}
+          >
+            <h1 style={{ marginBottom: "8px" }}>{pageTitle}</h1>
+            {children}
+          </div>
+        </Content>
       </Layout>
     </Fragment>
   );
