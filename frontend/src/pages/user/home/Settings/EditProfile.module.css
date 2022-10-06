@@ -1,0 +1,12 @@
+.avatar {
+  background-color: #E6F7FF;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1 / 1;
+  margin-bottom: 1em;
+}
+
+.uploadBtn {
+  width: 100%;
+  text-align: end;
+}

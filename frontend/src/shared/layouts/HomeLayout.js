@@ -12,7 +12,7 @@ import { useSelector } from "react-redux";
 
 const { Header, Content } = Layout;
 
-const HomeLayout = ({ children }) => {
+const HomeLayout = ({ pageTitle, children }) => {
   const navigate = useNavigate();
   const currentUser = useSelector((state) => state.currentUser.user);
 
@@ -88,6 +88,7 @@ const HomeLayout = ({ children }) => {
               width: "max(60vw, 600px)",
             }}
           >
+            <h1 style={{ marginBottom: "8px" }}>{pageTitle}</h1>
             {children}
           </div>
         </Content>

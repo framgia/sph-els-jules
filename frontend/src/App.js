@@ -1,11 +1,11 @@
 import { Routes, Route } from "react-router-dom";
 
 import "./App.css";
-import Dashboard from "./pages/Dashboard";
-import Login from "./pages/Login";
-import Signup from "./pages/Signup";
-import Profile from "./pages/Profile";
-import EditProfile from "./pages/EditProfile";
+import Dashboard from "./pages/user/home/Dashboard/Dashboard";
+import Login from "./pages/user/auth/Login/Login";
+import Signup from "./pages/user/auth/Signup/Signup";
+import Profile from "./pages/user/home/Profile/Profile";
+import EditProfile from "./pages/user/home/Settings/EditProfile";
 
 function App() {
   return (

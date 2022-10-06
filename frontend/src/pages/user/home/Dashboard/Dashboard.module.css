@@ -1,0 +1,18 @@
+.avatar {
+  background-color: #E6F7FF;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1 / 1;
+}
+
+.userDetails {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.learnedLessons {
+  margin: 0.5rem 0;
+  width: 100%;
+  cursor: default;
+}

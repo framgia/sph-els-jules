@@ -24,7 +24,7 @@ const Activities = ({ title, activities }) => {
       const currentUserFollowed =
         following_id === currentUser.id ? "(You)" : "";
       const action = (
-        <Text type="warning">
+        <Text type="warning" strong code>
           {relatable_type === "follow" ? "followed" : "unfollowed"}
         </Text>
       );
@@ -37,7 +37,11 @@ const Activities = ({ title, activities }) => {
       );
     } else if (relatable_type === "lesson") {
       const { score, item_count, Lesson, User } = activity;
-      const action = <Text type="success">learned</Text>;
+      const action = (
+        <Text type="success" strong code>
+          learned
+        </Text>
+      );
       const lesson = <Text type="danger">{Lesson.title}</Text>;
 
       title = (
@@ -68,7 +72,7 @@ const Activities = ({ title, activities }) => {
         overflow: "auto",
       }}
     >
-      {activities ? (
+      {activities.length > 0 ? (
         <List>
           {activities.map((activity) => {
             return (

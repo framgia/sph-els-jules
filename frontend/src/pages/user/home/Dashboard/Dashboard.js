@@ -1,15 +1,14 @@
-import React, { Fragment, useState, useEffect } from "react";
+import React, { Fragment } from "react";
 
-import { blue } from "@ant-design/colors";
 import { Row, Col, Card, Avatar, Typography, Empty, Button } from "antd";
-import { useNavigate } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 
-import { authenticate } from "../helpers/auth";
+import { useDashboard } from "./hooks/useDashboard";
+import HomeLayout from "../../../../shared/layouts/HomeLayout";
+import Activities from "../../../../shared/components/Activities";
+import WordsLearned from "../../../../shared/components/WordsLearned";
 
-import HomeLayout from "../layouts/HomeLayout";
-import Activities from "./components/Activities";
-import WordsLearned from "./components/WordsLearned";
+import styles from "./Dashboard.module.css";
 
 const { Text } = Typography;
 
@@ -17,46 +16,27 @@ const Dashboard = () => {
   const { user, userFeed, learnings } = useSelector(
     (state) => state.currentUser
   );
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const [displayWords, setDisplayWords] = useState(false);
-
-  useEffect(() => {
-    authenticate(navigate, dispatch);
-    if (!user.id) return;
-  }, [navigate, dispatch, user.id]);
+  const { displayWords, setDisplayWords } = useDashboard();
 
   return (
-    <HomeLayout>
-      <h1 style={{ marginBottom: "8px" }}>Dashboard</h1>
+    <HomeLayout pageTitle="Dashboard">
       <Row gutter={24}>
         <Col span="8">
           <Card className="center">
             {Object.keys(user).length ? (
               <Fragment>
                 <Avatar
+                  className={styles.avatar}
                   src={user.avatar_url}
                   shape="square"
-                  style={{
-                    backgroundColor: blue[0],
-                    width: "100%",
-                    height: "auto",
-                    aspectRatio: "1 / 1",
-                  }}
                 />
-                <div className="center" style={{ flexDirection: "column" }}>
+                <div className={styles.userDetails}>
                   <Text
                     style={{ fontSize: "1.5rem" }}
                     strong
                   >{`${user.first_name} ${user.last_name}`}</Text>
                   <Text type="secondary">{`${user.email}`}</Text>
-                  <Button
-                    style={{
-                      margin: "0.5rem 0",
-                      width: "100%",
-                      cursor: "default",
-                    }}
-                  >
+                  <Button className={styles.learnedLessons}>
                     {`Learned ${learnings.learnedLessons} ${
                       learnings.learnedLessons > 1 ? "lessons" : "lesson"
                     }`}

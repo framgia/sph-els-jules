@@ -1,69 +1,25 @@
 import React from "react";
 
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { EyeInvisibleOutlined, EyeTwoTone } from "@ant-design/icons";
-import { Row, Col, Button, Form, Input, message } from "antd";
+import { Row, Col, Button, Form, Input } from "antd";
 
-import api from "../helpers/api";
-import signupIllustration from "../images/signup_illustration.svg";
+import { useLogin } from "./hooks/useLogin";
+import loginIllustration from "../../../../images/login_illustration.svg";
 
-import AuthLayout from "../layouts/AuthLayout";
+import AuthLayout from "../../../../shared/layouts/AuthLayout";
 
-const Signup = () => {
-  const navigate = useNavigate();
-
-  const register = async (values) => {
-    const { first_name, last_name, email, password } = values;
-    const { data } = await api.post("/signup", {
-      first_name,
-      last_name,
-      email,
-      password,
-    });
-
-    const { data: newUser, meta } = data;
-
-    if (meta.code === 200) {
-      return navigate("/login");
-    }
-
-    message.error(meta.message);
-  };
+const Login = () => {
+  const { login } = useLogin();
 
   return (
-    <AuthLayout illustration={signupIllustration}>
+    <AuthLayout illustration={loginIllustration}>
       <div style={{ textAlign: "center", width: "min(25vw, 400px)" }}>
-        <Form onFinish={register} autoComplete="off">
-          <h1>Sign Up</h1>
+        <Form onFinish={login} autoComplete="off">
+          <h1>Sign In</h1>
           <h4 style={{ color: "#8C8C8C", marginBottom: "20px" }}>
             Welcome to E-Learning App
           </h4>
-          <Form.Item
-            name="first_name"
-            rules={[
-              { required: true, message: "Please input your first name" },
-              {
-                whitespace: true,
-                message: "Missing Value",
-              },
-            ]}
-          >
-            <Input className="form-input" placeholder="First Name" />
-          </Form.Item>
-
-          <Form.Item
-            name="last_name"
-            rules={[
-              { required: true, message: "Please input your last name" },
-              {
-                whitespace: true,
-                message: "Missing Value",
-              },
-            ]}
-          >
-            <Input className="form-input" placeholder="Last Name" />
-          </Form.Item>
-
           <Form.Item
             name="email"
             rules={[
@@ -74,7 +30,11 @@ const Signup = () => {
               },
             ]}
           >
-            <Input className="form-input" placeholder="Email Address" />
+            <Input
+              className="form-input"
+              placeholder="Email Address"
+              style={{ padding: "0.7em 1em" }}
+            />
           </Form.Item>
 
           <Form.Item
@@ -103,7 +63,7 @@ const Signup = () => {
             style={{ borderRadius: "7px", height: "3em" }}
             block
           >
-            Register
+            Login
           </Button>
         </Form>
         <Row style={{ marginTop: "10px" }} gutter={5}>
@@ -114,13 +74,13 @@ const Signup = () => {
                 marginBottom: 0,
               }}
             >
-              Already have an account?
+              Don't have an account yet?
             </h4>
           </Col>
           <Col>
-            <Link to="/login">
+            <Link to="/signup" className="center">
               <Button type="link" style={{ padding: 0 }}>
-                Sign In!
+                Sign Up!
               </Button>
             </Link>
           </Col>
@@ -130,4 +90,4 @@ const Signup = () => {
   );
 };
 
-export default Signup;
+export default Login;

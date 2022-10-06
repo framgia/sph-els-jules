@@ -5,7 +5,7 @@ import { Avatar, List, Button } from "antd";
 
 import { useNavigate } from "react-router-dom";
 
-const UserFollows = ({ data, setModal }) => {
+const UserFollows = ({ data, setFollowModal }) => {
   const navigate = useNavigate();
   return (
     <List bordered>
@@ -18,7 +18,7 @@ const UserFollows = ({ data, setModal }) => {
                 type="primary"
                 onClick={() => {
                   navigate(`/profile?user_id=${item.id}`);
-                  setModal({ name: "", show: false });
+                  setFollowModal({ name: "", show: false });
                 }}
               >
                 Profile
