@@ -7,6 +7,7 @@ const db = require("./models");
 const fileHelper = require("./helpers/fileHelper");
 const authRoutes = require("./routes/auth");
 const usersRoutes = require("./routes/users");
+const lessonRoutes = require("./routes/lessons");
 const wordRoutes = require("./routes/words");
 
 const app = express();
@@ -22,6 +23,7 @@ app.use(multer({ storage, fileFilter }).single("avatar_url"));
 
 app.use(authRoutes);
 app.use("/users", usersRoutes);
+app.use("/lessons", lessonRoutes);
 app.use("/words", wordRoutes);
 
 db.sequelize
