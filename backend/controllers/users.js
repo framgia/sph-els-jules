@@ -17,18 +17,18 @@ const includeUserFollow = [
       {
         model: User,
         as: "Follower",
-        attributes: ["id", "first_name", "last_name", "email"],
+        attributes: ["id", "first_name", "last_name", "email", "avatar_url"],
       },
       {
         model: User,
         as: "Following",
-        attributes: ["id", "first_name", "last_name", "email"],
+        attributes: ["id", "first_name", "last_name", "email", "avatar_url"],
       },
     ],
   },
   {
     model: User,
-    attributes: ["id", "first_name", "last_name", "email"],
+    attributes: ["id", "first_name", "last_name", "email", "avatar_url"],
   },
 ];
 
@@ -83,19 +83,24 @@ module.exports = {
     const users = await User.findAll({ where: { user_type: "user" } });
 
     const newUsers = users.map((user) => {
-      return {
-        id: user.id,
-        first_name: user.first_name,
-        last_name: user.last_name,
-        email: user.email,
-        avatar_url: user.avatar_url,
-        createdAt: user.createdAt,
-        updatedAt: user.updatedAt,
-      };
+      return ResponseHelper.removePassword(user);
     });
 
     res.send(
       ResponseHelper.generateResponse(200, "Success", { users: newUsers })
+    );
+  },
+  getUserById: async (req, res) => {
+    const { id } = req.query;
+
+    const user = await User.findByPk(id);
+    if (!user) {
+      return res.send(ResponseHelper.generateNotFoundResponse("User"));
+    }
+    res.send(
+      ResponseHelper.generateResponse(200, "Success", {
+        user: ResponseHelper.removePassword(user),
+      })
     );
   },
   updateProfileById: async (req, res) => {
@@ -171,7 +176,7 @@ module.exports = {
     }
 
     const user = await User.findByPk(user_id, {
-      attributes: ["id", "first_name", "last_name", "email"],
+      attributes: ["id", "first_name", "last_name", "email", "avatar_url"],
     });
 
     if (!user) {
@@ -236,7 +241,7 @@ module.exports = {
     }
 
     const user = await User.findByPk(user_id, {
-      attributes: ["id", "first_name", "last_name", "email"],
+      attributes: ["id", "first_name", "last_name", "email", "avatar_url"],
     });
 
     if (!user) {
@@ -248,7 +253,7 @@ module.exports = {
       include: {
         model: User,
         as: "Follower",
-        attributes: ["id", "first_name", "last_name", "email"],
+        attributes: ["id", "first_name", "last_name", "email", "avatar_url"],
       },
     });
 
@@ -260,7 +265,7 @@ module.exports = {
       include: {
         model: User,
         as: "Following",
-        attributes: ["id", "first_name", "last_name", "email"],
+        attributes: ["id", "first_name", "last_name", "email", "avatar_url"],
       },
     });
 

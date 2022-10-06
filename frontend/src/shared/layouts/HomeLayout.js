@@ -64,7 +64,7 @@ const HomeLayout = ({ pageTitle, children }) => {
                 </Link>
               </li>
               <li>
-                <Link to="/" style={{ fontSize: "1.5rem" }}>
+                <Link to="/users" style={{ fontSize: "1.5rem" }}>
                   Users
                 </Link>
               </li>

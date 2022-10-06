@@ -3,13 +3,18 @@ import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 
 import { authenticate } from "../../../../../helpers/auth";
-import { getUserProfile, getLearnings } from "../../../../../helpers/api";
+import {
+  getUserById,
+  getUserProfile,
+  getLearnings,
+} from "../../../../../helpers/api";
 
 export const useProfileDetails = (query) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.currentUser);
 
+  const [selectedUser, setSelectedUser] = useState({});
   const [activities, setActivities] = useState([]);
   const [followers, setFollowers] = useState([]);
   const [following, setFollowing] = useState([]);
@@ -19,6 +24,10 @@ export const useProfileDetails = (query) => {
   useEffect(() => {
     authenticate(navigate, dispatch);
     if (!user.id) return;
+
+    getUserById(query.user_id, (data) => {
+      setSelectedUser(data.data.user);
+    });
 
     getUserProfile(query.user_id, (followers, following, activity_logs) => {
       setActivities(activity_logs);
@@ -32,6 +41,7 @@ export const useProfileDetails = (query) => {
   }, [navigate, dispatch, query.user_id, user.id]);
 
   return {
+    selectedUser,
     activities,
     followers,
     following,

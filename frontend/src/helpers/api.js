@@ -7,6 +7,20 @@ const api = axios.create({
   timeout: 1000,
 });
 
+export const getUsers = async (cb) => {
+  const { data } = await api.get("/users");
+
+  cb(data);
+  return data;
+};
+
+export const getUserById = async (id, cb) => {
+  const { data } = await api.get("/users/id", { params: { id } });
+
+  cb(data);
+  return data;
+};
+
 export const getUserFeed = async (user_id, setUserFeed) => {
   const { data } = await api.get("/users/activity-logs", {
     params: {

@@ -32,6 +32,7 @@ const Profile = () => {
   const { query } = urlParse(location.search, true);
 
   const {
+    selectedUser,
     activities,
     followers,
     following,
@@ -76,8 +77,8 @@ const Profile = () => {
             {Object.keys(user).length ? (
               <Fragment>
                 <Avatar
-                  className={styles.avatar}
-                  src={user.avatar_url}
+                  className={styles.userAvatar}
+                  src={selectedUser.avatar_url}
                   shape="square"
                 />
                 <div className={styles.userDetails}>
@@ -123,7 +124,7 @@ const Profile = () => {
                       type="primary"
                       onClick={async () => await handleFollow()}
                     >
-                      {isFollowed(+query.user_id) ? "Follow" : "Unfollow"}
+                      {isFollowed(+query.user_id) ? "Unfollow" : "Follow"}
                     </Button>
                   )}
                   <Divider />

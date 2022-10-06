@@ -22,7 +22,7 @@ export const useFollow = (query, setFollowers) => {
       (user) => user.user_id === followingId && user.is_followed
     );
 
-    return !findUser;
+    return findUser;
   };
 
   const handleFollow = async () => {

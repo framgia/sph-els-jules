@@ -41,7 +41,7 @@ const EditProfile = () => {
             <Col span={8}>
               <Card style={{ marginBottom: "1em" }}>
                 <Avatar
-                  className={styles.avatar}
+                  className={styles.userAvatar}
                   src={selectedImg}
                   shape="square"
                 />
