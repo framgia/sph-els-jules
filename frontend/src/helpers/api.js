@@ -7,24 +7,24 @@ const api = axios.create({
   timeout: 1000,
 });
 
-export const getUsers = async (cb) => {
+export const getUsers = async (callback) => {
   const { data } = await api.get("/users");
 
-  cb(data);
+  callback(data);
   return data;
 };
 
-export const getUserById = async (id, cb) => {
+export const getUserById = async (id, callback) => {
   const { data } = await api.get("/users/id", { params: { id } });
 
-  cb(data);
+  callback(data);
   return data;
 };
 
-export const getLessons = async (user_id, cb) => {
+export const getLessons = async (user_id, callback) => {
   const { data } = await api.get("/lessons", { params: { user_id } });
 
-  cb(data);
+  callback(data);
   return data;
 };
 
