@@ -37,8 +37,9 @@ const UserListItems = ({
       extra={
         !isCurrentUser && (
           <Button
+            danger={isUserFollowed}
             style={{ width: "90px" }}
-            type={isUserFollowed ? "danger" : "primary"}
+            type="primary"
             onClick={() => handleFollow(user.id)}
           >
             {isUserFollowed ? "Unfollow" : "Follow"}

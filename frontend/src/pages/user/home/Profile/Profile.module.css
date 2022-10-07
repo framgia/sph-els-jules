@@ -1,8 +1,8 @@
 .userAvatar {
-  background-color: #E6F7FF;
-  width: 100%;
-  height: auto;
-  aspect-ratio: 1 / 1;
+  background-color: #E6F7FF !important;
+  width: 100% !important;
+  height: auto !important;
+  aspect-ratio: 1 / 1 !important;
 }
 
 .userDetails {
@@ -22,7 +22,6 @@
 
 .followBtn {
   margin-top: 1.5em;
-  border-radius: 1.5rem;
   width: 100%;
 }
 

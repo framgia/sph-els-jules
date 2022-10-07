@@ -21,6 +21,13 @@ export const getUserById = async (id, cb) => {
   return data;
 };
 
+export const getLessons = async (user_id, cb) => {
+  const { data } = await api.get("/lessons", { params: { user_id } });
+
+  cb(data);
+  return data;
+};
+
 export const getUserFeed = async (user_id, setUserFeed) => {
   const { data } = await api.get("/users/activity-logs", {
     params: {
