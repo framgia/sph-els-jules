@@ -120,6 +120,7 @@ const Profile = () => {
                   </Row>
                   {user.id !== +query.user_id && (
                     <Button
+                      shape="round"
                       className={styles.followBtn}
                       type="primary"
                       onClick={async () => await handleFollow()}
