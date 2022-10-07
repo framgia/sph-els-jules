@@ -59,6 +59,7 @@ module.exports = (sequelize, DataTypes) => {
   Activity_log.addHook("afterFind", (findResult) => {
     if (!Array.isArray(findResult)) findResult = [findResult];
     for (const instance of findResult) {
+      if (!instance) return;
       if (
         instance.relatable_type === "follow" ||
         instance.relatable_type === "unfollow"
