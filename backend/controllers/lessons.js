@@ -1,11 +1,13 @@
 const ResponseHelper = require("../helpers/response");
 
-const { Lesson, Result, Activity_log } = require("../models");
+const { Lesson, Lesson_word, Result, Word } = require("../models");
 
 module.exports = {
   getLessons: async (req, res) => {
     const { user_id } = req.query;
-    let lessons = await Lesson.findAll({ raw: true });
+    let lessons = await Lesson.findAll({
+      include: { model: Lesson_word, include: { model: Word } },
+    });
 
     lessons = await Promise.all(
       lessons.map(async (lesson) => {
@@ -13,7 +15,7 @@ module.exports = {
           where: { user_id, lesson_id: lesson.id },
         });
 
-        return { ...lesson, result };
+        return { ...lesson.dataValues, result };
       })
     );
 
