@@ -22,7 +22,7 @@ export const useProfileDetails = (query) => {
   const [displayWords, setDisplayWords] = useState(false);
 
   useEffect(() => {
-    authenticate(navigate, dispatch);
+    if (!user.id) authenticate(navigate, dispatch);
     if (!user.id) return;
 
     getUserById(query.user_id, (data) => {

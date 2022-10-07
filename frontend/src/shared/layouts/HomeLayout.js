@@ -32,7 +32,7 @@ const HomeLayout = ({ pageTitle, children }) => {
           label: "Edit Profile",
           icon: <SettingOutlined spin style={{ fontSize: "1em" }} />,
           onClick: () => {
-            navigate(`/edit-profile?user_id=${currentUser.id}`);
+            navigate("/edit-profile");
           },
         },
         { type: "divider" },

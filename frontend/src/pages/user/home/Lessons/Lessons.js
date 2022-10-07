@@ -1,16 +1,15 @@
 import { Button, Card, Col, Row, Typography } from "antd";
-import { green } from "@ant-design/colors";
 
 import HomeLayout from "../../../../shared/layouts/HomeLayout";
 
-import { useLesson } from "./hooks/useLesson";
+import { useLessons } from "./hooks/useLessons";
 
 import styles from "./Lessons.module.css";
 
 const { Text } = Typography;
 
 const Lessons = () => {
-  const { lessons, hasTaken } = useLesson();
+  const { lessons, hasTaken, startQuiz, viewResult } = useLessons();
 
   return (
     <HomeLayout pageTitle="Lessons">
@@ -31,6 +30,9 @@ const Lessons = () => {
                     shape="round"
                     type="primary"
                     className={quizDone && styles.greenBtn}
+                    onClick={() => {
+                      quizDone ? viewResult(lesson) : startQuiz(lesson);
+                    }}
                   >
                     {!quizDone ? "Start" : "View Result"}
                   </Button>

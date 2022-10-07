@@ -20,7 +20,9 @@ export const useAllUser = () => {
   const [searchText, setSearchText] = useState("");
 
   useEffect(() => {
-    authenticate(navigate, dispatch);
+    if (!user.id) authenticate(navigate, dispatch);
+    if (!user.id) return;
+
     getUsers((data) => {
       if (data.meta.code === 200) {
         setFilteredUsers(data.data.users);
@@ -28,7 +30,7 @@ export const useAllUser = () => {
       }
       message.error(data.meta.message);
     });
-  }, [navigate, dispatch]);
+  }, [navigate, dispatch, user.id]);
 
   const filterUsers = (value) => {
     const filtered = users.filter(

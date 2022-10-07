@@ -37,6 +37,19 @@ export const getUserFeed = async (user_id, setUserFeed) => {
   setUserFeed(data.data.activity_logs);
 };
 
+export const submitAnswer = async (reqBody, callback) => {
+  const formData = new FormData();
+
+  for (let key in reqBody) {
+    formData.append(key, reqBody[key]);
+  }
+
+  const { data } = await api.post("/results", formData);
+
+  callback(data);
+  return data;
+};
+
 export const getLearnings = async (user_id, setLearnings) => {
   const { data } = await api.get("/users/learn-count/", {
     params: {

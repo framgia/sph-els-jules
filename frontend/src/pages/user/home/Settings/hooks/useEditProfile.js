@@ -15,7 +15,7 @@ export const useEditProfile = () => {
   const [selectedImg, setSelectedImg] = useState("");
 
   useEffect(() => {
-    authenticate(navigate, dispatch);
+    if (!user.id) authenticate(navigate, dispatch);
     if (!user.id) return;
 
     setSelectedImg(user.avatar_url);
