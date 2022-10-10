@@ -37,7 +37,7 @@ export const getUserFeed = async (user_id, setUserFeed) => {
   setUserFeed(data.data.activity_logs);
 };
 
-export const submitAnswer = async (reqBody, callback) => {
+export const postAnswer = async (reqBody) => {
   const formData = new FormData();
 
   for (let key in reqBody) {
@@ -46,7 +46,6 @@ export const submitAnswer = async (reqBody, callback) => {
 
   const { data } = await api.post("/results", formData);
 
-  callback(data);
   return data;
 };
 

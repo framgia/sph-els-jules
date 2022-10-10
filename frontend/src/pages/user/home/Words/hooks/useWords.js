@@ -3,49 +3,39 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
 import { authenticate } from "../../../../../helpers/auth";
-import { submitAnswer } from "../../../../../helpers/api";
+import {
+  setLessonWords,
+  nextQuestion,
+  nextNumber,
+} from "../../../../../store/lessonSlice";
 
-export const useWords = (lesson) => {
+export const useWords = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.currentUser);
   const { currentLesson } = useSelector((state) => state.lesson);
-  const [lessonWords, setLessonWords] = useState([]);
-  const [currentQuestion, setCurrentQuestion] = useState(null);
-  const [currentNumber, setCurrentNumber] = useState(0);
+
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (!user.id) authenticate(navigate, dispatch);
     if (!user.id) return;
+    if (!currentLesson) return navigate("/");
 
-    if (!lesson) return navigate("/");
+    setLoading(true);
+    const words = currentLesson.Lesson_words.map(
+      (lessonWord) => lessonWord.Word
+    );
+    dispatch(setLessonWords(words));
 
-    const words = lesson.Lesson_words.map((lessonWord) => lessonWord.Word);
-    setLessonWords(words);
     if (words.length) {
-      setCurrentQuestion(words[0]);
-      setCurrentNumber(1);
+      dispatch(nextQuestion(words[0]));
+      dispatch(nextNumber(1));
     }
-  }, [navigate, dispatch, lesson, user.id]);
-
-  const processAnswer = (question, choice) => {
-    const reqBody = {
-      user_id: user.id,
-      word_id: question.id,
-      lesson_id: currentLesson.id,
-      answer: choice,
-      is_correct: question.correct_answer === choice,
-    };
-
-    submitAnswer(reqBody, (data) => {});
-  };
+    setLoading(false);
+  }, [navigate, dispatch, currentLesson, user.id]);
 
   return {
-    lessonWords,
-    currentQuestion,
-    currentNumber,
-    setCurrentQuestion,
-    setCurrentNumber,
-    processAnswer,
+    loading,
   };
 };

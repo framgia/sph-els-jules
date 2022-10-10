@@ -1,27 +1,38 @@
 import { useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
 import { Button } from "antd";
 
-const ChoiceButton = ({
-  lessonWords,
-  question,
-  choice,
-  currentNumber,
-  setCurrentQuestion,
-  setCurrentNumber,
-  processAnswer,
-}) => {
+import {
+  nextQuestion,
+  nextNumber,
+  submitAnswer,
+} from "../../../../../store/lessonSlice";
+
+const ChoiceButton = ({ choice }) => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { user } = useSelector((state) => state.currentUser);
+  const { currentLesson, lessonWords, currentQuestion, currentNumber } =
+    useSelector((state) => state.lesson);
   return (
     <Button
       onClick={() => {
-        processAnswer(question, choice);
+        const reqBody = {
+          user_id: user.id,
+          word_id: currentQuestion.id,
+          lesson_id: currentLesson.id,
+          answer: choice,
+          is_correct: currentQuestion.correct_answer === choice,
+        };
+        dispatch(submitAnswer(reqBody));
+
         if (currentNumber === lessonWords?.length) {
           navigate("/lessons"); //! Temporary
           // Output result page
           return;
         }
-        setCurrentQuestion(lessonWords?.[currentNumber]);
-        setCurrentNumber((prevNumber) => prevNumber + 1);
+        dispatch(nextQuestion(lessonWords?.[currentNumber]));
+        dispatch(nextNumber(currentNumber + 1));
       }}
       size="large"
       shape="round"
