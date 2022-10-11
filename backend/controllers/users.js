@@ -205,11 +205,7 @@ module.exports = {
       } = activity;
 
       // Count the correct answers per lesson
-      const correctAnswers = Results.reduce((count, result) => {
-        if (result.is_correct) return count + 1;
-        return count;
-      }, 0);
-
+      const correctAnswers = Result.getScore(Results);
       return count + correctAnswers;
     }, 0);
 
