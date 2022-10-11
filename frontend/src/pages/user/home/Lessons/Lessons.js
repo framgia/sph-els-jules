@@ -1,3 +1,4 @@
+import { useSelector } from "react-redux";
 import { Button, Card, Col, Row, Typography } from "antd";
 
 import HomeLayout from "../../../../shared/layouts/HomeLayout";
@@ -9,7 +10,8 @@ import styles from "./Lessons.module.css";
 const { Text } = Typography;
 
 const Lessons = () => {
-  const { lessons, hasTaken, startQuiz, viewResult } = useLessons();
+  const { lessons } = useSelector((state) => state.lesson);
+  const { hasTaken, startQuiz, viewResult } = useLessons();
 
   return (
     <HomeLayout pageTitle="Lessons">

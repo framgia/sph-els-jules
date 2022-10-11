@@ -1,5 +1,6 @@
 import { useSelector } from "react-redux";
-import { Card, Col, Row, Spin, Typography } from "antd";
+import { Button, Card, Col, Row, Spin, Typography } from "antd";
+import { ArrowLeftOutlined, ArrowRightOutlined } from "@ant-design/icons";
 
 import ChoiceButton from "./components/ChoiceButton";
 import HomeLayout from "../../../../shared/layouts/HomeLayout";
@@ -13,7 +14,7 @@ const { Text } = Typography;
 const Words = () => {
   const { currentLesson, lessonWords, currentQuestion, currentNumber } =
     useSelector((state) => state.lesson);
-  const { loading } = useWords();
+  const { loading, onPrevious, onNext, onSubmit } = useWords();
 
   return (
     <HomeLayout pageTitle="Lesson Quiz">
@@ -32,6 +33,29 @@ const Words = () => {
               className={styles.header}
             >{`${currentNumber} of ${lessonWords.length}`}</Text>
           }
+          actions={[
+            <Button
+              disabled={currentNumber === 1}
+              onClick={onPrevious}
+              icon={<ArrowLeftOutlined />}
+              type="text"
+            >
+              Previous Question
+            </Button>,
+            <Button
+              onClick={currentNumber >= lessonWords.length ? onSubmit : onNext}
+              icon={
+                <Text>
+                  {currentNumber >= lessonWords.length
+                    ? "Submit Answers"
+                    : "Next Question"}
+                </Text>
+              }
+              type="text"
+            >
+              <ArrowRightOutlined />
+            </Button>,
+          ]}
         >
           <div style={{ paddingInline: "2em" }}>
             <Text className={`center ${styles.question}`} strong>

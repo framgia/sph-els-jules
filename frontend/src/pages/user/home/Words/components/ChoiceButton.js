@@ -1,18 +1,12 @@
-import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { Button } from "antd";
 
-import {
-  nextQuestion,
-  nextNumber,
-  submitAnswer,
-} from "../../../../../store/lessonSlice";
+import { saveAnswer } from "../../../../../store/lessonSlice";
 
-const ChoiceButton = ({ choice }) => {
-  const navigate = useNavigate();
+const ChoiceButton = ({ choice, selectedAnswer }) => {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.currentUser);
-  const { currentLesson, lessonWords, currentQuestion, currentNumber } =
+  const { currentLesson, currentQuestion, currentNumber, currentAnswers } =
     useSelector((state) => state.lesson);
   return (
     <Button
@@ -24,19 +18,15 @@ const ChoiceButton = ({ choice }) => {
           answer: choice,
           is_correct: currentQuestion.correct_answer === choice,
         };
-        dispatch(submitAnswer(reqBody));
-
-        if (currentNumber === lessonWords?.length) {
-          navigate("/lessons"); //! Temporary
-          // Output result page
-          return;
-        }
-        dispatch(nextQuestion(lessonWords?.[currentNumber]));
-        dispatch(nextNumber(currentNumber + 1));
+        dispatch(saveAnswer(reqBody));
       }}
       size="large"
       shape="round"
-      type="primary"
+      type={
+        currentAnswers[currentNumber - 1]?.answer === choice
+          ? "primary"
+          : "default"
+      }
       block
     >
       {choice}

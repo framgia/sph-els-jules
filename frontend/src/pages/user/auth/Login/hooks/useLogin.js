@@ -1,14 +1,14 @@
 import { useNavigate } from "react-router-dom";
 import { message } from "antd";
 
-import api from "../../../../../helpers/api";
+import authApi from "../../../../../api/authApi";
 
 export const useLogin = () => {
   const navigate = useNavigate();
 
-  const login = async (values) => {
+  const userLogin = async (values) => {
     const { email, password } = values;
-    const { data } = await api.post("/login", { email, password });
+    const { data } = await authApi.login({ email, password });
 
     if (data.meta.code === 200) {
       const { data: userData } = data;
@@ -32,5 +32,5 @@ export const useLogin = () => {
     message.error(data.meta.message);
   };
 
-  return { login };
+  return { userLogin };
 };

@@ -6,7 +6,8 @@ import {
   setFollowing,
   setLearnings,
 } from "../store/currentUserSlice";
-import { getUserFeed, getUserProfile, getLearnings } from "../helpers/api";
+import { getLessonsByUserId } from "../store/lessonSlice";
+import userApi from "../api/userApi";
 
 export const authenticate = async (navigate, dispatch) => {
   let loggedInUser = localStorage.getItem("user");
@@ -17,16 +18,21 @@ export const authenticate = async (navigate, dispatch) => {
   loggedInUser = JSON.parse(loggedInUser);
   dispatch(setCurrentUser(loggedInUser));
 
-  await getUserProfile(loggedInUser.id, (followers, following, activities) => {
-    dispatch(setActivities(activities));
-    dispatch(setFollowers(followers));
-    dispatch(setFollowing(following));
+  await userApi.getUserProfile(
+    { user_id: loggedInUser.id },
+    (followers, following, activities) => {
+      dispatch(setActivities(activities));
+      dispatch(setFollowers(followers));
+      dispatch(setFollowing(following));
+    }
+  );
+
+  await userApi.getLearnings({ user_id: loggedInUser.id }, (learnings) => {
+    dispatch(setLearnings(learnings.data));
+  });
+  await userApi.getUserFeed({ user_id: loggedInUser.id }, (userFeed) => {
+    dispatch(setUserFeed(userFeed.data.activity_logs));
   });
 
-  await getLearnings(loggedInUser.id, (learnings) => {
-    dispatch(setLearnings(learnings));
-  });
-  await getUserFeed(loggedInUser.id, (userFeed) => {
-    dispatch(setUserFeed(userFeed));
-  });
+  dispatch(getLessonsByUserId(loggedInUser.id));
 };

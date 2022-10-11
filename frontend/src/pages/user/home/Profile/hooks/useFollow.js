@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { message } from "antd";
 
-import { getUserProfile, toggleFollow } from "../../../../../helpers/api";
+import userApi from "../../../../../api/userApi";
 import {
   addUserFeed,
   addActivity,
@@ -26,7 +26,10 @@ export const useFollow = (query, setFollowers) => {
   };
 
   const handleFollow = async () => {
-    const data = await toggleFollow(user.id, +query.user_id);
+    const data = await userApi.toggleFollow({
+      follower_id: user.id,
+      following_id: +query.user_id,
+    });
 
     const {
       data: { activity_log, user_follow },
@@ -36,8 +39,8 @@ export const useFollow = (query, setFollowers) => {
       dispatch(addUserFeed(activity_log));
       dispatch(addActivity(activity_log));
       dispatch(updateFollowing(user_follow));
-      await getUserProfile(
-        query.user_id,
+      await userApi.getUserProfile(
+        { user_id: query.user_id },
         (followers, following, activity_logs) => {
           setFollowers(followers);
         }

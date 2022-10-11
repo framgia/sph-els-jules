@@ -8,12 +8,12 @@ import loginIllustration from "../../../../images/login_illustration.svg";
 import { useLogin } from "./hooks/useLogin";
 
 const Login = () => {
-  const { login } = useLogin();
+  const { userLogin } = useLogin();
 
   return (
     <AuthLayout illustration={loginIllustration}>
       <div style={{ textAlign: "center", width: "min(25vw, 400px)" }}>
-        <Form onFinish={login} autoComplete="off">
+        <Form onFinish={userLogin} autoComplete="off">
           <h1>Sign In</h1>
           <h4 style={{ color: "#8C8C8C", marginBottom: "20px" }}>
             Welcome to E-Learning App
