@@ -63,12 +63,8 @@ const addLessonScore = async (activity_logs) => {
             user_id: user_id,
           },
         });
-        const score = results.reduce((score, question) => {
-          if (question.is_correct) return score + 1;
-          return score;
-        }, 0);
 
-        newActivityLog.score = score;
+        newActivityLog.score = Result.getScore(results);
         newActivityLog.item_count = Lesson.Lesson_words.length;
 
         return newActivityLog;

@@ -1,8 +1,27 @@
-const { Result, Activity_log } = require("../models");
+const { Activity_log, Result, Word } = require("../models");
 
 const ResponseHelper = require("../helpers/response");
 
 module.exports = {
+  getResultByLessonId: async (req, res) => {
+    const { user_id, lesson_id } = req.query;
+
+    const results = await Result.findAll({
+      where: {
+        user_id,
+        lesson_id,
+      },
+      include: { model: Word },
+    });
+
+    res.send(
+      ResponseHelper.generateResponse(200, "Success", {
+        results,
+        score: Result.getScore(results),
+        item_count: results.length,
+      })
+    );
+  },
   createResult: async (req, res) => {
     let rawResults = req.body;
     rawResults = Object.values(rawResults).map((result) => result);
