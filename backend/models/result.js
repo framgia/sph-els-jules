@@ -3,7 +3,7 @@ const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
   class Result extends Model {
     static associate(models) {
-      const { User, Activity_log, Word, Lesson } = models;
+      const { User, Word, Lesson } = models;
 
       User.hasMany(Result, { foreignKey: "user_id" });
       Result.belongsTo(User, { foreignKey: "user_id" });
@@ -34,5 +34,14 @@ module.exports = (sequelize, DataTypes) => {
       modelName: "Result",
     }
   );
+
+  Result.getScore = (results) => {
+    const score = results.reduce((total, item) => {
+      if (item.is_correct) total++;
+      return total;
+    }, 0);
+    return score;
+  };
+
   return Result;
 };

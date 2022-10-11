@@ -14,15 +14,10 @@ module.exports = {
       include: { model: Word },
     });
 
-    const score = results.reduce((total, item) => {
-      if (item.is_correct) total++;
-      return total;
-    }, 0);
-
     res.send(
       ResponseHelper.generateResponse(200, "Success", {
         results,
-        score,
+        score: Result.getScore(results),
         item_count: results.length,
       })
     );
