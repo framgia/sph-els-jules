@@ -18,7 +18,7 @@ export const useProfileDetails = (query) => {
   const [displayWords, setDisplayWords] = useState(false);
 
   useEffect(() => {
-    if (!user.id) authenticate(navigate, dispatch);
+    authenticate(navigate, dispatch);
     if (!user.id) return;
 
     userApi.getUserById({ id: query.user_id }, (data) => {

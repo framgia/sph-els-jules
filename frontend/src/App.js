@@ -6,6 +6,7 @@ import Lessons from "./pages/user/home/Lessons/Lessons";
 import Login from "./pages/user/auth/Login/Login";
 import Profile from "./pages/user/home/Profile/Profile";
 import Signup from "./pages/user/auth/Signup/Signup";
+import Results from "./pages/user/home/Results/Results";
 import Users from "./pages/user/home/Users/Users";
 import Words from "./pages/user/home/Words/Words";
 
@@ -21,6 +22,7 @@ function App() {
         <Route path="/profile" element={<Profile />} />
         <Route path="/edit-profile" element={<EditProfile />} />
         <Route path="/lessons" element={<Lessons />} />
+        <Route path="/results" element={<Results />} />
         <Route path="/users" element={<Users />} />
         <Route path="/words" element={<Words />} />
       </Routes>

@@ -180,7 +180,7 @@ module.exports = {
     }
 
     const activity_logs = await Activity_log.findAll({
-      where: { user_id },
+      where: { user_id, relatable_type: "lesson" },
       include: [
         {
           model: Lesson,
@@ -199,33 +199,24 @@ module.exports = {
       ],
     });
 
-    const learnedLessons = activity_logs.reduce((count, activity) => {
-      if (activity.relatable_type === "lesson") return count + 1;
-      return count;
-    }, 0);
-
     const learnedWords = activity_logs.reduce((count, activity) => {
-      if (activity.relatable_type === "lesson") {
-        const {
-          Lesson: { Results },
-        } = activity;
+      const {
+        Lesson: { Results },
+      } = activity;
 
-        // Count the correct answers per lesson
-        const correctAnswers = Results.reduce((count, result) => {
-          if (result.is_correct) return count + 1;
-          return count;
-        }, 0);
+      // Count the correct answers per lesson
+      const correctAnswers = Results.reduce((count, result) => {
+        if (result.is_correct) return count + 1;
+        return count;
+      }, 0);
 
-        return correctAnswers;
-      }
-      return count;
+      return count + correctAnswers;
     }, 0);
 
     res.send(
       ResponseHelper.generateResponse(200, "Success", {
-        learnedLessons,
+        learnedLessons: activity_logs.length,
         learnedWords,
-        user,
       })
     );
   },

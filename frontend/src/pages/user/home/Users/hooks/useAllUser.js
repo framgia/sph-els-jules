@@ -20,7 +20,7 @@ export const useAllUser = () => {
   const [searchText, setSearchText] = useState("");
 
   useEffect(() => {
-    if (!user.id) authenticate(navigate, dispatch);
+    authenticate(navigate, dispatch);
     if (!user.id) return;
 
     userApi.getUsers((data) => {

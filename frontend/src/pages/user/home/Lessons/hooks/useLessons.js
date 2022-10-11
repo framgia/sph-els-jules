@@ -20,7 +20,10 @@ export const useLessons = () => {
     navigate(`/words?lesson_id=${lesson.id}`);
   };
 
-  const viewResult = (lesson) => {};
+  const viewResult = (lesson) => {
+    dispatch(setCurrentLesson(lesson));
+    navigate("/results");
+  };
 
   const hasTaken = (lesson) => {
     return lesson.result.length > 0;

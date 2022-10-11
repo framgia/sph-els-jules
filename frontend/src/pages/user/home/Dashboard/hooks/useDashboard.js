@@ -11,7 +11,7 @@ export const useDashboard = () => {
   const [displayWords, setDisplayWords] = useState(false);
 
   useEffect(() => {
-    if (!user.id) authenticate(navigate, dispatch);
+    authenticate(navigate, dispatch);
   }, [navigate, dispatch, user.id]);
 
   return { displayWords, setDisplayWords };

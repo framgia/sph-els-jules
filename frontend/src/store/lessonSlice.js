@@ -37,9 +37,9 @@ export const lessonSlice = createSlice({
     },
     setCurrentLesson: (state, action) => {
       state.currentLesson = action.payload;
-    },
-    setLessonWords: (state, action) => {
-      state.lessonWords = action.payload;
+
+      const lessonWords = action.payload.Lesson_words.map((word) => word.Word);
+      state.lessonWords = lessonWords;
     },
     setCurrentQuestion: (state, action) => {
       state.currentQuestion = action.payload;
@@ -72,7 +72,6 @@ export const lessonSlice = createSlice({
 export const {
   setLessons,
   setCurrentLesson,
-  setLessonWords,
   setCurrentQuestion,
   setCurrentNumber,
   saveAnswer,
