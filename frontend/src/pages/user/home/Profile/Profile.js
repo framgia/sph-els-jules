@@ -85,8 +85,8 @@ const Profile = () => {
                   <Text
                     className={styles.bigText}
                     strong
-                  >{`${learnings?.user?.first_name} ${learnings?.user?.last_name}`}</Text>
-                  <Text type="secondary">{`${learnings?.user?.email}`}</Text>
+                  >{`${selectedUser.first_name} ${selectedUser.last_name}`}</Text>
+                  <Text type="secondary">{`${selectedUser.email}`}</Text>
 
                   <Row className={styles.followRow} justify="space-evenly">
                     <Col

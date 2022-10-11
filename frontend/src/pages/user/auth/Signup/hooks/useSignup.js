@@ -1,14 +1,14 @@
 import { useNavigate } from "react-router-dom";
 import { message } from "antd";
 
-import api from "../../../../../helpers/api";
+import authApi from "../../../../../api/authApi";
 
 export const useSignup = () => {
   const navigate = useNavigate();
 
-  const register = async (values) => {
+  const userSignup = async (values) => {
     const { first_name, last_name, email, password } = values;
-    const { data } = await api.post("/signup", {
+    const { data } = await authApi.signup({
       first_name,
       last_name,
       email,
@@ -16,7 +16,6 @@ export const useSignup = () => {
     });
 
     const { meta } = data;
-
     if (meta.code === 200) {
       message.success("Account created successfully!");
       return navigate("/login");
@@ -25,5 +24,5 @@ export const useSignup = () => {
     message.error(meta.message);
   };
 
-  return { register };
+  return { userSignup };
 };

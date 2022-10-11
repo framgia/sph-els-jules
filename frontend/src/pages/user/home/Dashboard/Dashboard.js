@@ -36,7 +36,7 @@ const Dashboard = () => {
                     strong
                   >{`${user.first_name} ${user.last_name}`}</Text>
                   <Text type="secondary">{`${user.email}`}</Text>
-                  <Button className={styles.learnedLessons}>
+                  <Button block className={styles.learnedLessons}>
                     {`Learned ${learnings.learnedLessons} ${
                       learnings.learnedLessons > 1 ? "lessons" : "lesson"
                     }`}

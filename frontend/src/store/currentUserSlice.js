@@ -49,6 +49,7 @@ export const currentUserSlice = createSlice({
     setLearnings: (state, action) => {
       state.learnings = action.payload;
     },
+    resetState: () => initialState,
   },
 });
 
@@ -62,6 +63,7 @@ export const {
   setFollowing,
   updateFollowing,
   setLearnings,
+  resetState,
 } = currentUserSlice.actions;
 
 export default currentUserSlice.reducer;

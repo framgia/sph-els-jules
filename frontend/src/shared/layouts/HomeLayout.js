@@ -1,6 +1,6 @@
 import { Fragment } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import {
   PoweroffOutlined,
   SettingOutlined,
@@ -9,10 +9,14 @@ import {
 import { blue } from "@ant-design/colors";
 import { Avatar, Dropdown, Menu, Layout } from "antd";
 
+import { resetState as userReset } from "../../store/currentUserSlice";
+import { resetState as lessonReset } from "../../store/lessonSlice";
+
 const { Header, Content } = Layout;
 
 const HomeLayout = ({ pageTitle, children }) => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const currentUser = useSelector((state) => state.currentUser.user);
 
   const menu = (
@@ -32,7 +36,7 @@ const HomeLayout = ({ pageTitle, children }) => {
           label: "Edit Profile",
           icon: <SettingOutlined spin style={{ fontSize: "1em" }} />,
           onClick: () => {
-            navigate(`/edit-profile?user_id=${currentUser.id}`);
+            navigate("/edit-profile");
           },
         },
         { type: "divider" },
@@ -42,6 +46,8 @@ const HomeLayout = ({ pageTitle, children }) => {
           icon: <PoweroffOutlined style={{ fontSize: "1em" }} />,
           onClick: () => {
             localStorage.clear();
+            dispatch(userReset());
+            dispatch(lessonReset());
             navigate("/login");
           },
         },

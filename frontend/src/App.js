@@ -7,6 +7,7 @@ import Login from "./pages/user/auth/Login/Login";
 import Profile from "./pages/user/home/Profile/Profile";
 import Signup from "./pages/user/auth/Signup/Signup";
 import Users from "./pages/user/home/Users/Users";
+import Words from "./pages/user/home/Words/Words";
 
 import "./App.css";
 
@@ -21,6 +22,7 @@ function App() {
         <Route path="/edit-profile" element={<EditProfile />} />
         <Route path="/lessons" element={<Lessons />} />
         <Route path="/users" element={<Users />} />
+        <Route path="/words" element={<Words />} />
       </Routes>
     </div>
   );

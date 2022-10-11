@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { message } from "antd";
 
 import { authenticate } from "../../../../../helpers/auth";
-import { editUserProfile } from "../../../../../helpers/api";
+import userApi from "../../../../../api/userApi";
 import { setCurrentUser } from "../../../../../store/currentUserSlice";
 
 export const useEditProfile = () => {
@@ -15,7 +15,7 @@ export const useEditProfile = () => {
   const [selectedImg, setSelectedImg] = useState("");
 
   useEffect(() => {
-    authenticate(navigate, dispatch);
+    if (!user.id) authenticate(navigate, dispatch);
     if (!user.id) return;
 
     setSelectedImg(user.avatar_url);
@@ -37,7 +37,10 @@ export const useEditProfile = () => {
     if (!Object.values(reqBody).some((value) => value !== undefined)) {
       return message.error("Profile not updated. No changes made.");
     }
-    const data = await editUserProfile(user.id, reqBody);
+    const data = await userApi.editUserProfile({
+      user_id: user.id,
+      ...reqBody,
+    });
     if (data.meta.code === 200) {
       message.success("Profile successfully updated!");
       localStorage.setItem("user", JSON.stringify(data.data.user));

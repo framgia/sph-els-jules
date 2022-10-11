@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { message } from "antd";
 
 import { authenticate } from "../../../../../helpers/auth";
-import { getUsers, toggleFollow } from "../../../../../helpers/api";
+import userApi from "../../../../../api/userApi";
 import {
   addUserFeed,
   addActivity,
@@ -20,15 +20,17 @@ export const useAllUser = () => {
   const [searchText, setSearchText] = useState("");
 
   useEffect(() => {
-    authenticate(navigate, dispatch);
-    getUsers((data) => {
+    if (!user.id) authenticate(navigate, dispatch);
+    if (!user.id) return;
+
+    userApi.getUsers((data) => {
       if (data.meta.code === 200) {
         setFilteredUsers(data.data.users);
         return setUsers(data.data.users);
       }
       message.error(data.meta.message);
     });
-  }, [navigate, dispatch]);
+  }, [navigate, dispatch, user.id]);
 
   const filterUsers = (value) => {
     const filtered = users.filter(
@@ -49,7 +51,10 @@ export const useAllUser = () => {
   };
 
   const handleFollow = async (user_id) => {
-    const data = await toggleFollow(user.id, user_id);
+    const data = await userApi.toggleFollow({
+      follower_id: user.id,
+      following_id: user_id,
+    });
 
     const {
       data: { activity_log, user_follow },
