@@ -7,16 +7,6 @@ module.exports = {
     const data = [
       {
         id: 1,
-        user_id: 2,
-        word_id: 1,
-        lesson_id: 1,
-        answer: "test",
-        is_correct: true,
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      },
-      {
-        id: 2,
         user_id: 1,
         word_id: 1,
         lesson_id: 1,
@@ -26,7 +16,7 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
-        id: 3,
+        id: 2,
         user_id: 1,
         word_id: 2,
         lesson_id: 1,
@@ -36,7 +26,7 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
-        id: 4,
+        id: 3,
         user_id: 1,
         word_id: 3,
         lesson_id: 1,
@@ -46,7 +36,7 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
-        id: 5,
+        id: 4,
         user_id: 1,
         word_id: 4,
         lesson_id: 1,
@@ -56,7 +46,7 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
-        id: 6,
+        id: 5,
         user_id: 1,
         word_id: 5,
         lesson_id: 1,

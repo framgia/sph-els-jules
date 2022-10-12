@@ -17,10 +17,13 @@ export const useLessons = () => {
 
   const startQuiz = (lesson) => {
     dispatch(setCurrentLesson(lesson));
-    navigate(`/words?lesson_id=${lesson.id}`);
+    navigate("/words");
   };
 
-  const viewResult = (lesson) => {};
+  const viewResult = (lesson) => {
+    dispatch(setCurrentLesson(lesson));
+    navigate("/results");
+  };
 
   const hasTaken = (lesson) => {
     return lesson.result.length > 0;

@@ -5,9 +5,9 @@ import { Modal } from "antd";
 
 import { authenticate } from "../../../../../helpers/auth";
 import {
-  setLessonWords,
   setCurrentQuestion,
   setCurrentNumber,
+  clearAfterExam,
   submitAnswer,
   getLessonsByUserId,
 } from "../../../../../store/lessonSlice";
@@ -23,22 +23,18 @@ export const useWords = () => {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    if (!user.id) authenticate(navigate, dispatch);
-    if (!user.id) return;
     if (!currentLesson) return navigate("/");
 
-    setLoading(true);
-    const words = currentLesson.Lesson_words.map(
-      (lessonWord) => lessonWord.Word
-    );
-    dispatch(setLessonWords(words));
+    authenticate(navigate, dispatch);
+    if (!user.id) return;
 
-    if (words.length) {
-      dispatch(setCurrentQuestion(words[0]));
+    setLoading(true);
+    if (lessonWords.length) {
+      dispatch(setCurrentQuestion(lessonWords[0]));
       dispatch(setCurrentNumber(1));
     }
     setLoading(false);
-  }, [navigate, dispatch, currentLesson, user.id]);
+  }, [navigate, dispatch, currentLesson, lessonWords, user.id]);
 
   const onPrevious = () => {
     dispatch(setCurrentQuestion(lessonWords[currentNumber - 2]));
@@ -64,9 +60,9 @@ export const useWords = () => {
     if (data.meta.code === 200) {
       message.success("All answers are submitted");
       dispatch(getLessonsByUserId(user.id));
-      navigate("/lessons");
+      dispatch(clearAfterExam());
+      navigate("/results");
       return;
-      // TODO: navigate to results page
     }
     message.error(data.meta.message);
   };

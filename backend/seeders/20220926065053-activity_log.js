@@ -16,21 +16,13 @@ module.exports = {
       {
         id: 2,
         user_id: 2,
-        relatable_id: 1,
-        relatable_type: "lesson",
-        createdAt: new Date("06/12/2022"),
-        updatedAt: new Date("06/12/2022"),
-      },
-      {
-        id: 3,
-        user_id: 2,
         relatable_id: 2,
         relatable_type: "follow",
         createdAt: new Date("01/01/2022"),
         updatedAt: new Date("01/01/2022"),
       },
       {
-        id: 4,
+        id: 3,
         user_id: 1,
         relatable_id: 1,
         relatable_type: "lesson",
@@ -38,7 +30,7 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
-        id: 5,
+        id: 4,
         user_id: 4,
         relatable_id: 6,
         relatable_type: "follow",
@@ -46,7 +38,7 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
-        id: 6,
+        id: 5,
         user_id: 2,
         relatable_id: 3,
         relatable_type: "follow",
@@ -54,7 +46,7 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
-        id: 7,
+        id: 6,
         user_id: 3,
         relatable_id: 4,
         relatable_type: "follow",
@@ -62,7 +54,7 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
-        id: 8,
+        id: 7,
         user_id: 3,
         relatable_id: 5,
         relatable_type: "follow",

@@ -1,0 +1,23 @@
+.header {
+  font-size: 1.5rem;
+}
+
+.question {
+  padding: 3em 0;
+  font-size: 2rem;
+}
+
+.nextLesson {
+  margin-top: 1em;
+  float: right;
+}
+
+.nextLessonText {
+  font-size: 1.1rem;
+  margin-right: 0.5em;
+}
+
+.greenBtn {
+  background-color: #389e0d !important;
+  border: none !important;
+}

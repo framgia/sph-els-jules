@@ -1,4 +1,10 @@
-const { Activity_log, Result, Word } = require("../models");
+const {
+  Activity_log,
+  Lesson,
+  Lesson_word,
+  Result,
+  Word,
+} = require("../models");
 
 const ResponseHelper = require("../helpers/response");
 
@@ -6,12 +12,23 @@ module.exports = {
   getResultByLessonId: async (req, res) => {
     const { user_id, lesson_id } = req.query;
 
+    const lesson = await Lesson.findOne({
+      where: { id: lesson_id },
+      include: { model: Lesson_word },
+    });
+
+    if (!lesson) {
+      return res.send(ResponseHelper.generateNotFoundResponse("Lesson"));
+    }
+
     const results = await Result.findAll({
+      limit: lesson.Lesson_words.length,
       where: {
         user_id,
         lesson_id,
       },
       include: { model: Word },
+      order: [["id", "DESC"]],
     });
 
     res.send(

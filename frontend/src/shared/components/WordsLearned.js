@@ -9,12 +9,12 @@ const WordsLearned = ({ userId, setDisplayWords }) => {
 
   const columns = [
     {
-      title: "Questions",
+      title: "Question",
       dataIndex: "question",
       key: "question",
     },
     {
-      title: "Answers",
+      title: "Answer",
       dataIndex: "answer",
       key: "answer",
     },

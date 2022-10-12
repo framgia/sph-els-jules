@@ -32,13 +32,22 @@ const Lessons = () => {
                     shape="round"
                     type="primary"
                     className={quizDone && styles.greenBtn}
-                    onClick={() => {
-                      quizDone ? viewResult(lesson) : startQuiz(lesson);
-                    }}
+                    onClick={() => startQuiz(lesson)}
                   >
-                    {!quizDone ? "Start" : "View Result"}
+                    {!quizDone ? "Start" : "Retake"}
                   </Button>
                 }
+                actions={[
+                  <Button
+                    type="default"
+                    disabled={!quizDone}
+                    onClick={() => {
+                      viewResult(lesson);
+                    }}
+                  >
+                    View Result
+                  </Button>,
+                ]}
               >
                 {lesson.description}
               </Card>
