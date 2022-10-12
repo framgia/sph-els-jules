@@ -7,6 +7,7 @@ import { authenticate } from "../../../../../helpers/auth";
 import {
   setCurrentQuestion,
   setCurrentNumber,
+  clearAfterExam,
   submitAnswer,
   getLessonsByUserId,
 } from "../../../../../store/lessonSlice";
@@ -59,6 +60,7 @@ export const useWords = () => {
     if (data.meta.code === 200) {
       message.success("All answers are submitted");
       dispatch(getLessonsByUserId(user.id));
+      dispatch(clearAfterExam());
       navigate("/results");
       return;
     }

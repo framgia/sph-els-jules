@@ -1,3 +1,4 @@
+import _ from "lodash";
 import { createAsyncThunk, createSlice, current } from "@reduxjs/toolkit";
 
 import lessonApi from "../api/lessonApi";
@@ -39,7 +40,7 @@ export const lessonSlice = createSlice({
       state.currentLesson = action.payload;
 
       const lessonWords = action.payload.Lesson_words.map((word) => word.Word);
-      state.lessonWords = lessonWords;
+      state.lessonWords = _.shuffle(lessonWords);
     },
     setCurrentQuestion: (state, action) => {
       state.currentQuestion = action.payload;
@@ -59,6 +60,12 @@ export const lessonSlice = createSlice({
       }
       state.currentAnswers.push(action.payload);
     },
+    clearAfterExam: (state) => {
+      state.currentQuestion = null;
+      state.currentNumber = 0;
+      state.currentAnswers = [];
+    },
+
     resetState: () => initialState,
   },
   extraReducers: (builder) => {
@@ -75,6 +82,7 @@ export const {
   setCurrentQuestion,
   setCurrentNumber,
   saveAnswer,
+  clearAfterExam,
   resetState,
 } = lessonSlice.actions;
 

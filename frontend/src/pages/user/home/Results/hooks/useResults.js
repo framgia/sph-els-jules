@@ -3,14 +3,15 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { message, Tag } from "antd";
 
-import { authenticate } from "../../../../../helpers/auth";
 import resultApi from "../../../../../api/resultApi.js";
+import { authenticate } from "../../../../../helpers/auth";
+import { setCurrentLesson } from "../../../../../store/lessonSlice";
 
 export const useResults = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.currentUser);
-  const { currentLesson } = useSelector((state) => state.lesson);
+  const { lessons, currentLesson } = useSelector((state) => state.lesson);
 
   const [loading, setLoading] = useState(false);
   const [results, setResults] = useState([]);
@@ -38,17 +39,21 @@ export const useResults = () => {
     setLoading(false);
   }, [navigate, dispatch, user.id, currentLesson]);
 
+  const getNextLesson = () => {
+    return lessons[currentLesson?.id % lessons.length];
+  };
+
+  const toNextLesson = () => {
+    dispatch(setCurrentLesson(getNextLesson()));
+    navigate("/words");
+  };
+
   const renderColumns = () => {
     const columns = [
       {
         title: "Question",
         dataIndex: "question",
         key: "question",
-      },
-      {
-        title: "Correct Answer",
-        dataIndex: "correct_answer",
-        key: "correct_answer",
       },
       {
         title: "Your Answer",
@@ -80,12 +85,19 @@ export const useResults = () => {
         key: id,
         question,
         answer,
-        correct_answer: correct_answer,
         remark: correct_answer === answer,
       };
     });
     return dataSource;
   };
 
-  return { loading, results, quizItems, renderColumns, renderData };
+  return {
+    loading,
+    results,
+    quizItems,
+    renderColumns,
+    renderData,
+    getNextLesson,
+    toNextLesson,
+  };
 };

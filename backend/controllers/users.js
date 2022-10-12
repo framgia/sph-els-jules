@@ -54,20 +54,21 @@ const addLessonScore = async (activity_logs) => {
   return await Promise.all(
     activity_logs.map(async (activity_log) => {
       if (activity_log.relatable_type === "lesson") {
-        const newActivityLog = JSON.parse(JSON.stringify(activity_log));
-        const { user_id, Lesson } = newActivityLog;
+        const { user_id, Lesson } = activity_log;
+        const { Lesson_words } = Lesson;
 
         const results = await Result.findAll({
           where: {
             lesson_id: Lesson.id,
             user_id: user_id,
           },
+          limit: Lesson_words.length,
         });
 
-        newActivityLog.score = Result.getScore(results);
-        newActivityLog.item_count = Lesson.Lesson_words.length;
+        const score = Result.getScore(results);
+        const item_count = Lesson_words.length;
 
-        return newActivityLog;
+        return { ...activity_log.dataValues, score, item_count };
       }
       return activity_log;
     })
@@ -183,35 +184,39 @@ module.exports = {
       where: { user_id, relatable_type: "lesson" },
       include: [
         {
-          model: Lesson,
-          attributes: ["id", "title"],
-          include: [
-            {
-              model: Result,
-              where: { user_id },
-            },
-          ],
-        },
-        {
           model: User,
           attributes: ["id", "first_name", "last_name", "email"],
         },
       ],
     });
 
-    const learnedWords = activity_logs.reduce((count, activity) => {
-      const {
-        Lesson: { Results },
-      } = activity;
+    const lessonIds = activity_logs.map(
+      (activity_log) => activity_log.relatable_id
+    );
+    const lessons = await Lesson.findAll({
+      where: { id: lessonIds },
+      include: { model: Lesson_word },
+    });
 
-      // Count the correct answers per lesson
-      const correctAnswers = Result.getScore(Results);
+    const results = await Promise.all(
+      lessons.map(async (lesson) => {
+        const result = await Result.findAll({
+          where: { user_id, lesson_id: lesson.id },
+          limit: lesson.Lesson_words.length,
+          order: [["id", "DESC"]],
+        });
+        return result;
+      })
+    );
+
+    const learnedWords = results.reduce((count, result) => {
+      const correctAnswers = Result.getScore(result);
       return count + correctAnswers;
     }, 0);
 
     res.send(
       ResponseHelper.generateResponse(200, "Success", {
-        learnedLessons: activity_logs.length,
+        learnedLessons: lessons.length,
         learnedWords,
       })
     );
