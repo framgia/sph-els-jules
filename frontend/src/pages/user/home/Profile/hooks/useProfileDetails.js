@@ -20,6 +20,7 @@ export const useProfileDetails = (query) => {
   useEffect(() => {
     authenticate(navigate, dispatch);
     if (!user.id) return;
+    if (user.user_type === "admin") return navigate("/admin/lessons");
 
     userApi.getUserById({ id: query.user_id }, (data) => {
       setSelectedUser(data.data.user);
@@ -37,7 +38,7 @@ export const useProfileDetails = (query) => {
     userApi.getLearnings({ user_id: query.user_id }, (data) => {
       setLearnings(data.data);
     });
-  }, [navigate, dispatch, query.user_id, user.id]);
+  }, [navigate, dispatch, query.user_id, user.id, user.user_type]);
 
   return {
     selectedUser,

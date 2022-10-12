@@ -1,8 +1,17 @@
 import _ from "lodash";
 import { createAsyncThunk, createSlice, current } from "@reduxjs/toolkit";
 
+import adminLessonApi from "../api/adminApi";
 import lessonApi from "../api/lessonApi";
 import wordApi from "../api/wordApi";
+
+export const getAdminLessons = createAsyncThunk(
+  "admin/lessons/getLessons",
+  async (thunkApi) => {
+    const { data } = await adminLessonApi.getLessons();
+    return data.data.lessons;
+  }
+);
 
 export const getLessonsByUserId = createAsyncThunk(
   "/lesson/getLessons",
@@ -33,9 +42,6 @@ export const lessonSlice = createSlice({
   name: "lesson",
   initialState,
   reducers: {
-    setLessons: (state, action) => {
-      state.lessons = action.payload;
-    },
     setCurrentLesson: (state, action) => {
       state.currentLesson = action.payload;
 
@@ -72,12 +78,13 @@ export const lessonSlice = createSlice({
     builder.addCase(getLessonsByUserId.fulfilled, (state, action) => {
       state.lessons = action.payload;
     });
-    builder.addCase(submitAnswer.fulfilled, (action, state) => {});
+    builder.addCase(getAdminLessons.fulfilled, (state, action) => {
+      state.lessons = action.payload;
+    });
   },
 });
 
 export const {
-  setLessons,
   setCurrentLesson,
   setCurrentQuestion,
   setCurrentNumber,

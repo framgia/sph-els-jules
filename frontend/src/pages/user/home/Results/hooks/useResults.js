@@ -20,6 +20,7 @@ export const useResults = () => {
   useEffect(() => {
     if (!user.id) authenticate(navigate, dispatch);
     if (!user.id) return;
+    if (user.user_type === "admin") return navigate("/admin/lessons");
     if (!currentLesson) return navigate("/lessons");
 
     setLoading(true);
@@ -37,7 +38,12 @@ export const useResults = () => {
     );
 
     setLoading(false);
-  }, [navigate, dispatch, user.id, currentLesson]);
+  }, [navigate, dispatch, user.id, user.user_type, currentLesson]);
+
+  const retryLesson = () => {
+    dispatch(setCurrentLesson(currentLesson));
+    navigate("/words");
+  };
 
   const getNextLesson = () => {
     return lessons[currentLesson?.id % lessons.length];
@@ -97,6 +103,7 @@ export const useResults = () => {
     quizItems,
     renderColumns,
     renderData,
+    retryLesson,
     getNextLesson,
     toNextLesson,
   };

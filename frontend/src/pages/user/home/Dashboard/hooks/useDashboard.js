@@ -14,9 +14,10 @@ export const useDashboard = () => {
   useEffect(() => {
     authenticate(navigate, dispatch);
     if (!user.id) return;
+    if (user.user_type === "admin") return navigate("/admin/lessons");
 
     setDisplayWords(location.state?.displayWords);
-  }, [navigate, dispatch, location, user.id]);
+  }, [navigate, dispatch, location, user.id, user.user_type]);
 
   return { displayWords, setDisplayWords };
 };

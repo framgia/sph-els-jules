@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { message } from "antd";
 
-import authApi from "../../../../../api/authApi";
+import authApi from "../../../../api/authApi";
 
 export const useSignup = () => {
   const navigate = useNavigate();
