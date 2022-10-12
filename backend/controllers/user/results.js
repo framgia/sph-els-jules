@@ -4,9 +4,9 @@ const {
   Lesson_word,
   Result,
   Word,
-} = require("../models");
+} = require("../../models");
 
-const ResponseHelper = require("../helpers/response");
+const ResponseHelper = require("../../helpers/response");
 
 module.exports = {
   getResultByLessonId: async (req, res) => {

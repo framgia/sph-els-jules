@@ -1,8 +1,8 @@
 const bcrypt = require("bcrypt");
 
-const ResponseHelper = require("../helpers/response");
+const ResponseHelper = require("../../helpers/response");
 
-const { User } = require("../models");
+const { User } = require("../../models");
 
 module.exports = {
   login: async (req, res) => {
