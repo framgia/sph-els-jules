@@ -19,6 +19,7 @@ const Results = () => {
     quizItems,
     renderColumns,
     renderData,
+    retryLesson,
     getNextLesson,
     toNextLesson,
   } = useResults();
@@ -44,16 +45,25 @@ const Results = () => {
               >{`Score: ${quizItems.score}/${quizItems.itemCount}`}</Text>
             }
             actions={[
-              <Button
-                style={{ float: "left" }}
-                shape="round"
-                type="default"
-                onClick={() => {
-                  navigate("/", { state: { displayWords: true } });
-                }}
-              >
-                Go to Words Learned
-              </Button>,
+              <div className={styles.cardActions}>
+                <Button
+                  style={{ float: "left" }}
+                  shape="round"
+                  type="default"
+                  onClick={retryLesson}
+                >
+                  Retry lesson
+                </Button>
+                <Button
+                  shape="round"
+                  type="default"
+                  onClick={() => {
+                    navigate("/", { state: { displayWords: true } });
+                  }}
+                >
+                  Go to Words Learned
+                </Button>
+              </div>,
             ]}
           >
             <Table

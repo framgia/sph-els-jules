@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { message } from "antd";
 
-import authApi from "../../../../../api/authApi";
+import authApi from "../../../../api/authApi";
 
 export const useLogin = () => {
   const navigate = useNavigate();
@@ -26,7 +26,7 @@ export const useLogin = () => {
         })
       );
 
-      return navigate("/");
+      return navigate(user.user_type === "user" ? "/" : "/admin/lessons");
     }
 
     message.error(data.meta.message);

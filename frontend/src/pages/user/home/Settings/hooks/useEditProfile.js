@@ -17,9 +17,10 @@ export const useEditProfile = () => {
   useEffect(() => {
     if (!user.id) authenticate(navigate, dispatch);
     if (!user.id) return;
+    if (user.user_type === "admin") return navigate("/admin/lessons");
 
     setSelectedImg(user.avatar_url);
-  }, [dispatch, navigate, user.id, user.avatar_url]);
+  }, [dispatch, navigate, user.id, user.avatar_url, user.user_type]);
 
   const saveProfile = async (values) => {
     const { first_name, last_name, email, current_password, new_password } =

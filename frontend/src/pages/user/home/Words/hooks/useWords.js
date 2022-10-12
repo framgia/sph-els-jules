@@ -23,10 +23,10 @@ export const useWords = () => {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    if (!currentLesson) return navigate("/");
-
     authenticate(navigate, dispatch);
     if (!user.id) return;
+    if (user.user_type === "admin") return navigate("/admin/lessons");
+    if (!currentLesson) return navigate("/");
 
     setLoading(true);
     if (lessonWords.length) {
@@ -34,7 +34,7 @@ export const useWords = () => {
       dispatch(setCurrentNumber(1));
     }
     setLoading(false);
-  }, [navigate, dispatch, currentLesson, lessonWords, user.id]);
+  }, [navigate, dispatch, currentLesson, lessonWords, user.id, user.user_type]);
 
   const onPrevious = () => {
     dispatch(setCurrentQuestion(lessonWords[currentNumber - 2]));

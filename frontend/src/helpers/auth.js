@@ -6,7 +6,7 @@ import {
   setFollowing,
   setLearnings,
 } from "../store/currentUserSlice";
-import { getLessonsByUserId } from "../store/lessonSlice";
+import { getAdminLessons, getLessonsByUserId } from "../store/lessonSlice";
 import userApi from "../api/userApi";
 
 export const authenticate = async (navigate, dispatch) => {
@@ -34,5 +34,9 @@ export const authenticate = async (navigate, dispatch) => {
     dispatch(setUserFeed(userFeed.data.activity_logs));
   });
 
-  dispatch(getLessonsByUserId(loggedInUser.id));
+  dispatch(
+    loggedInUser.user_type === "admin"
+      ? getAdminLessons()
+      : getLessonsByUserId(loggedInUser.id)
+  );
 };

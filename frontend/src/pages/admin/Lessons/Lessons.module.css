@@ -1,0 +1,11 @@
+.actions {
+  padding-inline: 0 !important;
+}
+
+.text {
+  color: inherit !important;
+}
+
+.divider {
+  border-left: 1px solid darkgrey !important;
+}

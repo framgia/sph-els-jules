@@ -7,17 +7,19 @@ import {
   UserOutlined,
 } from "@ant-design/icons";
 import { blue } from "@ant-design/colors";
-import { Avatar, Dropdown, Menu, Layout } from "antd";
+import { Avatar, Dropdown, Menu, Layout, Typography } from "antd";
 
 import { resetState as userReset } from "../../store/currentUserSlice";
 import { resetState as lessonReset } from "../../store/lessonSlice";
 
 const { Header, Content } = Layout;
+const { Text } = Typography;
 
 const HomeLayout = ({ pageTitle, children }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const currentUser = useSelector((state) => state.currentUser.user);
+  const admin = JSON.parse(localStorage.getItem("user"))?.user_type === "admin";
 
   const menu = (
     <Menu
@@ -30,6 +32,7 @@ const HomeLayout = ({ pageTitle, children }) => {
           onClick: () => {
             navigate(`/profile?user_id=${currentUser.id}`);
           },
+          disabled: admin,
         },
         {
           key: "2",
@@ -38,6 +41,7 @@ const HomeLayout = ({ pageTitle, children }) => {
           onClick: () => {
             navigate("/edit-profile");
           },
+          disabled: admin,
         },
         { type: "divider" },
         {
@@ -60,18 +64,25 @@ const HomeLayout = ({ pageTitle, children }) => {
       <Layout style={{ height: "100vh" }}>
         <Header style={{ backgroundColor: blue[6] }}>
           <div style={{ display: "flex" }}>
-            <Link to="/" style={{ color: "#E6F7FF" }}>
+            <Link
+              to={admin ? "/admin/lessons" : "/"}
+              style={{ color: "#E6F7FF" }}
+            >
               E-Learning
+              {admin && <Text type="secondary"> Admin</Text>}
             </Link>
             <ul>
               <li>
-                <Link to="/lessons" style={{ fontSize: "1.5rem" }}>
+                <Link
+                  to={admin ? "/admin/lessons" : "/lessons"}
+                  style={{ fontSize: "1.5rem" }}
+                >
                   Lessons
                 </Link>
               </li>
               <li>
                 <Link to="/users" style={{ fontSize: "1.5rem" }}>
-                  Users
+                  {admin ? "Admins" : "Users"}
                 </Link>
               </li>
               <li style={{ cursor: "pointer" }}>

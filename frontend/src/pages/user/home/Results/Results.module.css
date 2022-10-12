@@ -21,3 +21,8 @@
   background-color: #389e0d !important;
   border: none !important;
 }
+
+.cardActions {
+  display: flex;
+  gap: 0.5rem;
+}

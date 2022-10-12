@@ -13,7 +13,8 @@ export const useLessons = () => {
   useEffect(() => {
     if (!user.id) authenticate(navigate, dispatch);
     if (!user.id) return;
-  }, [navigate, dispatch, user.id]);
+    if (user.user_type === "admin") return navigate("/admin/lessons");
+  }, [navigate, dispatch, user.id, user.user_type]);
 
   const startQuiz = (lesson) => {
     dispatch(setCurrentLesson(lesson));
