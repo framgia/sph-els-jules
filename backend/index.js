@@ -5,11 +5,12 @@ const multer = require("multer");
 
 const db = require("./models");
 const fileHelper = require("./helpers/fileHelper");
-const authRoutes = require("./routes/auth");
-const usersRoutes = require("./routes/users");
-const lessonRoutes = require("./routes/lessons");
-const wordRoutes = require("./routes/words");
-const resultsRoutes = require("./routes/results");
+const authRoutes = require("./routes/auth/auth");
+const usersRoutes = require("./routes/user/users");
+const lessonRoutes = require("./routes/user/lessons");
+const wordRoutes = require("./routes/user/words");
+const resultsRoutes = require("./routes/user/results");
+const adminLessonRoutes = require("./routes/admin/lessons");
 
 const app = express();
 const PORT = process.env.PORT || 8080;
@@ -27,6 +28,7 @@ app.use("/users", usersRoutes);
 app.use("/lessons", lessonRoutes);
 app.use("/words", wordRoutes);
 app.use("/results", resultsRoutes);
+app.use("/admin/lessons", adminLessonRoutes);
 
 db.sequelize
   .authenticate()

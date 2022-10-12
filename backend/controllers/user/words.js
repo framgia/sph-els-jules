@@ -1,12 +1,12 @@
-const ResponseHelper = require("../helpers/response");
-
 const {
   Word,
   Result,
   Lesson,
   Lesson_word,
   Activity_log,
-} = require("../models");
+} = require("../../models");
+
+const ResponseHelper = require("../../helpers/response");
 
 module.exports = {
   getWordsLearnedByUserId: async (req, res) => {

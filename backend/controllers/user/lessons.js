@@ -1,6 +1,6 @@
-const ResponseHelper = require("../helpers/response");
+const { Lesson, Lesson_word, Result, Word } = require("../../models");
 
-const { Lesson, Lesson_word, Result, Word } = require("../models");
+const ResponseHelper = require("../../helpers/response");
 
 module.exports = {
   getLessons: async (req, res) => {

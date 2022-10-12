@@ -1,6 +1,5 @@
 const bcrypt = require("bcrypt");
 
-const ResponseHelper = require("../helpers/response");
 const {
   User,
   Activity_log,
@@ -8,7 +7,9 @@ const {
   Result,
   Lesson,
   Lesson_word,
-} = require("../models");
+} = require("../../models");
+
+const ResponseHelper = require("../../helpers/response");
 
 const includeUserFollow = [
   {
