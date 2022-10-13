@@ -3,7 +3,7 @@ import { Button, Divider, Table, Typography } from "antd";
 import { Link } from "react-router-dom";
 
 import HomeLayout from "../../../shared/layouts/HomeLayout";
-import ActionButton from "./components/ActionButton";
+import ActionButton from "../../../shared/components/ActionButton";
 
 import { useLessons } from "./hooks/useLessons";
 
@@ -12,7 +12,7 @@ import styles from "./Lessons.module.css";
 const { Text } = Typography;
 
 const Lessons = () => {
-  const { renderData, onEditClick, onDeleteClick } = useLessons();
+  const { renderData, onWordsClick, onEditClick, onDeleteClick } = useLessons();
 
   const columns = [
     {
@@ -35,7 +35,12 @@ const Lessons = () => {
       render: (_, record) => {
         return (
           <Fragment>
-            <ActionButton action="Words" />
+            <ActionButton
+              action="Words"
+              onClick={() => {
+                onWordsClick(record.key);
+              }}
+            />
             <Divider type="vertical" className={styles.divider} />
             <ActionButton
               action="Edit"

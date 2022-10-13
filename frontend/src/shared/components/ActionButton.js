@@ -1,7 +1,5 @@
 import { Button, Popconfirm, Typography } from "antd";
 
-import styles from "../Lessons.module.css";
-
 const { Text } = Typography;
 
 const ActionButton = ({ action, disable = true, onClick }) => {
@@ -14,11 +12,11 @@ const ActionButton = ({ action, disable = true, onClick }) => {
       disabled={disable}
     >
       <Button
-        className={styles.actions}
+        style={{ paddingInline: 0 }}
         onClick={disable && onClick}
         type="link"
       >
-        <Text underline className={styles.text}>
+        <Text underline style={{ color: "inherit" }}>
           {action}
         </Text>
       </Button>
