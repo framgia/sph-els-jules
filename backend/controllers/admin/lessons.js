@@ -18,6 +18,7 @@ module.exports = {
 
     const lesson = await Lesson.findOne({
       where: { id, deleted_at: { [Op.eq]: null } },
+      include: { model: Lesson_word, include: { model: Word } },
     });
     if (!lesson) {
       return res.send(ResponseHelper.generateNotFoundResponse("Lesson"));

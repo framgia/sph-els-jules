@@ -1,8 +1,11 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import { message } from "antd";
 
 import { authenticate } from "../../../../helpers/auth";
+import { getAdminLessons } from "../../../../store/lessonSlice";
+import adminApi from "../../../../api/adminApi";
 
 export const useLessons = () => {
   const navigate = useNavigate();
@@ -15,6 +18,21 @@ export const useLessons = () => {
     if (!user.id) return;
   }, [navigate, dispatch, user.id]);
 
+  const onEditClick = async (id) => {
+    navigate(`/admin/lesson?id=${id}`);
+  };
+
+  const onDeleteClick = async (id) => {
+    const { data } = await adminApi.deleteLessonById({ id });
+
+    if (data.meta.code === 200) {
+      message.success("Lesson deleted successfully");
+      dispatch(getAdminLessons());
+      return;
+    }
+    message.error(data.meta.message);
+  };
+
   const renderData = () => {
     const data = lessons.map((lesson) => {
       const { id, title, description } = lesson;
@@ -23,5 +41,5 @@ export const useLessons = () => {
     return data;
   };
 
-  return { renderData };
+  return { renderData, onEditClick, onDeleteClick };
 };
