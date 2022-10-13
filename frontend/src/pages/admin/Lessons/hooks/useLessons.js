@@ -18,6 +18,10 @@ export const useLessons = () => {
     if (!user.id) return;
   }, [navigate, dispatch, user.id]);
 
+  const onWordsClick = (id) => {
+    navigate(`/admin/lesson/words?lesson_id=${id}`);
+  };
+
   const onEditClick = async (id) => {
     navigate(`/admin/lesson?id=${id}`);
   };
@@ -41,5 +45,5 @@ export const useLessons = () => {
     return data;
   };
 
-  return { renderData, onEditClick, onDeleteClick };
+  return { renderData, onWordsClick, onEditClick, onDeleteClick };
 };

@@ -1,6 +1,7 @@
 import { Route, Routes } from "react-router-dom";
 
 import AdminLessons from "./pages/admin/Lessons/Lessons";
+import AdminWords from "./pages/admin/Words/Words";
 import Dashboard from "./pages/user/home/Dashboard/Dashboard";
 import EditProfile from "./pages/user/home/Settings/EditProfile";
 import LessonDetails from "./pages/admin/LessonDetails/LessonDetails";
@@ -23,6 +24,7 @@ function App() {
 
         <Route path="/admin/lessons" element={<AdminLessons />} />
         <Route path="/admin/lesson" element={<LessonDetails />} />
+        <Route path="/admin/lesson/words" element={<AdminWords />} />
 
         <Route path="/" element={<Dashboard />} />
         <Route path="/profile" element={<Profile />} />
