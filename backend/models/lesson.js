@@ -43,6 +43,7 @@ module.exports = (sequelize, DataTypes) => {
       },
       title: DataTypes.STRING,
       description: DataTypes.STRING,
+      deleted_at: DataTypes.DATE,
     },
     {
       sequelize,
