@@ -1,18 +1,20 @@
 import _ from "lodash";
 import { createAsyncThunk, createSlice, current } from "@reduxjs/toolkit";
 
-import adminLessonApi from "../api/adminApi";
+import adminApi from "../api/adminApi";
 import lessonApi from "../api/lessonApi";
 import wordApi from "../api/wordApi";
 
+// Admin
 export const getAdminLessons = createAsyncThunk(
   "admin/lessons/getLessons",
   async (thunkApi) => {
-    const { data } = await adminLessonApi.getLessons();
+    const { data } = await adminApi.getLessons();
     return data.data.lessons;
   }
 );
 
+// User
 export const getLessonsByUserId = createAsyncThunk(
   "/lesson/getLessons",
   async (user_id, thunkAPI) => {
@@ -44,6 +46,10 @@ export const lessonSlice = createSlice({
   reducers: {
     setCurrentLesson: (state, action) => {
       state.currentLesson = action.payload;
+      if (!action.payload) {
+        state.lessonWords = [];
+        return;
+      }
 
       const lessonWords = action.payload.Lesson_words.map((word) => word.Word);
       state.lessonWords = _.shuffle(lessonWords);

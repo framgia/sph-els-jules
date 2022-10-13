@@ -3,6 +3,7 @@ import { Route, Routes } from "react-router-dom";
 import AdminLessons from "./pages/admin/Lessons/Lessons";
 import Dashboard from "./pages/user/home/Dashboard/Dashboard";
 import EditProfile from "./pages/user/home/Settings/EditProfile";
+import LessonDetails from "./pages/admin/LessonDetails/LessonDetails";
 import Lessons from "./pages/user/home/Lessons/Lessons";
 import Login from "./pages/auth/Login/Login";
 import Profile from "./pages/user/home/Profile/Profile";
@@ -21,6 +22,7 @@ function App() {
         <Route path="/signup" element={<Signup />} />
 
         <Route path="/admin/lessons" element={<AdminLessons />} />
+        <Route path="/admin/lesson" element={<LessonDetails />} />
 
         <Route path="/" element={<Dashboard />} />
         <Route path="/profile" element={<Profile />} />
