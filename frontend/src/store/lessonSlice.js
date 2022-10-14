@@ -14,6 +14,14 @@ export const getAdminLessons = createAsyncThunk(
   }
 );
 
+export const getLessonWords = createAsyncThunk(
+  "admin/words/getWords",
+  async (lesson_id, thunkApi) => {
+    const { data } = await adminApi.getWordsByLessonId({ lesson_id });
+    return data.data.words;
+  }
+);
+
 // User
 export const getLessonsByUserId = createAsyncThunk(
   "/lesson/getLessons",
@@ -86,6 +94,9 @@ export const lessonSlice = createSlice({
     });
     builder.addCase(getAdminLessons.fulfilled, (state, action) => {
       state.lessons = action.payload;
+    });
+    builder.addCase(getLessonWords.fulfilled, (state, action) => {
+      state.lessonWords = action.payload;
     });
   },
 });

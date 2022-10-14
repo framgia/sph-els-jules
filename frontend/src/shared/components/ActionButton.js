@@ -5,7 +5,7 @@ const { Text } = Typography;
 const ActionButton = ({ action, disable = true, onClick }) => {
   return (
     <Popconfirm
-      title="Are you sure to delete this lesson?"
+      title="Are you sure to delete this item?"
       onConfirm={onClick}
       okText="Yes"
       cancelText="No"
