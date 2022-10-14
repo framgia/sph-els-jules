@@ -64,12 +64,10 @@ const HomeLayout = ({ pageTitle, children }) => {
       <Layout style={{ height: "100vh" }}>
         <Header style={{ backgroundColor: blue[6] }}>
           <div style={{ display: "flex" }}>
-            <Link
-              to={admin ? "/admin/lessons" : "/"}
-              style={{ color: "#E6F7FF" }}
-            >
-              E-Learning
-              {admin && <Text type="secondary"> Admin</Text>}
+            <Link to={admin ? "/admin/lessons" : "/"}>
+              <Text className="page-header-title">
+                E-Learning {admin && <Text type="secondary"> Admin</Text>}
+              </Text>
             </Link>
             <ul>
               <li>

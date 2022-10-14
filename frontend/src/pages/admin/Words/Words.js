@@ -1,7 +1,7 @@
 import { Fragment } from "react";
-import { useLocation } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { useLocation, Link } from "react-router-dom";
 import { Button, Divider, Spin, Table, Typography } from "antd";
-import { Link } from "react-router-dom";
 import urlParse from "url-parse";
 
 import HomeLayout from "../../../shared/layouts/HomeLayout";
@@ -16,7 +16,10 @@ const { Text } = Typography;
 const Words = () => {
   const location = useLocation();
   const { query } = urlParse(location.search, true);
-  const { loading, renderData } = useWords(query.lesson_id);
+  const { loading, onEditClick, onDeleteClick, renderData } = useWords(
+    query.lesson_id
+  );
+  const { currentLesson } = useSelector((state) => state.lesson);
 
   const columns = [
     {
@@ -39,7 +42,7 @@ const Words = () => {
             <ActionButton
               action="Edit"
               onClick={() => {
-                // TODO: onEditClick(record.key);
+                onEditClick(record.key);
               }}
             />
             <Divider type="vertical" className={styles.divider} />
@@ -47,7 +50,7 @@ const Words = () => {
               action="Delete"
               disable={false}
               onClick={() => {
-                // TODO: onDeleteClick(record.key)
+                onDeleteClick(record.key);
               }}
             />
           </Fragment>
@@ -63,9 +66,9 @@ const Words = () => {
         <Fragment>
           <div className={styles.pageHeader}>
             <Text strong style={{ fontSize: "1.6rem" }}>
-              Words
+              {currentLesson?.title}
             </Text>
-            <Link to="/admin/word">
+            <Link to={`/admin/lesson/word?lesson_id=${currentLesson?.id}`}>
               <Button style={{ float: "right" }} type="primary">
                 Add Word
               </Button>

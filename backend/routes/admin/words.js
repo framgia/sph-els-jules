@@ -4,6 +4,7 @@ const wordsController = require("../../controllers/admin/words");
 
 const router = Router();
 
+router.get("/", wordsController.getWordsByLessonId);
 router.get("/id", wordsController.getWordById);
 router.post("/", wordsController.createWordByLessonId);
 router.put("/update/id", wordsController.updateWordById);

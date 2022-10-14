@@ -5,6 +5,20 @@ const { Lesson, Lesson_word, Word } = require("../../models");
 const ResponseHelper = require("../../helpers/response");
 
 module.exports = {
+  getWordsByLessonId: async (req, res) => {
+    const { lesson_id } = req.query;
+
+    const lessonWords = await Lesson_word.findAll({
+      where: { lesson_id },
+      include: { model: Word },
+    });
+
+    res.send(
+      ResponseHelper.generateResponse(200, "Success", {
+        words: lessonWords.map((lessonWord) => lessonWord.Word),
+      })
+    );
+  },
   getWordById: async (req, res) => {
     const { id } = req.query;
 

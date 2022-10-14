@@ -11,6 +11,7 @@ import Profile from "./pages/user/home/Profile/Profile";
 import Signup from "./pages/auth/Signup/Signup";
 import Results from "./pages/user/home/Results/Results";
 import Users from "./pages/user/home/Users/Users";
+import WordDetails from "./pages/admin/WordDetails/WordDetails";
 import Words from "./pages/user/home/Words/Words";
 
 import "./App.css";
@@ -24,6 +25,7 @@ function App() {
 
         <Route path="/admin/lessons" element={<AdminLessons />} />
         <Route path="/admin/lesson" element={<LessonDetails />} />
+        <Route path="/admin/lesson/word" element={<WordDetails />} />
         <Route path="/admin/lesson/words" element={<AdminWords />} />
 
         <Route path="/" element={<Dashboard />} />
