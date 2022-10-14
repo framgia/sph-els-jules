@@ -39,7 +39,7 @@ const adminApi = {
   },
   deleteLessonById: (payload) => {
     const options = {
-      method: "PUT",
+      method: "DELETE",
       url: "/admin/lessons/delete/id",
       params: { ...payload },
     };

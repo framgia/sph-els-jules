@@ -48,7 +48,23 @@ module.exports = (sequelize, DataTypes) => {
     {
       sequelize,
       modelName: "Lesson",
+      paranoid: true,
+      deletedAt: "deleted_at",
     }
   );
+
+  Lesson.addHook("afterDestroy", async (instance, options) => {
+    const { Lesson_word, Result, Word } = sequelize.models;
+
+    const lesson_words = await Lesson_word.findAll({
+      where: { lesson_id: instance.id },
+    });
+    await Lesson_word.destroy({ where: { lesson_id: instance.id } });
+    await Result.destroy({ where: { lesson_id: instance.id } });
+    await Word.destroy({
+      where: { id: lesson_words.map((lesson_word) => lesson_word.word_id) },
+    });
+  });
+
   return Lesson;
 };

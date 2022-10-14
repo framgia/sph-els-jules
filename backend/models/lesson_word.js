@@ -26,6 +26,8 @@ module.exports = (sequelize, DataTypes) => {
     {
       sequelize,
       modelName: "Lesson_word",
+      paranoid: true,
+      deletedAt: "deleted_at",
     }
   );
   return Lesson_word;
