@@ -40,12 +40,14 @@ const getActivities = async (idList) => {
       ...includeUserFollow,
       {
         model: Lesson,
-        attributes: ["id", "title"],
+        attributes: ["id", "title", "deleted_at"],
         include: [
           {
             model: Lesson_word,
+            paranoid: false,
           },
         ],
+        paranoid: false,
       },
     ],
   });
@@ -67,7 +69,10 @@ const addLessonScore = async (activity_logs) => {
         });
 
         const score = Result.getScore(results);
-        const item_count = Lesson_words.length;
+        const item_count = Lesson_words.reduce((sum, item) => {
+          if (!item.deleted_at) sum++;
+          return sum;
+        }, 0);
 
         return { ...activity_log.dataValues, score, item_count };
       }

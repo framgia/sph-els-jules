@@ -11,6 +11,7 @@ const lessonRoutes = require("./routes/user/lessons");
 const wordRoutes = require("./routes/user/words");
 const resultsRoutes = require("./routes/user/results");
 const adminLessonRoutes = require("./routes/admin/lessons");
+const adminWordRoutes = require("./routes/admin/words");
 
 const app = express();
 const PORT = process.env.PORT || 8080;
@@ -29,6 +30,7 @@ app.use("/lessons", lessonRoutes);
 app.use("/words", wordRoutes);
 app.use("/results", resultsRoutes);
 app.use("/admin/lessons", adminLessonRoutes);
+app.use("/admin/words", adminWordRoutes);
 
 db.sequelize
   .authenticate()

@@ -7,7 +7,6 @@ const ResponseHelper = require("../../helpers/response");
 module.exports = {
   getLessons: async (req, res) => {
     let lessons = await Lesson.findAll({
-      where: { deleted_at: { [Op.eq]: null } },
       include: { model: Lesson_word, include: { model: Word } },
     });
 
@@ -17,7 +16,7 @@ module.exports = {
     const { id } = req.query;
 
     const lesson = await Lesson.findOne({
-      where: { id, deleted_at: { [Op.eq]: null } },
+      where: { id },
       include: { model: Lesson_word, include: { model: Word } },
     });
     if (!lesson) {
@@ -44,9 +43,7 @@ module.exports = {
     const { id } = req.query;
     const { title, description } = req.body;
 
-    const lesson = await Lesson.findOne({
-      where: { id, deleted_at: { [Op.eq]: null } },
-    });
+    const lesson = await Lesson.findOne({ where: { id } });
     if (!lesson) {
       return res.send(ResponseHelper.generateNotFoundResponse("Lesson"));
     }
@@ -62,17 +59,12 @@ module.exports = {
   deleteLessonById: async (req, res) => {
     const { id } = req.query;
 
-    const lesson = await Lesson.findOne({
-      where: { id, deleted_at: { [Op.eq]: null } },
-    });
+    const lesson = await Lesson.findOne({ where: { id } });
     if (!lesson) {
       return res.send(ResponseHelper.generateNotFoundResponse("Lesson"));
     }
 
-    lesson.set({
-      deleted_at: new Date(),
-    });
-    await lesson.save();
+    await lesson.destroy();
 
     res.send(ResponseHelper.generateResponse(200, "Success", { lesson }));
   },

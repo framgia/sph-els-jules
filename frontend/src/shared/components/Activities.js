@@ -43,7 +43,7 @@ const Activities = ({ title, activities }) => {
       const lesson = <Text type="danger">{Lesson.title}</Text>;
 
       title = (
-        <Text>
+        <Text delete={Lesson.deleted_at}>
           {User.first_name} {User.last_name} {you} {action} {score} of{" "}
           {item_count} words in {lesson}
         </Text>

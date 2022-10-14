@@ -30,7 +30,21 @@ module.exports = (sequelize, DataTypes) => {
     {
       sequelize,
       modelName: "Word",
+      paranoid: true,
+      deletedAt: "deleted_at",
     }
   );
+
+  Word.addHook("afterDestroy", async (instance, options) => {
+    const { Lesson_word, Result } = sequelize.models;
+
+    await Lesson_word.destroy({
+      where: { word_id: instance.id },
+    });
+    await Result.destroy({
+      where: { word_id: instance.id },
+    });
+  });
+
   return Word;
 };
