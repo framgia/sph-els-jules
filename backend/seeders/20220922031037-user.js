@@ -68,9 +68,33 @@ module.exports = {
       },
       {
         id: 6,
-        first_name: "Admin",
-        last_name: "Admin",
-        email: "admin@admin.com",
+        first_name: "Admin1",
+        last_name: "Admin1",
+        email: "admin1@admin.com",
+        password:
+          "$2a$11$.wtauGiDNCnjK9Hhrqheeu1NZhCoEIYtupKBX/xWwOL9iAtfNw1uu", // test
+        user_type: "admin",
+        avatar_url: `${BACKEND_URL}/images/default_img.jpeg`,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        id: 7,
+        first_name: "Admin2",
+        last_name: "Admin2",
+        email: "admin2@admin.com",
+        password:
+          "$2a$11$.wtauGiDNCnjK9Hhrqheeu1NZhCoEIYtupKBX/xWwOL9iAtfNw1uu", // test
+        user_type: "admin",
+        avatar_url: `${BACKEND_URL}/images/default_img.jpeg`,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        id: 8,
+        first_name: "Admin3",
+        last_name: "Admin3",
+        email: "admin3@admin.com",
         password:
           "$2a$11$.wtauGiDNCnjK9Hhrqheeu1NZhCoEIYtupKBX/xWwOL9iAtfNw1uu", // test
         user_type: "admin",
