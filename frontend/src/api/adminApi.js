@@ -1,6 +1,16 @@
 import API from "./baseApi";
 
 const adminApi = {
+  // Admins
+  getAdmins: () => {
+    const options = {
+      method: "GET",
+      url: "/admins",
+    };
+
+    return API.request(options);
+  },
+
   // Lessons
   getLessons: () => {
     const options = {

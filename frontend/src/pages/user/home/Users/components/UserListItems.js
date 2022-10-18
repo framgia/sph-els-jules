@@ -22,7 +22,6 @@ const UserListItems = ({
 
   return (
     <List.Item
-      key={user.id}
       actions={[
         !isCurrentUser && (
           <Button

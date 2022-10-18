@@ -1,6 +1,7 @@
 import { Route, Routes } from "react-router-dom";
 
 import AdminLessons from "./pages/admin/Lessons/Lessons";
+import Admins from "./pages/admin/Admins/Admins";
 import AdminWords from "./pages/admin/Words/Words";
 import Dashboard from "./pages/user/home/Dashboard/Dashboard";
 import EditProfile from "./pages/user/home/Settings/EditProfile";
@@ -23,6 +24,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
 
+        <Route path="/admins" element={<Admins />} />
         <Route path="/admin/lessons" element={<AdminLessons />} />
         <Route path="/admin/lesson" element={<LessonDetails />} />
         <Route path="/admin/lesson/word" element={<WordDetails />} />
