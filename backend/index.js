@@ -10,6 +10,7 @@ const usersRoutes = require("./routes/user/users");
 const lessonRoutes = require("./routes/user/lessons");
 const wordRoutes = require("./routes/user/words");
 const resultsRoutes = require("./routes/user/results");
+const adminRoutes = require("./routes/admin/admins");
 const adminLessonRoutes = require("./routes/admin/lessons");
 const adminWordRoutes = require("./routes/admin/words");
 
@@ -29,6 +30,7 @@ app.use("/users", usersRoutes);
 app.use("/lessons", lessonRoutes);
 app.use("/words", wordRoutes);
 app.use("/results", resultsRoutes);
+app.use("/admins", adminRoutes);
 app.use("/admin/lessons", adminLessonRoutes);
 app.use("/admin/words", adminWordRoutes);
 
