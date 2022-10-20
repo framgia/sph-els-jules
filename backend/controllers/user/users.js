@@ -7,6 +7,7 @@ const {
   Result,
   Lesson,
   Lesson_word,
+  sequelize,
 } = require("../../models");
 
 const ResponseHelper = require("../../helpers/response");
@@ -34,49 +35,87 @@ const includeUserFollow = [
 ];
 
 const getActivities = async (idList) => {
-  return await Activity_log.findAll({
+  let activity_logs = await Activity_log.findAll({
     where: { user_id: idList },
+    group: [
+      "Activity_log.user_id",
+      "Activity_log.relatable_id",
+      "Activity_log.relatable_type",
+    ],
+    attributes: [
+      [sequelize.fn("max", sequelize.col("Activity_log.id")), "id"],
+      "user_id",
+      "relatable_id",
+      "relatable_type",
+      [
+        sequelize.fn("max", sequelize.col("Activity_log.createdAt")),
+        "createdAt",
+      ],
+      [
+        sequelize.fn("max", sequelize.col("Activity_log.updatedAt")),
+        "updatedAt",
+      ],
+    ],
     include: [
       ...includeUserFollow,
       {
         model: Lesson,
         attributes: ["id", "title", "deleted_at"],
-        include: [
-          {
-            model: Lesson_word,
-            paranoid: false,
-          },
-        ],
-        paranoid: false,
       },
     ],
   });
+
+  // Exclude activity logs for deleted lessons
+  activity_logs = activity_logs.filter((activity_log) => {
+    if (activity_log.relatable_type !== "lesson") return true;
+    return activity_log.Lesson;
+  });
+
+  // Add the questions for the Lessons
+  activity_logs = await Promise.all(
+    activity_logs.map(async (activity_log) => {
+      if (activity_log.relatable_type !== "lesson") return activity_log;
+
+      const { Lesson } = activity_log;
+      const lesson_words = await Lesson_word.findAll({
+        where: { lesson_id: Lesson.id },
+        paranoid: false,
+      });
+
+      return {
+        ...activity_log.dataValues,
+        Lesson: { ...Lesson.dataValues, Lesson_words: lesson_words },
+      };
+    })
+  );
+
+  return activity_logs;
 };
 
 const addLessonScore = async (activity_logs) => {
   return await Promise.all(
     activity_logs.map(async (activity_log) => {
-      if (activity_log.relatable_type === "lesson") {
-        const { user_id, Lesson } = activity_log;
-        const { Lesson_words } = Lesson;
+      if (activity_log.relatable_type !== "lesson") return activity_log;
 
-        const results = await Result.findAll({
-          where: {
-            lesson_id: Lesson.id,
-            user_id: user_id,
-          },
-          limit: Lesson_words.length,
-        });
+      const { user_id, Lesson } = activity_log;
+      const { Lesson_words } = Lesson;
 
-        const score = Result.getScore(results);
-        const item_count = Lesson_words.reduce((sum, item) => {
-          if (!item.deleted_at) sum++;
-          return sum;
-        }, 0);
+      const results = await Result.findAll({
+        where: {
+          lesson_id: Lesson.id,
+          user_id: user_id,
+        },
+        limit: Lesson_words.length,
+        order: [["id", "DESC"]],
+      });
 
-        return { ...activity_log.dataValues, score, item_count };
-      }
-      return activity_log;
+      const score = Result.getScore(results);
+      const item_count = Lesson_words.reduce((sum, item) => {
+        if (!item.deleted_at) sum++;
+        return sum;
+      }, 0);
+
+      return { ...activity_log, score, item_count };
     })
   );
 };
