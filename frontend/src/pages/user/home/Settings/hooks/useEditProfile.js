@@ -11,6 +11,7 @@ export const useEditProfile = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.currentUser);
+  const [loading, setLoading] = useState(false);
   const [avatarUrl, setAvatarUrl] = useState(undefined);
   const [selectedImg, setSelectedImg] = useState("");
 
@@ -23,6 +24,7 @@ export const useEditProfile = () => {
   }, [dispatch, navigate, user.id, user.avatar_url, user.user_type]);
 
   const saveProfile = async (values) => {
+    setLoading(true);
     const { first_name, last_name, email, current_password, new_password } =
       values;
 
@@ -42,6 +44,7 @@ export const useEditProfile = () => {
       user_id: user.id,
       ...reqBody,
     });
+    setLoading(false);
     if (data.meta.code === 200) {
       message.success("Profile successfully updated!");
       localStorage.setItem("user", JSON.stringify(data.data.user));
@@ -51,5 +54,12 @@ export const useEditProfile = () => {
     message.error(data.meta.message);
   };
 
-  return { avatarUrl, selectedImg, setAvatarUrl, setSelectedImg, saveProfile };
+  return {
+    loading,
+    avatarUrl,
+    selectedImg,
+    setAvatarUrl,
+    setSelectedImg,
+    saveProfile,
+  };
 };

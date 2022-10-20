@@ -7,9 +7,9 @@ import {
   Card,
   Col,
   Divider,
-  Empty,
   Modal,
   Row,
+  Spin,
   Typography,
 } from "antd";
 import urlParse from "url-parse";
@@ -30,6 +30,7 @@ const Profile = () => {
   const { query } = urlParse(location.search, true);
 
   const {
+    loading,
     selectedUser,
     activities,
     followers,
@@ -40,10 +41,13 @@ const Profile = () => {
     setDisplayWords,
   } = useProfileDetails(query);
 
-  const { followModal, setFollowModal, isFollowed, handleFollow } = useFollow(
-    query,
-    setFollowers
-  );
+  const {
+    loading: followLoading,
+    followModal,
+    setFollowModal,
+    isFollowed,
+    handleFollow,
+  } = useFollow(query, setFollowers);
 
   return (
     <HomeLayout pageTitle="Profile">
@@ -72,7 +76,7 @@ const Profile = () => {
       <Row gutter={24}>
         <Col span="8">
           <Card className="center">
-            {Object.keys(user).length ? (
+            {!loading ? (
               <Fragment>
                 <Avatar
                   className="user-avatar"
@@ -118,11 +122,12 @@ const Profile = () => {
                   </Row>
                   {user.id !== +query.user_id && (
                     <Button
+                      loading={followLoading}
                       shape="round"
                       block
                       className="mt-6 mb-1 bg-[theme(colors.primary)]"
                       type="primary"
-                      onClick={async () => await handleFollow()}
+                      onClick={() => handleFollow()}
                     >
                       {isFollowed(+query.user_id) ? "Unfollow" : "Follow"}
                     </Button>
@@ -146,7 +151,7 @@ const Profile = () => {
                 </div>
               </Fragment>
             ) : (
-              <Empty />
+              <Spin />
             )}
           </Card>
         </Col>

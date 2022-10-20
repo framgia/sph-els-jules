@@ -10,7 +10,7 @@ import { useSignup } from "./hooks/useSignup";
 const { Text } = Typography;
 
 const Signup = () => {
-  const { userSignup } = useSignup();
+  const { loading, userSignup } = useSignup();
 
   return (
     <AuthLayout illustration={signupIllustration}>
@@ -83,6 +83,7 @@ const Signup = () => {
             htmlType="submit"
             className="h-10 rounded-md bg-[theme(colors.primary)]"
             block
+            loading={loading}
           >
             Register
           </Button>

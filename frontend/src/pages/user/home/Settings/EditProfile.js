@@ -20,8 +20,14 @@ import { useEditProfile } from "./hooks/useEditProfile";
 
 const EditProfile = () => {
   const { user } = useSelector((state) => state.currentUser);
-  const { avatarUrl, selectedImg, setAvatarUrl, setSelectedImg, saveProfile } =
-    useEditProfile();
+  const {
+    loading,
+    avatarUrl,
+    selectedImg,
+    setAvatarUrl,
+    setSelectedImg,
+    saveProfile,
+  } = useEditProfile();
 
   return (
     <HomeLayout pageTitle="Edit Profile">
@@ -79,6 +85,7 @@ const EditProfile = () => {
                 htmlType="submit"
                 type="primary"
                 block
+                loading={loading}
               >
                 Save Profile
               </Button>

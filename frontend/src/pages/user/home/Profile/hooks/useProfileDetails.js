@@ -10,6 +10,7 @@ export const useProfileDetails = (query) => {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.currentUser);
 
+  const [loading, setLoading] = useState(false);
   const [selectedUser, setSelectedUser] = useState({});
   const [activities, setActivities] = useState([]);
   const [followers, setFollowers] = useState([]);
@@ -21,9 +22,10 @@ export const useProfileDetails = (query) => {
     authenticate(navigate, dispatch);
     if (!user.id) return;
     if (user.user_type === "admin") return navigate("/admin/lessons");
-
+    setLoading(true);
     userApi.getUserById({ id: query.user_id }, (data) => {
       setSelectedUser(data.data.user);
+      setLoading(false);
     });
 
     userApi.getUserProfile(
@@ -41,6 +43,7 @@ export const useProfileDetails = (query) => {
   }, [navigate, dispatch, query.user_id, user.id, user.user_type]);
 
   return {
+    loading,
     selectedUser,
     activities,
     followers,

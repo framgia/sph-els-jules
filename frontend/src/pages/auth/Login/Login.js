@@ -10,7 +10,7 @@ import { useLogin } from "./hooks/useLogin";
 const { Text } = Typography;
 
 const Login = () => {
-  const { userLogin } = useLogin();
+  const { loading, userLogin } = useLogin();
 
   return (
     <AuthLayout illustration={loginIllustration}>
@@ -57,6 +57,7 @@ const Login = () => {
             htmlType="submit"
             className="h-10 rounded-md bg-[theme(colors.primary)]"
             block
+            loading={loading}
           >
             Login
           </Button>
