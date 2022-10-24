@@ -1,9 +1,0 @@
-.pageHeader {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 0.4em;
-}
-
-.divider {
-  border-left: 1px solid darkgrey !important;
-}

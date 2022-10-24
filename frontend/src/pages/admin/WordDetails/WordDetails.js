@@ -8,8 +8,6 @@ import WordDetailsForm from "./components/WordDetailsForm";
 
 import { useWordDetails } from "./hooks/useWordDetails";
 
-import styles from "./WordDetails.module.css";
-
 const { Text } = Typography;
 
 const WordDetails = () => {
@@ -26,9 +24,9 @@ const WordDetails = () => {
       {loading ? (
         <Spin />
       ) : (
-        <div className={styles.cardContainer}>
+        <div className="flex justify-center">
           <Card
-            className={styles.cardForm}
+            className="min-h-[50vh] w-10/12 overflow-auto"
             title={
               <Text>
                 {currentWord ? "Edit" : "Add"} Word -

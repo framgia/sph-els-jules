@@ -2,10 +2,9 @@ import { Input } from "antd";
 
 const SearchUser = ({ searchText, setSearchText, filterUsers }) => {
   return (
-    <div style={{ marginBottom: "1em" }}>
+    <div className="mb-4">
       <Input
-        style={{ width: "250px" }}
-        className="form-input"
+        className="input-text w-60"
         placeholder="Search by name or email"
         value={searchText}
         onChange={(e) => {

@@ -46,7 +46,10 @@ export const useResults = () => {
   };
 
   const getNextLesson = () => {
-    return lessons[currentLesson?.id % lessons.length];
+    const lessonIndex = lessons.findIndex(
+      (lesson) => lesson.id === currentLesson.id
+    );
+    return lessons[(lessonIndex + 1) % lessons.length];
   };
 
   const toNextLesson = () => {

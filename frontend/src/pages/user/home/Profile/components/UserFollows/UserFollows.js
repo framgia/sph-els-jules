@@ -13,6 +13,7 @@ const UserFollows = ({ data, setFollowModal }) => {
             actions={[
               <Button
                 type="primary"
+                className="bg-[theme(colors.primary)]"
                 onClick={() => {
                   navigate(`/profile?user_id=${item.id}`);
                   setFollowModal({ name: "", show: false });

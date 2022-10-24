@@ -1,0 +1,23 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.center {
+  @apply flex items-center justify-center;
+}
+
+.input-text {
+  @apply rounded-md p-[0.7em_1em];
+}
+
+.user-avatar {
+  @apply aspect-square h-auto w-full bg-[#E6F7FF];
+}
+
+.user-details {
+  @apply flex flex-col items-center;
+}
+
+.learned-lessons {
+  @apply m-[0.5rem_0] cursor-default;
+}

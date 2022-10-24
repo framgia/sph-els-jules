@@ -29,7 +29,7 @@ const WordDetailsForm = ({ word, onSubmit }) => {
           },
         ]}
       >
-        <Input className="form-input" />
+        <Input className="input-text" />
       </Form.Item>
 
       <Form.Item
@@ -42,7 +42,7 @@ const WordDetailsForm = ({ word, onSubmit }) => {
           },
         ]}
       >
-        <Input className="form-input" />
+        <Input className="input-text" />
       </Form.Item>
 
       <Row gutter={16}>
@@ -57,7 +57,7 @@ const WordDetailsForm = ({ word, onSubmit }) => {
               },
             ]}
           >
-            <Input className="form-input" />
+            <Input className="input-text" />
           </Form.Item>
         </Col>
         <Col span={12}>
@@ -71,7 +71,7 @@ const WordDetailsForm = ({ word, onSubmit }) => {
               },
             ]}
           >
-            <Input className="form-input" />
+            <Input className="input-text" />
           </Form.Item>
         </Col>
       </Row>
@@ -88,7 +88,7 @@ const WordDetailsForm = ({ word, onSubmit }) => {
               },
             ]}
           >
-            <Input className="form-input" />
+            <Input className="input-text" />
           </Form.Item>
         </Col>
         <Col span={12}>
@@ -102,7 +102,7 @@ const WordDetailsForm = ({ word, onSubmit }) => {
               },
             ]}
           >
-            <Input className="form-input" />
+            <Input className="input-text" />
           </Form.Item>
         </Col>
       </Row>
@@ -110,7 +110,7 @@ const WordDetailsForm = ({ word, onSubmit }) => {
       <Button
         type="primary"
         htmlType="submit"
-        style={{ float: "right", width: "8rem" }}
+        className="float-right w-32 bg-[theme(colors.primary)]"
       >
         Submit
       </Button>

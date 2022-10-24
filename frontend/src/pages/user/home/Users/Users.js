@@ -7,8 +7,6 @@ import UserListItems from "./components/UserListItems.js";
 
 import { useAllUser } from "./hooks/useAllUser";
 
-import styles from "./Users.module.css";
-
 const Users = () => {
   const { user: currentUser } = useSelector((state) => state.currentUser);
   const {
@@ -28,7 +26,7 @@ const Users = () => {
         filterUsers={filterUsers}
       />
       <Card>
-        <List className={styles.userList}>
+        <List className="h-[max(60vh,200px)] overflow-auto px-4">
           {filteredUsers.length ? (
             filteredUsers.map((user) => {
               const isUserFollowed = isFollowed(user.id);

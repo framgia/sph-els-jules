@@ -8,8 +8,6 @@ import WordsLearned from "../../../../shared/components/WordsLearned";
 
 import { useDashboard } from "./hooks/useDashboard";
 
-import styles from "./Dashboard.module.css";
-
 const { Text } = Typography;
 
 const Dashboard = () => {
@@ -26,27 +24,28 @@ const Dashboard = () => {
             {Object.keys(user).length ? (
               <Fragment>
                 <Avatar
-                  className={styles.userAvatar}
+                  className="user-avatar"
                   src={user.avatar_url}
                   shape="square"
                 />
-                <div className={styles.userDetails}>
+                <div className="user-details">
                   <Text
-                    style={{ fontSize: "1.5rem" }}
+                    className="text-2xl"
                     strong
                   >{`${user.first_name} ${user.last_name}`}</Text>
                   <Text type="secondary">{`${user.email}`}</Text>
-                  <Button block className={styles.learnedLessons}>
+                  <Button block className="learned-lessons">
                     {`Learned ${learnings.learnedLessons} ${
                       learnings.learnedLessons > 1 ? "lessons" : "lesson"
                     }`}
                   </Button>
                   <Button
+                    className="bg-[theme(colors.primary)]"
                     type="primary"
                     onClick={() => {
                       setDisplayWords(true);
                     }}
-                    style={{ width: "100%" }}
+                    block
                   >
                     {`Learned ${learnings.learnedWords} ${
                       learnings.learnedWords > 1 ? "words" : "word"

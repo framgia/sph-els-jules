@@ -8,15 +8,12 @@ const ActionButton = ({ action, disable = true, onClick }) => {
       title="Are you sure to delete this item?"
       onConfirm={onClick}
       okText="Yes"
+      okType="danger"
       cancelText="No"
       disabled={disable}
     >
-      <Button
-        style={{ paddingInline: 0 }}
-        onClick={disable && onClick}
-        type="link"
-      >
-        <Text underline style={{ color: "inherit" }}>
+      <Button className="px-0" onClick={disable && onClick} type="link">
+        <Text underline className="text-inherit">
           {action}
         </Text>
       </Button>

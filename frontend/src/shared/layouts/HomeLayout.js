@@ -23,12 +23,11 @@ const HomeLayout = ({ pageTitle, children }) => {
 
   const menu = (
     <Menu
-      style={{ display: "block" }}
       items={[
         {
           key: "1",
           label: "My Profile",
-          icon: <UserOutlined style={{ fontSize: "1em" }} />,
+          icon: <UserOutlined className="text-base" />,
           onClick: () => {
             navigate(`/profile?user_id=${currentUser.id}`);
           },
@@ -37,7 +36,7 @@ const HomeLayout = ({ pageTitle, children }) => {
         {
           key: "2",
           label: "Edit Profile",
-          icon: <SettingOutlined spin style={{ fontSize: "1em" }} />,
+          icon: <SettingOutlined spin className="text-base" />,
           onClick: () => {
             navigate("/edit-profile");
           },
@@ -47,7 +46,7 @@ const HomeLayout = ({ pageTitle, children }) => {
         {
           key: "3",
           label: "Logout",
-          icon: <PoweroffOutlined style={{ fontSize: "1em" }} />,
+          icon: <PoweroffOutlined className="text-base" />,
           onClick: () => {
             localStorage.clear();
             dispatch(userReset());
@@ -61,19 +60,19 @@ const HomeLayout = ({ pageTitle, children }) => {
 
   return (
     <Fragment>
-      <Layout style={{ height: "100vh" }}>
+      <Layout className="h-screen">
         <Header style={{ backgroundColor: blue[6] }}>
-          <div style={{ display: "flex" }}>
+          <div className="flex">
             <Link to={admin ? "/admin/lessons" : "/"}>
-              <Text className="page-header-title">
+              <Text ellipsis className="text-[1.8rem] text-[#E6F7FF]">
                 E-Learning {admin && <Text type="secondary"> Admin</Text>}
               </Text>
             </Link>
-            <ul>
+            <ul className="ml-auto flex gap-8 font-medium text-[#E6F7FF]">
               <li>
                 <Link
                   to={admin ? "/admin/lessons" : "/lessons"}
-                  style={{ fontSize: "1.5rem" }}
+                  className="text-[1.5rem]"
                 >
                   Lessons
                 </Link>
@@ -81,12 +80,12 @@ const HomeLayout = ({ pageTitle, children }) => {
               <li>
                 <Link
                   to={admin ? "/admins" : "/users"}
-                  style={{ fontSize: "1.5rem" }}
+                  className="text-[1.5rem]"
                 >
                   {admin ? "Admins" : "Users"}
                 </Link>
               </li>
-              <li style={{ cursor: "pointer" }}>
+              <li className="cursor-pointer">
                 <Dropdown overlay={menu} trigger={["click"]}>
                   <Avatar
                     src={currentUser.avatar_url}
@@ -98,14 +97,8 @@ const HomeLayout = ({ pageTitle, children }) => {
           </div>
         </Header>
         <Content>
-          <div
-            style={{
-              marginInline: "auto",
-              padding: "2.5rem 0",
-              width: "max(60vw, 600px)",
-            }}
-          >
-            <h1 style={{ marginBottom: "8px" }}>{pageTitle}</h1>
+          <div className="mx-auto w-[max(60vw,600px)] py-10">
+            <h1 className="mb-2 text-2xl font-medium">{pageTitle}</h1>
             {children}
           </div>
         </Content>

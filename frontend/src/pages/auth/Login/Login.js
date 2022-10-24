@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Button, Col, Form, Input, Row } from "antd";
+import { Button, Col, Form, Input, Row, Typography } from "antd";
 import { EyeInvisibleOutlined, EyeTwoTone } from "@ant-design/icons";
 
 import AuthLayout from "../../../shared/layouts/AuthLayout";
@@ -7,16 +7,18 @@ import loginIllustration from "../../../images/login_illustration.svg";
 
 import { useLogin } from "./hooks/useLogin";
 
+const { Text } = Typography;
+
 const Login = () => {
   const { userLogin } = useLogin();
 
   return (
     <AuthLayout illustration={loginIllustration}>
-      <div style={{ textAlign: "center", width: "min(25vw, 400px)" }}>
+      <div className="w-[min(25vw,400px)] text-center">
         <Form onFinish={userLogin} autoComplete="off">
-          <h1>Sign In</h1>
-          <h4 style={{ color: "#8C8C8C", marginBottom: "20px" }}>
-            Welcome to E-Learning App
+          <h1 className="text-3xl font-medium">Sign In</h1>
+          <h4 className="mt-2 mb-5">
+            <Text type="secondary">Welcome to E-Learning App</Text>
           </h4>
           <Form.Item
             name="email"
@@ -28,11 +30,7 @@ const Login = () => {
               },
             ]}
           >
-            <Input
-              className="form-input"
-              placeholder="Email Address"
-              style={{ padding: "0.7em 1em" }}
-            />
+            <Input className="input-text" placeholder="Email Address" />
           </Form.Item>
 
           <Form.Item
@@ -46,9 +44,8 @@ const Login = () => {
             ]}
           >
             <Input.Password
-              className="form-input"
+              className="input-text"
               placeholder="Password"
-              style={{ padding: "0.7em 1em" }}
               iconRender={(visible) =>
                 visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />
               }
@@ -58,26 +55,21 @@ const Login = () => {
           <Button
             type="primary"
             htmlType="submit"
-            style={{ borderRadius: "7px", height: "3em" }}
+            className="h-10 rounded-md bg-[theme(colors.primary)]"
             block
           >
             Login
           </Button>
         </Form>
-        <Row style={{ marginTop: "10px" }} gutter={5}>
+        <Row className="mt-2" gutter={5}>
           <Col className="center">
-            <h4
-              style={{
-                color: "#8C8C8C",
-                marginBottom: 0,
-              }}
-            >
-              Don't have an account yet?
+            <h4>
+              <Text type="secondary">Don't have an account yet?</Text>
             </h4>
           </Col>
           <Col>
-            <Link to="/signup" className="center">
-              <Button type="link" style={{ padding: 0 }}>
+            <Link to="/signup">
+              <Button className="p-0" type="link">
                 Sign Up!
               </Button>
             </Link>

@@ -6,8 +6,6 @@ import HomeLayout from "../../../../shared/layouts/HomeLayout";
 
 import { useResults } from "./hooks/useResults";
 
-import styles from "./Results.module.css";
-
 const { Text } = Typography;
 
 const Results = () => {
@@ -34,24 +32,19 @@ const Results = () => {
         <div>
           <Card
             title={
-              <Text strong className={styles.header}>
+              <Text strong className="text-2xl">
                 {currentLesson?.title}
               </Text>
             }
             extra={
               <Text
                 strong
-                className={styles.header}
+                className="text-2xl"
               >{`Score: ${quizItems.score}/${quizItems.itemCount}`}</Text>
             }
             actions={[
-              <div className={styles.cardActions}>
-                <Button
-                  style={{ float: "left" }}
-                  shape="round"
-                  type="default"
-                  onClick={retryLesson}
-                >
+              <div className="ml-7 flex gap-2">
+                <Button shape="round" type="default" onClick={retryLesson}>
                   Retry lesson
                 </Button>
                 <Button
@@ -72,12 +65,16 @@ const Results = () => {
               pagination={false}
             />
           </Card>
-          <div className={styles.nextLesson}>
-            <Text className={styles.nextLessonText}>
+          <div className="float-right mt-4">
+            <Text className="mr-2 text-lg">
               Next Lesson: <Text strong>{nextLesson?.title}</Text>
             </Text>
             <Button
-              className={nextLesson?.result.length > 0 && styles.greenBtn}
+              className={
+                nextLesson?.result.length > 0
+                  ? "border-none bg-[#389E0D]"
+                  : "bg-[theme(colors.primary)]"
+              }
               type="primary"
               shape="round"
               size="large"
