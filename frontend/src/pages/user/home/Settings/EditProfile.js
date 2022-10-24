@@ -19,15 +19,9 @@ import { checkFileUpload, isValidFile } from "../../../../helpers/imageHelper";
 import { useEditProfile } from "./hooks/useEditProfile";
 
 const EditProfile = () => {
-  const { user } = useSelector((state) => state.currentUser);
-  const {
-    loading,
-    avatarUrl,
-    selectedImg,
-    setAvatarUrl,
-    setSelectedImg,
-    saveProfile,
-  } = useEditProfile();
+  const { loading, user } = useSelector((state) => state.currentUser);
+  const { avatarUrl, selectedImg, setAvatarUrl, setSelectedImg, saveProfile } =
+    useEditProfile();
 
   return (
     <HomeLayout pageTitle="Edit Profile">

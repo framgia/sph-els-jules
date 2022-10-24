@@ -1,3 +1,4 @@
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { Button, Col, Form, Input, Row, Typography } from "antd";
 import { EyeInvisibleOutlined, EyeTwoTone } from "@ant-design/icons";
@@ -10,7 +11,8 @@ import { useLogin } from "./hooks/useLogin";
 const { Text } = Typography;
 
 const Login = () => {
-  const { loading, userLogin } = useLogin();
+  const { loading } = useSelector((state) => state.currentUser);
+  const { userLogin } = useLogin();
 
   return (
     <AuthLayout illustration={loginIllustration}>

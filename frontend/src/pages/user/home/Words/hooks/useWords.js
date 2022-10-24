@@ -1,10 +1,11 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Modal } from "antd";
 
 import { authenticate } from "../../../../../helpers/auth";
 import {
+  setLoading,
   setCurrentQuestion,
   setCurrentNumber,
   clearAfterExam,
@@ -20,20 +21,18 @@ export const useWords = () => {
   const { currentLesson, lessonWords, currentNumber, currentAnswers } =
     useSelector((state) => state.lesson);
 
-  const [loading, setLoading] = useState(false);
-
   useEffect(() => {
     authenticate(navigate, dispatch);
     if (!user.id) return;
     if (user.user_type === "admin") return navigate("/admin/lessons");
     if (!currentLesson) return navigate("/");
 
-    setLoading(true);
+    dispatch(setLoading(true));
     if (lessonWords.length) {
       dispatch(setCurrentQuestion(lessonWords[0]));
       dispatch(setCurrentNumber(1));
     }
-    setLoading(false);
+    dispatch(setLoading(false));
   }, [navigate, dispatch, currentLesson, lessonWords, user.id, user.user_type]);
 
   const onPrevious = () => {
@@ -68,7 +67,6 @@ export const useWords = () => {
   };
 
   return {
-    loading,
     onPrevious,
     onNext,
     onSubmit,

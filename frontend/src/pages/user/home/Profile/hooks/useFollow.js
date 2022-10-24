@@ -4,6 +4,7 @@ import { message } from "antd";
 
 import userApi from "../../../../../api/userApi";
 import {
+  setLoading,
   addUserFeed,
   addActivity,
   updateFollowing,
@@ -12,7 +13,6 @@ import {
 export const useFollow = (query, setFollowers) => {
   const dispatch = useDispatch();
   const { user, following } = useSelector((state) => state.currentUser);
-  const [loading, setLoading] = useState(false);
   const [followModal, setFollowModal] = useState({
     name: "",
     show: false,
@@ -27,7 +27,7 @@ export const useFollow = (query, setFollowers) => {
   };
 
   const handleFollow = async () => {
-    setLoading(true);
+    dispatch(setLoading(true));
     const data = await userApi.toggleFollow({
       follower_id: user.id,
       following_id: +query.user_id,
@@ -37,7 +37,7 @@ export const useFollow = (query, setFollowers) => {
       data: { activity_log, user_follow },
     } = data;
 
-    setLoading(false);
+    dispatch(setLoading(false));
     if (data.meta.code === 200) {
       dispatch(addUserFeed(activity_log));
       dispatch(addActivity(activity_log));
@@ -54,5 +54,5 @@ export const useFollow = (query, setFollowers) => {
     message.error(data.meta.message);
   };
 
-  return { loading, followModal, setFollowModal, isFollowed, handleFollow };
+  return { followModal, setFollowModal, isFollowed, handleFollow };
 };

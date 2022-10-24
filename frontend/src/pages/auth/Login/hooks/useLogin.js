@@ -1,20 +1,20 @@
-import { useState } from "react";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { message } from "antd";
 
 import authApi from "../../../../api/authApi";
+import { setLoading } from "../../../../store/currentUserSlice";
 
 export const useLogin = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
-
-  const [loading, setLoading] = useState(false);
 
   const userLogin = async (values) => {
     const { email, password } = values;
-    setLoading(true);
+    dispatch(setLoading(true));
     const { data } = await authApi.login({ email, password });
 
-    setLoading(false);
+    dispatch(setLoading(false));
     if (data.meta.code === 200) {
       const { data: userData } = data;
       const { user } = userData;
@@ -37,5 +37,5 @@ export const useLogin = () => {
     message.error(data.meta.message);
   };
 
-  return { loading, userLogin };
+  return { userLogin };
 };

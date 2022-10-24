@@ -1,6 +1,7 @@
 import { createSlice, current } from "@reduxjs/toolkit";
 
 const initialState = {
+  loading: false,
   user: { id: null, first_name: null, last_name: null, email: null },
   userFeed: [],
   activities: [],
@@ -13,6 +14,9 @@ export const currentUserSlice = createSlice({
   name: "currentUser",
   initialState,
   reducers: {
+    setLoading: (state, action) => {
+      state.loading = action.payload;
+    },
     setCurrentUser: (state, action) => {
       state.user = action.payload;
     },
@@ -54,6 +58,7 @@ export const currentUserSlice = createSlice({
 });
 
 export const {
+  setLoading,
   setCurrentUser,
   setUserFeed,
   addUserFeed,

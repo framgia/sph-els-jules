@@ -25,12 +25,11 @@ import { useFollow } from "./hooks/useFollow";
 const { Text } = Typography;
 
 const Profile = () => {
-  const { user } = useSelector((state) => state.currentUser);
+  const { loading, user } = useSelector((state) => state.currentUser);
   const location = useLocation();
   const { query } = urlParse(location.search, true);
 
   const {
-    loading,
     selectedUser,
     activities,
     followers,
@@ -41,13 +40,10 @@ const Profile = () => {
     setDisplayWords,
   } = useProfileDetails(query);
 
-  const {
-    loading: followLoading,
-    followModal,
-    setFollowModal,
-    isFollowed,
-    handleFollow,
-  } = useFollow(query, setFollowers);
+  const { followModal, setFollowModal, isFollowed, handleFollow } = useFollow(
+    query,
+    setFollowers
+  );
 
   return (
     <HomeLayout pageTitle="Profile">
@@ -122,7 +118,7 @@ const Profile = () => {
                   </Row>
                   {user.id !== +query.user_id && (
                     <Button
-                      loading={followLoading}
+                      loading={loading}
                       shape="round"
                       block
                       className="mt-6 mb-1 bg-[theme(colors.primary)]"

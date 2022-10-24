@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 
 import { authenticate } from "../../../../../helpers/auth";
+import { setLoading } from "../../../../../store/currentUserSlice";
 import userApi from "../../../../../api/userApi";
 
 export const useProfileDetails = (query) => {
@@ -10,7 +11,6 @@ export const useProfileDetails = (query) => {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.currentUser);
 
-  const [loading, setLoading] = useState(false);
   const [selectedUser, setSelectedUser] = useState({});
   const [activities, setActivities] = useState([]);
   const [followers, setFollowers] = useState([]);
@@ -22,10 +22,9 @@ export const useProfileDetails = (query) => {
     authenticate(navigate, dispatch);
     if (!user.id) return;
     if (user.user_type === "admin") return navigate("/admin/lessons");
-    setLoading(true);
+    dispatch(setLoading(true));
     userApi.getUserById({ id: query.user_id }, (data) => {
       setSelectedUser(data.data.user);
-      setLoading(false);
     });
 
     userApi.getUserProfile(
@@ -39,11 +38,11 @@ export const useProfileDetails = (query) => {
 
     userApi.getLearnings({ user_id: query.user_id }, (data) => {
       setLearnings(data.data);
+      dispatch(setLoading(false));
     });
   }, [navigate, dispatch, query.user_id, user.id, user.user_type]);
 
   return {
-    loading,
     selectedUser,
     activities,
     followers,
