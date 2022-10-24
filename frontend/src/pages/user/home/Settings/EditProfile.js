@@ -18,8 +18,6 @@ import HomeLayout from "../../../../shared/layouts/HomeLayout";
 import { checkFileUpload, isValidFile } from "../../../../helpers/imageHelper";
 import { useEditProfile } from "./hooks/useEditProfile";
 
-import styles from "./EditProfile.module.css";
-
 const EditProfile = () => {
   const { user } = useSelector((state) => state.currentUser);
   const { avatarUrl, selectedImg, setAvatarUrl, setSelectedImg, saveProfile } =
@@ -39,20 +37,20 @@ const EditProfile = () => {
         >
           <Row gutter={24}>
             <Col span={8}>
-              <Card style={{ marginBottom: "1em" }}>
+              <Card className="mb-4">
                 <Avatar
-                  className={styles.userAvatar}
+                  className="user-avatar mb-4"
                   src={selectedImg}
                   shape="square"
                 />
                 <Form.Item label="Avatar URL">
                   <Input
                     value={avatarUrl?.name || user.avatar_url}
-                    className="form-input"
+                    className="input-text"
                     disabled
                   />
                 </Form.Item>
-                <div className={styles.uploadBtn}>
+                <div className="text-end">
                   <Upload
                     name="file"
                     showUploadList={false}
@@ -77,9 +75,10 @@ const EditProfile = () => {
                 </div>
               </Card>
               <Button
-                style={{ width: "100%" }}
+                className="bg-[theme(colors.primary)]"
                 htmlType="submit"
                 type="primary"
+                block
               >
                 Save Profile
               </Button>
@@ -96,7 +95,7 @@ const EditProfile = () => {
                     },
                   ]}
                 >
-                  <Input className="form-input" />
+                  <Input className="input-text" />
                 </Form.Item>
 
                 <Form.Item
@@ -109,7 +108,7 @@ const EditProfile = () => {
                     },
                   ]}
                 >
-                  <Input className="form-input" placeholder="Last Name" />
+                  <Input className="input-text" placeholder="Last Name" />
                 </Form.Item>
                 <Form.Item
                   label="Email"
@@ -118,17 +117,17 @@ const EditProfile = () => {
                     { required: true, message: "Please input your email!" },
                   ]}
                 >
-                  <Input className="form-input" placeholder="Email Address" />
+                  <Input className="input-text" placeholder="Email Address" />
                 </Form.Item>
                 <Form.Item label="Current password" name="current_password">
                   <Input.Password
-                    className="form-input"
+                    className="input-text"
                     placeholder="Current password"
                   />
                 </Form.Item>
                 <Form.Item label="New password" name="new_password">
                   <Input.Password
-                    className="form-input"
+                    className="input-text"
                     placeholder="New password"
                   />
                 </Form.Item>

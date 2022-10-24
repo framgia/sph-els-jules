@@ -8,8 +8,6 @@ import LessonDetailsForm from "./components/LessonDetailsForm";
 
 import { useLessonDetails } from "./hooks/useLessonDetails";
 
-import styles from "./LessonDetails.module.css";
-
 const LessonDetails = () => {
   const location = useLocation();
   const { query } = urlParse(location.search, true);
@@ -21,9 +19,9 @@ const LessonDetails = () => {
       {loading ? (
         <Spin />
       ) : (
-        <div className={styles.cardContainer}>
+        <div className="flex justify-center">
           <Card
-            className={styles.cardForm}
+            className="min-h-[50vh] w-10/12 overflow-auto"
             title={`${currentLesson ? "Edit " : "Add"} Lesson`}
           >
             <LessonDetailsForm lesson={currentLesson} onSubmit={onSubmit} />

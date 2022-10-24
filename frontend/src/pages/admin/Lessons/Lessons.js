@@ -7,8 +7,6 @@ import ActionButton from "../../../shared/components/ActionButton";
 
 import { useLessons } from "./hooks/useLessons";
 
-import styles from "./Lessons.module.css";
-
 const { Text } = Typography;
 
 const Lessons = () => {
@@ -41,14 +39,20 @@ const Lessons = () => {
                 onWordsClick(record.key);
               }}
             />
-            <Divider type="vertical" className={styles.divider} />
+            <Divider
+              type="vertical"
+              className="border-left border-solid border-slate-300"
+            />
             <ActionButton
               action="Edit"
               onClick={() => {
                 onEditClick(record.key);
               }}
             />
-            <Divider type="vertical" className={styles.divider} />
+            <Divider
+              type="vertical"
+              className="border-left border-solid border-slate-300"
+            />
             <ActionButton
               action="Delete"
               disable={false}
@@ -62,12 +66,15 @@ const Lessons = () => {
 
   return (
     <HomeLayout>
-      <div className={styles.pageHeader}>
-        <Text strong style={{ fontSize: "1.6rem" }}>
+      <div className="mb-2">
+        <Text strong className="text-2xl">
           Lesson
         </Text>
         <Link to="/admin/lesson">
-          <Button style={{ float: "right" }} type="primary">
+          <Button
+            className="float-right bg-[theme(colors.primary)]"
+            type="primary"
+          >
             Add Lesson
           </Button>
         </Link>

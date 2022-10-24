@@ -61,14 +61,11 @@ const Activities = ({ title, activities }) => {
   return (
     <Card
       title={
-        <Text style={{ fontSize: "30px" }} strong>
+        <Text className="text-3xl" strong>
           {title}
         </Text>
       }
-      style={{
-        height: "min(60vh, 800px)",
-        overflow: "auto",
-      }}
+      className="h-[min(60vh,800px)] overflow-auto"
     >
       {activities.length > 0 ? (
         <List>

@@ -7,8 +7,6 @@ import AdminListItems from "./components/AdminListItems";
 
 import { useAdmins } from "./hooks/useAdmins";
 
-import styles from "./Admins.module.css";
-
 const Admins = () => {
   const { user: currentUser } = useSelector((state) => state.currentUser);
   const { loading, filteredAdmins, searchText, setSearchText, filterUsers } =
@@ -25,7 +23,7 @@ const Admins = () => {
         <Spin />
       ) : (
         <Card>
-          <List className={styles.adminList}>
+          <List className="h-[max(60vh,200px)] overflow-auto px-4">
             {filteredAdmins.length ? (
               filteredAdmins.map((admin) => {
                 const isCurrentUser = currentUser.id === admin.id;

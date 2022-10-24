@@ -4,14 +4,6 @@ import { blue } from "@ant-design/colors";
 const { Text } = Typography;
 
 const AdminListItems = ({ admin, isCurrentUser }) => {
-  const you = isCurrentUser ? (
-    <Text keyboard type="warning">
-      You
-    </Text>
-  ) : (
-    ""
-  );
-
   return (
     <List.Item>
       <List.Item.Meta
@@ -20,7 +12,12 @@ const AdminListItems = ({ admin, isCurrentUser }) => {
         }
         title={
           <Text strong>
-            {admin.first_name} {admin.last_name} {you}
+            {admin.first_name} {admin.last_name}{" "}
+            {isCurrentUser && (
+              <Text keyboard type="warning">
+                You
+              </Text>
+            )}
           </Text>
         }
         description={admin.email}

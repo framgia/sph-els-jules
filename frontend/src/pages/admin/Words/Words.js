@@ -9,8 +9,6 @@ import ActionButton from "../../../shared/components/ActionButton";
 
 import { useWords } from "./hooks/useWords";
 
-import styles from "./Words.module.css";
-
 const { Text } = Typography;
 
 const Words = () => {
@@ -27,7 +25,7 @@ const Words = () => {
       dataIndex: "word",
       key: "word",
       render: (text) => (
-        <Text strong style={{ fontSize: "2rem" }}>
+        <Text strong className="text-3xl">
           {text}
         </Text>
       ),
@@ -45,7 +43,10 @@ const Words = () => {
                 onEditClick(record.key);
               }}
             />
-            <Divider type="vertical" className={styles.divider} />
+            <Divider
+              type="vertical"
+              className="border-left border-solid border-slate-300"
+            />
             <ActionButton
               action="Delete"
               disable={false}
@@ -64,12 +65,15 @@ const Words = () => {
         <Spin />
       ) : (
         <Fragment>
-          <div className={styles.pageHeader}>
-            <Text strong style={{ fontSize: "1.6rem" }}>
+          <div className="mb-4">
+            <Text strong className="text-2xl">
               {currentLesson?.title}
             </Text>
             <Link to={`/admin/lesson/word?lesson_id=${currentLesson?.id}`}>
-              <Button style={{ float: "right" }} type="primary">
+              <Button
+                className="float-right bg-[theme(colors.primary)]"
+                type="primary"
+              >
                 Add Word
               </Button>
             </Link>

@@ -1,9 +1,0 @@
-.cardContainer {
-  display: flex;
-  justify-content: center;
-}
-
-.cardForm {
-  width: 80% !important;
-  min-height: 50vh !important;
-}

@@ -6,9 +6,10 @@ import AuthIllustration from "../components/AuthIllustration";
 
 const AuthLayout = ({ children, illustration }) => {
   return (
-    <Row style={{ height: "100vh" }}>
-      <Col className="center" style={{ flexDirection: "column" }} span={8}>
+    <Row className="h-screen">
+      <Col className="flex flex-col items-center justify-center" span={8}>
         <Avatar
+          className="mb-1 flex items-center justify-center"
           style={{ backgroundColor: blue[0] }}
           size={64}
           icon={<BoxPlotTwoTone />}

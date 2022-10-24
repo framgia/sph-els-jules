@@ -1,22 +1,24 @@
 import { Link } from "react-router-dom";
 import { EyeInvisibleOutlined, EyeTwoTone } from "@ant-design/icons";
-import { Button, Col, Form, Input, Row } from "antd";
+import { Button, Col, Form, Input, Row, Typography } from "antd";
 
 import AuthLayout from "../../../shared/layouts/AuthLayout";
 import signupIllustration from "../../../images/signup_illustration.svg";
 
 import { useSignup } from "./hooks/useSignup";
 
+const { Text } = Typography;
+
 const Signup = () => {
   const { userSignup } = useSignup();
 
   return (
     <AuthLayout illustration={signupIllustration}>
-      <div style={{ textAlign: "center", width: "min(25vw, 400px)" }}>
+      <div className="w-[min(25vw,400px)] text-center">
         <Form onFinish={userSignup} autoComplete="off">
-          <h1>Sign Up</h1>
-          <h4 style={{ color: "#8C8C8C", marginBottom: "20px" }}>
-            Welcome to E-Learning App
+          <h1 className="text-3xl font-medium">Sign Up</h1>
+          <h4 className="mt-2 mb-5">
+            <Text type="secondary">Welcome to E-Learning App</Text>
           </h4>
           <Form.Item
             name="first_name"
@@ -28,7 +30,7 @@ const Signup = () => {
               },
             ]}
           >
-            <Input className="form-input" placeholder="First Name" />
+            <Input className="input-text" placeholder="First Name" />
           </Form.Item>
 
           <Form.Item
@@ -41,7 +43,7 @@ const Signup = () => {
               },
             ]}
           >
-            <Input className="form-input" placeholder="Last Name" />
+            <Input className="input-text" placeholder="Last Name" />
           </Form.Item>
 
           <Form.Item
@@ -54,7 +56,7 @@ const Signup = () => {
               },
             ]}
           >
-            <Input className="form-input" placeholder="Email Address" />
+            <Input className="input-text" placeholder="Email Address" />
           </Form.Item>
 
           <Form.Item
@@ -68,9 +70,8 @@ const Signup = () => {
             ]}
           >
             <Input.Password
-              className="form-input"
+              className="input-text"
               placeholder="Password"
-              style={{ padding: "0.7em 1em" }}
               iconRender={(visible) =>
                 visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />
               }
@@ -80,26 +81,21 @@ const Signup = () => {
           <Button
             type="primary"
             htmlType="submit"
-            style={{ borderRadius: "7px", height: "3em" }}
+            className="h-10 rounded-md bg-[theme(colors.primary)]"
             block
           >
             Register
           </Button>
         </Form>
-        <Row style={{ marginTop: "10px" }} gutter={5}>
+        <Row className="mt-2" gutter={5}>
           <Col className="center">
-            <h4
-              style={{
-                color: "#8C8C8C",
-                marginBottom: 0,
-              }}
-            >
-              Already have an account?
+            <h4>
+              <Text type="secondary">Already have an account?</Text>
             </h4>
           </Col>
           <Col>
-            <Link to="/login" className="center">
-              <Button type="link" style={{ padding: 0 }}>
+            <Link to="/login">
+              <Button type="link" className="p-0">
                 Sign In!
               </Button>
             </Link>

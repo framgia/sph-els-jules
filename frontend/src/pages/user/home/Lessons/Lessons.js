@@ -5,8 +5,6 @@ import HomeLayout from "../../../../shared/layouts/HomeLayout";
 
 import { useLessons } from "./hooks/useLessons";
 
-import styles from "./Lessons.module.css";
-
 const { Text } = Typography;
 
 const Lessons = () => {
@@ -22,7 +20,7 @@ const Lessons = () => {
             <Col key={lesson.id} span={12}>
               <Card
                 title={
-                  <Text style={{ fontSize: "1.3rem" }} strong>
+                  <Text className="text-xl" strong>
                     {lesson.title}
                   </Text>
                 }
@@ -31,7 +29,11 @@ const Lessons = () => {
                     size="large"
                     shape="round"
                     type="primary"
-                    className={quizDone && styles.greenBtn}
+                    className={
+                      quizDone
+                        ? "border-none bg-[#389E0D]"
+                        : "bg-[theme(colors.primary)]"
+                    }
                     onClick={() => startQuiz(lesson)}
                   >
                     {!quizDone ? "Start" : "Retake"}

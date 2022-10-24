@@ -7,12 +7,11 @@ const AuthIllustration = ({ illustration }) => {
       className="center"
       span={16}
       style={{
-        backgroundColor: blue.primary,
         backgroundImage: `linear-gradient(160deg, ${blue.primary} 0%, #80D0C7 100%)`,
       }}
     >
       <Image
-        style={{ width: "min(50vw, 800px)" }}
+        className="w-[min(50vw,800px)]"
         preview={false}
         src={illustration}
         alt="log in or sign up"

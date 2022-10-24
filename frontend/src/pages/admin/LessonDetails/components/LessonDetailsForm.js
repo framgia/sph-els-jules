@@ -27,7 +27,7 @@ const LessonDetailsForm = ({ lesson, onSubmit }) => {
           },
         ]}
       >
-        <Input className="form-input" />
+        <Input className="input-text" />
       </Form.Item>
 
       <Form.Item
@@ -40,12 +40,12 @@ const LessonDetailsForm = ({ lesson, onSubmit }) => {
           },
         ]}
       >
-        <Input.TextArea style={{ height: "8rem" }} className="form-input" />
+        <Input.TextArea className="input-text h-48" />
       </Form.Item>
       <Button
         type="primary"
         htmlType="submit"
-        style={{ float: "right", width: "8rem" }}
+        className="float-right w-32 bg-[theme(colors.primary)]"
       >
         Submit
       </Button>

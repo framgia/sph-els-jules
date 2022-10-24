@@ -22,8 +22,6 @@ import UserFollows from "./components/UserFollows/UserFollows";
 import { useProfileDetails } from "./hooks/useProfileDetails";
 import { useFollow } from "./hooks/useFollow";
 
-import styles from "./Profile.module.css";
-
 const { Text } = Typography;
 
 const Profile = () => {
@@ -77,26 +75,26 @@ const Profile = () => {
             {Object.keys(user).length ? (
               <Fragment>
                 <Avatar
-                  className={styles.userAvatar}
+                  className="user-avatar"
                   src={selectedUser.avatar_url}
                   shape="square"
                 />
-                <div className={styles.userDetails}>
+                <div className="user-details">
                   <Text
-                    className={styles.bigText}
+                    className="text-2xl"
                     strong
                   >{`${selectedUser.first_name} ${selectedUser.last_name}`}</Text>
                   <Text type="secondary">{`${selectedUser.email}`}</Text>
 
-                  <Row className={styles.followRow} justify="space-evenly">
+                  <Row className="mt-3 w-full" justify="space-evenly">
                     <Col
-                      className={styles.followPoint}
+                      className="cursor-pointer"
                       onClick={() => {
                         setFollowModal({ name: "Followers", show: true });
                       }}
                     >
                       <Row justify="center">
-                        <Text className={styles.bigText} strong>
+                        <Text className="text-2xl" strong>
                           {followers.length}
                         </Text>
                       </Row>
@@ -105,13 +103,13 @@ const Profile = () => {
                       </Row>
                     </Col>
                     <Col
-                      className={styles.followPoint}
+                      className="cursor-pointer"
                       onClick={() => {
                         setFollowModal({ name: "Following", show: true });
                       }}
                     >
                       <Row justify="center">
-                        <Text className={styles.bigText} strong>
+                        <Text className="text-2xl" strong>
                           {following.length}
                         </Text>
                       </Row>
@@ -121,7 +119,8 @@ const Profile = () => {
                   {user.id !== +query.user_id && (
                     <Button
                       shape="round"
-                      className={styles.followBtn}
+                      block
+                      className="mt-6 mb-1 bg-[theme(colors.primary)]"
                       type="primary"
                       onClick={async () => await handleFollow()}
                     >
@@ -129,7 +128,7 @@ const Profile = () => {
                     </Button>
                   )}
                   <Divider />
-                  <Button className={styles.learnedLessons}>
+                  <Button className="mb-2 cursor-default" block>
                     {`Learned ${learnings.learnedLessons} ${
                       learnings.learnedLessons > 1 ? "lessons" : "lesson"
                     }`}
@@ -138,7 +137,7 @@ const Profile = () => {
                     onClick={() => {
                       setDisplayWords(true);
                     }}
-                    style={{ width: "100%" }}
+                    block
                   >
                     {`Learned ${learnings.learnedWords} ${
                       learnings.learnedWords > 1 ? "words" : "word"

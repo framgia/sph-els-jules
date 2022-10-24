@@ -12,14 +12,6 @@ const UserListItems = ({
 }) => {
   const navigate = useNavigate();
 
-  const you = isCurrentUser ? (
-    <Text keyboard type="warning">
-      You
-    </Text>
-  ) : (
-    ""
-  );
-
   return (
     <List.Item
       actions={[
@@ -37,7 +29,7 @@ const UserListItems = ({
         !isCurrentUser && (
           <Button
             danger={isUserFollowed}
-            style={{ width: "90px" }}
+            className="w-24 bg-[theme(colors.primary)]"
             type="primary"
             onClick={() => handleFollow(user.id)}
           >
@@ -52,7 +44,12 @@ const UserListItems = ({
         }
         title={
           <Text strong>
-            {user.first_name} {user.last_name} {you}
+            {user.first_name} {user.last_name}{" "}
+            {isCurrentUser && (
+              <Text keyboard type="warning">
+                You
+              </Text>
+            )}
           </Text>
         }
         description={user.email}

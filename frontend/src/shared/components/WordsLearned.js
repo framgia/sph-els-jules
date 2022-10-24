@@ -34,16 +34,16 @@ const WordsLearned = ({ userId, setDisplayWords }) => {
     <Card
       title={
         <PageHeader
-          style={{ padding: "0" }}
+          className="p-0"
           onBack={() => setDisplayWords(false)}
           title={
-            <Text style={{ fontSize: "24px" }} strong>
+            <Text className="text-2xl" strong>
               Words Learned
             </Text>
           }
         />
       }
-      style={{ height: "min(60vh, 800px)", overflow: "auto" }}
+      className="h-[min(60vh,800px)] overflow-auto"
     >
       {wordsLearned.length > 0 ? (
         <Table dataSource={dataSource} columns={columns} pagination={false} />
