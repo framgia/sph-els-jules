@@ -96,7 +96,7 @@ const HomeLayout = ({ pageTitle, children }) => {
             </ul>
           </div>
         </Header>
-        <Content>
+        <Content className="overflow-auto">
           <div className="mx-auto w-[max(60vw,600px)] py-10">
             <h1 className="mb-2 text-2xl font-medium">{pageTitle}</h1>
             {children}

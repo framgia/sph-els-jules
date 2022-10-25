@@ -122,14 +122,28 @@ const addLessonScore = async (activity_logs) => {
 
 module.exports = {
   getUsers: async (req, res) => {
-    const users = await User.findAll({ where: { user_type: "user" } });
+    const page = +req.query.page || 1;
+    const limit = +req.query.limit || 5;
+    const offset = limit * (page - 1);
+
+    const count = await User.count({ where: { user_type: "user" } });
+    const users = await User.findAll({
+      where: { user_type: "user" },
+      limit,
+      offset,
+    });
 
     const newUsers = users.map((user) => {
       return ResponseHelper.removePassword(user);
     });
 
     res.send(
-      ResponseHelper.generateResponse(200, "Success", { users: newUsers })
+      ResponseHelper.generateResponse(200, "Success", {
+        page,
+        limit,
+        count,
+        users: newUsers,
+      })
     );
   },
   getUserById: async (req, res) => {

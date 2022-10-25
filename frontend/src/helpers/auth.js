@@ -37,6 +37,6 @@ export const authenticate = async (navigate, dispatch) => {
   dispatch(
     loggedInUser.user_type === "admin"
       ? getAdminLessons()
-      : getLessonsByUserId(loggedInUser.id)
+      : getLessonsByUserId({ user_id: loggedInUser.id })
   );
 };

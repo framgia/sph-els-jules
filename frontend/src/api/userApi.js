@@ -1,14 +1,14 @@
 import API from "./baseApi";
 
 const userApi = {
-  getUsers: async (callback) => {
+  getUsers: (payload) => {
     const options = {
       method: "GET",
       url: "/users",
+      params: { ...payload },
     };
 
-    const { data } = await API.request(options);
-    return callback(data);
+    return API.request(options);
   },
   getUserById: async (payload, callback) => {
     const options = {

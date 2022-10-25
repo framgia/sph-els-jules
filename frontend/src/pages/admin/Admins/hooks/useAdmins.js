@@ -13,6 +13,7 @@ export const useAdmins = () => {
   const { user } = useSelector((state) => state.currentUser);
 
   const [admins, setAdmins] = useState([]);
+  const [adminsMeta, setAdminsMeta] = useState(null);
   const [filteredAdmins, setFilteredAdmins] = useState([]);
   const [searchText, setSearchText] = useState("");
 
@@ -20,21 +21,32 @@ export const useAdmins = () => {
     authenticate(navigate, dispatch);
     if (!user.id) return;
 
-    const getAdmins = async () => {
-      dispatch(setLoading(true));
-      const { data } = await adminApi.getAdmins();
-
+    dispatch(setLoading(true));
+    adminApi.getAdmins({}).then(({ data }) => {
       if (data.meta.code === 200) {
-        setFilteredAdmins(data.data.admins);
-        setAdmins(data.data.admins);
-        dispatch(setLoading(false));
-        return;
-      }
+        const { admins, page, limit, count } = data.data;
+        setFilteredAdmins(admins);
+        setAdmins(admins);
+        setAdminsMeta({ page, limit, count });
+      } else message.error(data.meta.message);
 
-      message.error(data.meta.message);
-    };
-    getAdmins();
+      dispatch(setLoading(false));
+    });
   }, [navigate, dispatch, user.id]);
+
+  const changePage = async (page, limit) => {
+    dispatch(setLoading(true));
+    const { data } = await adminApi.getAdmins({ page, limit });
+
+    if (data.meta.code === 200) {
+      const { admins, page, limit, count } = data.data;
+      setFilteredAdmins(admins);
+      setAdmins(admins);
+      setAdminsMeta({ page, limit, count });
+    } else message.error(data.meta.message);
+
+    dispatch(setLoading(false));
+  };
 
   const filterUsers = (value) => {
     const filtered = admins.filter(
@@ -47,8 +59,10 @@ export const useAdmins = () => {
   };
 
   return {
+    adminsMeta,
     filteredAdmins,
     searchText,
+    changePage,
     setSearchText,
     filterUsers,
   };

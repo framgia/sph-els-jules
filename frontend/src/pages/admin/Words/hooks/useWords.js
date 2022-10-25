@@ -28,11 +28,9 @@ export const useWords = (lessonId) => {
 
       if (data.meta.code === 200) {
         dispatch(setCurrentLesson(data.data.lesson));
-        dispatch(setLoading(false));
-        return;
-      }
+      } else message.error(data.meta.message);
 
-      message.error(data.meta.message);
+      dispatch(setLoading(false));
     };
     getLessonDetails();
 

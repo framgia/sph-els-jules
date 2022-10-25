@@ -18,6 +18,10 @@ export const useLessons = () => {
     if (!user.id) return;
   }, [navigate, dispatch, user.id]);
 
+  const changePage = (page, limit) => {
+    dispatch(getAdminLessons({ page, limit }));
+  };
+
   const onWordsClick = (id) => {
     navigate(`/admin/lesson/words?lesson_id=${id}`);
   };
@@ -38,12 +42,12 @@ export const useLessons = () => {
   };
 
   const renderData = () => {
-    const data = lessons.map((lesson) => {
+    const data = lessons?.lessons.map((lesson) => {
       const { id, title, description } = lesson;
       return { key: id, title, description };
     });
     return data;
   };
 
-  return { renderData, onWordsClick, onEditClick, onDeleteClick };
+  return { renderData, changePage, onWordsClick, onEditClick, onDeleteClick };
 };

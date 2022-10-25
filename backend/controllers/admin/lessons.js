@@ -6,11 +6,25 @@ const ResponseHelper = require("../../helpers/response");
 
 module.exports = {
   getLessons: async (req, res) => {
+    const page = +req.query.page || 1;
+    const limit = +req.query.limit || 5;
+    const offset = limit * (page - 1);
+
+    const count = await Lesson.count({});
     let lessons = await Lesson.findAll({
+      limit,
+      offset,
       include: { model: Lesson_word, include: { model: Word } },
     });
 
-    res.send(ResponseHelper.generateResponse(200, "Success", { lessons }));
+    res.send(
+      ResponseHelper.generateResponse(200, "Success", {
+        page,
+        limit,
+        count,
+        lessons,
+      })
+    );
   },
   getLessonById: async (req, res) => {
     const { id } = req.query;

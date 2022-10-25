@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import { Button, Card, Col, Row, Typography } from "antd";
+import { Button, Card, Col, Pagination, Row, Typography } from "antd";
 
 import HomeLayout from "../../../../shared/layouts/HomeLayout";
 
@@ -9,18 +9,19 @@ const { Text } = Typography;
 
 const Lessons = () => {
   const { lessons } = useSelector((state) => state.lesson);
-  const { hasTaken, startQuiz, viewResult } = useLessons();
+  const { changePage, hasTaken, startQuiz, viewResult } = useLessons();
 
   return (
     <HomeLayout pageTitle="Lessons">
-      <Row gutter={[32, 32]}>
-        {lessons.map((lesson) => {
+      <Row gutter={[32, 32]} className="mb-6">
+        {lessons?.lessons.map((lesson) => {
           const quizDone = hasTaken(lesson);
           return (
-            <Col key={lesson.id} span={12}>
+            <Col key={lesson.id} md={12} sm={24}>
               <Card
+                bodyStyle={{ height: "10rem", overflow: "auto" }}
                 title={
-                  <Text className="text-xl" strong>
+                  <Text className=" text-xl" strong>
                     {lesson.title}
                   </Text>
                 }
@@ -57,6 +58,19 @@ const Lessons = () => {
           );
         })}
       </Row>
+      <Pagination
+        showSizeChanger
+        pageSizeOptions={[5, 10, 20, 50]}
+        total={lessons?.count}
+        current={lessons?.page}
+        pageSize={lessons?.limit || 5}
+        onChange={(page, pageSize) => {
+          changePage(page, pageSize);
+        }}
+        showTotal={(total, range) => {
+          return `${range[0]}-${range[1]} of ${total} items`;
+        }}
+      />
     </HomeLayout>
   );
 };

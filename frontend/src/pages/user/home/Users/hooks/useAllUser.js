@@ -6,6 +6,7 @@ import { message } from "antd";
 import { authenticate } from "../../../../../helpers/auth";
 import userApi from "../../../../../api/userApi";
 import {
+  setLoading,
   addUserFeed,
   addActivity,
   updateFollowing,
@@ -16,6 +17,7 @@ export const useAllUser = () => {
   const dispatch = useDispatch();
   const { user, following } = useSelector((state) => state.currentUser);
   const [users, setUsers] = useState([]);
+  const [usersMeta, setUsersMeta] = useState(null);
   const [filteredUsers, setFilteredUsers] = useState([]);
   const [searchText, setSearchText] = useState("");
 
@@ -23,14 +25,32 @@ export const useAllUser = () => {
     authenticate(navigate, dispatch);
     if (!user.id) return;
 
-    userApi.getUsers((data) => {
+    dispatch(setLoading(true));
+    userApi.getUsers().then(({ data }) => {
       if (data.meta.code === 200) {
-        setFilteredUsers(data.data.users);
-        return setUsers(data.data.users);
-      }
-      message.error(data.meta.message);
+        const { users, count, page, limit } = data.data;
+        setFilteredUsers(users);
+        setUsers(users);
+        setUsersMeta({ page, limit, count });
+      } else message.error(data.meta.message);
+
+      dispatch(setLoading(false));
     });
   }, [navigate, dispatch, user.id]);
+
+  const changePage = async (page, limit) => {
+    dispatch(setLoading(true));
+    const { data } = await userApi.getUsers({ page, limit });
+
+    if (data.meta.code === 200) {
+      const { users, count, page, limit } = data.data;
+      setFilteredUsers(users);
+      setUsers(users);
+      setUsersMeta({ page, limit, count });
+    } else message.error(data.meta.message);
+
+    dispatch(setLoading(false));
+  };
 
   const filterUsers = (value) => {
     const filtered = users.filter(
@@ -72,8 +92,10 @@ export const useAllUser = () => {
 
   return {
     users,
+    usersMeta,
     filteredUsers,
     searchText,
+    changePage,
     setSearchText,
     filterUsers,
     isFollowed,
