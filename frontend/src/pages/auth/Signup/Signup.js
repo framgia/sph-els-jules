@@ -1,3 +1,4 @@
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { EyeInvisibleOutlined, EyeTwoTone } from "@ant-design/icons";
 import { Button, Col, Form, Input, Row, Typography } from "antd";
@@ -10,6 +11,7 @@ import { useSignup } from "./hooks/useSignup";
 const { Text } = Typography;
 
 const Signup = () => {
+  const { loading } = useSelector((state) => state.currentUser);
   const { userSignup } = useSignup();
 
   return (
@@ -83,6 +85,7 @@ const Signup = () => {
             htmlType="submit"
             className="h-10 rounded-md bg-[theme(colors.primary)]"
             block
+            loading={loading}
           >
             Register
           </Button>

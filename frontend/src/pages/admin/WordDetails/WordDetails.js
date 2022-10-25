@@ -13,15 +13,15 @@ const { Text } = Typography;
 const WordDetails = () => {
   const location = useLocation();
   const { query } = urlParse(location.search, true);
-  const { loading, currentWord, onSubmit } = useWordDetails(
+  const { currentWord, onSubmit } = useWordDetails(
     query.lesson_id,
     query.word_id
   );
-  const { currentLesson } = useSelector((state) => state.lesson);
+  const { loading, currentLesson } = useSelector((state) => state.lesson);
 
   return (
     <HomeLayout pageTitle="Word Details">
-      {loading ? (
+      {loading || (query.word_id && !currentWord) ? (
         <Spin />
       ) : (
         <div className="flex justify-center">

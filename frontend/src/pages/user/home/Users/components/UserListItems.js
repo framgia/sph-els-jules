@@ -29,7 +29,9 @@ const UserListItems = ({
         !isCurrentUser && (
           <Button
             danger={isUserFollowed}
-            className="w-24 bg-[theme(colors.primary)]"
+            className={`w-24 ${
+              !isUserFollowed && "bg-[theme(colors.primary)]"
+            }`}
             type="primary"
             onClick={() => handleFollow(user.id)}
           >

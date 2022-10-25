@@ -4,6 +4,7 @@ import { message } from "antd";
 
 import userApi from "../../../../../api/userApi";
 import {
+  setLoading,
   addUserFeed,
   addActivity,
   updateFollowing,
@@ -26,6 +27,7 @@ export const useFollow = (query, setFollowers) => {
   };
 
   const handleFollow = async () => {
+    dispatch(setLoading(true));
     const data = await userApi.toggleFollow({
       follower_id: user.id,
       following_id: +query.user_id,
@@ -35,6 +37,7 @@ export const useFollow = (query, setFollowers) => {
       data: { activity_log, user_follow },
     } = data;
 
+    dispatch(setLoading(false));
     if (data.meta.code === 200) {
       dispatch(addUserFeed(activity_log));
       dispatch(addActivity(activity_log));

@@ -8,8 +8,10 @@ import AdminListItems from "./components/AdminListItems";
 import { useAdmins } from "./hooks/useAdmins";
 
 const Admins = () => {
-  const { user: currentUser } = useSelector((state) => state.currentUser);
-  const { loading, filteredAdmins, searchText, setSearchText, filterUsers } =
+  const { loading, user: currentUser } = useSelector(
+    (state) => state.currentUser
+  );
+  const { filteredAdmins, searchText, setSearchText, filterUsers } =
     useAdmins();
 
   return (

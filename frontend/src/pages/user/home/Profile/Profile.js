@@ -7,9 +7,9 @@ import {
   Card,
   Col,
   Divider,
-  Empty,
   Modal,
   Row,
+  Spin,
   Typography,
 } from "antd";
 import urlParse from "url-parse";
@@ -25,7 +25,7 @@ import { useFollow } from "./hooks/useFollow";
 const { Text } = Typography;
 
 const Profile = () => {
-  const { user } = useSelector((state) => state.currentUser);
+  const { loading, user } = useSelector((state) => state.currentUser);
   const location = useLocation();
   const { query } = urlParse(location.search, true);
 
@@ -72,7 +72,7 @@ const Profile = () => {
       <Row gutter={24}>
         <Col span="8">
           <Card className="center">
-            {Object.keys(user).length ? (
+            {!loading ? (
               <Fragment>
                 <Avatar
                   className="user-avatar"
@@ -118,11 +118,12 @@ const Profile = () => {
                   </Row>
                   {user.id !== +query.user_id && (
                     <Button
+                      loading={loading}
                       shape="round"
                       block
                       className="mt-6 mb-1 bg-[theme(colors.primary)]"
                       type="primary"
-                      onClick={async () => await handleFollow()}
+                      onClick={() => handleFollow()}
                     >
                       {isFollowed(+query.user_id) ? "Unfollow" : "Follow"}
                     </Button>
@@ -146,7 +147,7 @@ const Profile = () => {
                 </div>
               </Fragment>
             ) : (
-              <Empty />
+              <Spin />
             )}
           </Card>
         </Col>

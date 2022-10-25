@@ -40,6 +40,7 @@ export const submitAnswer = createAsyncThunk(
 );
 
 const initialState = {
+  loading: false,
   lessons: [],
   currentLesson: null,
   lessonWords: [],
@@ -52,6 +53,9 @@ export const lessonSlice = createSlice({
   name: "lesson",
   initialState,
   reducers: {
+    setLoading: (state, action) => {
+      state.loading = action.payload;
+    },
     setCurrentLesson: (state, action) => {
       state.currentLesson = action.payload;
       if (!action.payload) {
@@ -102,6 +106,7 @@ export const lessonSlice = createSlice({
 });
 
 export const {
+  setLoading,
   setCurrentLesson,
   setCurrentQuestion,
   setCurrentNumber,

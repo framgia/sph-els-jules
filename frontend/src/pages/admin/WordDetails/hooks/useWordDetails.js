@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { message } from "antd";
 
 import { authenticate } from "../../../../helpers/auth";
-import { setCurrentLesson } from "../../../../store/lessonSlice";
+import { setLoading, setCurrentLesson } from "../../../../store/lessonSlice";
 import adminApi from "../../../../api/adminApi";
 
 export const useWordDetails = (lessonId, wordId) => {
@@ -13,39 +13,36 @@ export const useWordDetails = (lessonId, wordId) => {
   const { user } = useSelector((state) => state.currentUser);
   const { currentLesson } = useSelector((state) => state.lesson);
 
-  const [loading, setLoading] = useState(false);
   const [currentWord, setCurrentWord] = useState(null);
 
   useEffect(() => {
-    authenticate(navigate, dispatch);
+    if (!user.id) authenticate(navigate, dispatch);
     if (!user.id) return;
 
-    const getLessonDetails = async () => {
-      setLoading(true);
-      const { data } = await adminApi.getLessonById({ id: lessonId });
-
-      if (data.meta.code === 200) {
-        dispatch(setCurrentLesson(data.data.lesson));
-        setLoading(false);
-        return;
-      }
-      message.error(data.meta.message);
-    };
-
     const getWordDetails = async () => {
-      setLoading(true);
       const { data } = await adminApi.getWordById({ id: wordId });
 
       if (data.meta.code === 200) {
         setCurrentWord(data.data.word);
-        setLoading(false);
+        dispatch(setLoading(false));
         return;
       }
-
       message.error(data.meta.message);
     };
+
+    const getLessonDetails = async () => {
+      dispatch(setLoading(true));
+      const { data } = await adminApi.getLessonById({ id: lessonId });
+
+      if (data.meta.code === 200) {
+        dispatch(setCurrentLesson(data.data.lesson));
+        wordId ? await getWordDetails() : dispatch(setLoading(false));
+        return;
+      }
+      message.error(data.meta.message);
+    };
+
     getLessonDetails();
-    if (wordId) getWordDetails();
   }, [navigate, dispatch, lessonId, wordId, user.id]);
 
   const onSubmit = async (reqBody, newWord) => {
@@ -69,5 +66,5 @@ export const useWordDetails = (lessonId, wordId) => {
     message.error(newData.meta.message);
   };
 
-  return { loading, currentWord, onSubmit };
+  return { currentWord, onSubmit };
 };

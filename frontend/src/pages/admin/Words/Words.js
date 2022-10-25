@@ -14,10 +14,8 @@ const { Text } = Typography;
 const Words = () => {
   const location = useLocation();
   const { query } = urlParse(location.search, true);
-  const { loading, onEditClick, onDeleteClick, renderData } = useWords(
-    query.lesson_id
-  );
-  const { currentLesson } = useSelector((state) => state.lesson);
+  const { onEditClick, onDeleteClick, renderData } = useWords(query.lesson_id);
+  const { loading, currentLesson } = useSelector((state) => state.lesson);
 
   const columns = [
     {

@@ -1,3 +1,4 @@
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { Button, Col, Form, Input, Row, Typography } from "antd";
 import { EyeInvisibleOutlined, EyeTwoTone } from "@ant-design/icons";
@@ -10,6 +11,7 @@ import { useLogin } from "./hooks/useLogin";
 const { Text } = Typography;
 
 const Login = () => {
+  const { loading } = useSelector((state) => state.currentUser);
   const { userLogin } = useLogin();
 
   return (
@@ -57,6 +59,7 @@ const Login = () => {
             htmlType="submit"
             className="h-10 rounded-md bg-[theme(colors.primary)]"
             block
+            loading={loading}
           >
             Login
           </Button>

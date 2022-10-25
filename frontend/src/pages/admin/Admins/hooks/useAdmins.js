@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { message } from "antd";
 
 import { authenticate } from "../../../../helpers/auth";
+import { setLoading } from "../../../../store/currentUserSlice";
 import adminApi from "../../../../api/adminApi";
 
 export const useAdmins = () => {
@@ -11,7 +12,6 @@ export const useAdmins = () => {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.currentUser);
 
-  const [loading, setLoading] = useState(false);
   const [admins, setAdmins] = useState([]);
   const [filteredAdmins, setFilteredAdmins] = useState([]);
   const [searchText, setSearchText] = useState("");
@@ -21,13 +21,13 @@ export const useAdmins = () => {
     if (!user.id) return;
 
     const getAdmins = async () => {
-      setLoading(true);
+      dispatch(setLoading(true));
       const { data } = await adminApi.getAdmins();
 
       if (data.meta.code === 200) {
         setFilteredAdmins(data.data.admins);
         setAdmins(data.data.admins);
-        setLoading(false);
+        dispatch(setLoading(false));
         return;
       }
 
@@ -47,7 +47,6 @@ export const useAdmins = () => {
   };
 
   return {
-    loading,
     filteredAdmins,
     searchText,
     setSearchText,

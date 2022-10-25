@@ -7,14 +7,17 @@ import HomeLayout from "../../../../shared/layouts/HomeLayout";
 
 import { useWords } from "./hooks/useWords";
 
-import styles from "./Words.module.css";
-
 const { Text } = Typography;
 
 const Words = () => {
-  const { currentLesson, lessonWords, currentQuestion, currentNumber } =
-    useSelector((state) => state.lesson);
-  const { loading, onPrevious, onNext, onSubmit } = useWords();
+  const {
+    loading,
+    currentLesson,
+    lessonWords,
+    currentQuestion,
+    currentNumber,
+  } = useSelector((state) => state.lesson);
+  const { onPrevious, onNext, onSubmit } = useWords();
 
   return (
     <HomeLayout pageTitle="Lesson Quiz">
@@ -23,14 +26,14 @@ const Words = () => {
       ) : (
         <Card
           title={
-            <Text strong className={styles.header}>
+            <Text strong className="text-2xl">
               {currentLesson?.title}
             </Text>
           }
           extra={
             <Text
               strong
-              className={styles.header}
+              className="text-2xl"
             >{`${currentNumber} of ${lessonWords.length}`}</Text>
           }
           actions={[
@@ -57,11 +60,11 @@ const Words = () => {
             </Button>,
           ]}
         >
-          <div style={{ paddingInline: "2em" }}>
-            <Text className={`center ${styles.question}`} strong>
+          <div className="px-[2em]">
+            <Text className="center p-[3em_0] text-4xl" strong>
               {currentQuestion?.question}
             </Text>
-            <Row gutter={[15, 15]} style={{ marginTop: "1em" }}>
+            <Row gutter={[15, 15]} className="mt-4">
               <Col span={12}>
                 <ChoiceButton choice={currentQuestion?.choice1} />
               </Col>

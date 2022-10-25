@@ -11,8 +11,8 @@ import { useLessonDetails } from "./hooks/useLessonDetails";
 const LessonDetails = () => {
   const location = useLocation();
   const { query } = urlParse(location.search, true);
-  const { loading, onSubmit } = useLessonDetails(query.id);
-  const { currentLesson } = useSelector((state) => state.lesson);
+  const { onSubmit } = useLessonDetails(query.id);
+  const { loading, currentLesson } = useSelector((state) => state.lesson);
 
   return (
     <HomeLayout pageTitle="Lesson Details">

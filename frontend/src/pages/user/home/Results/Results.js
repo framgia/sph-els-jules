@@ -10,10 +10,9 @@ const { Text } = Typography;
 
 const Results = () => {
   const navigate = useNavigate();
-  const { currentLesson } = useSelector((state) => state.lesson);
+  const { loading, currentLesson } = useSelector((state) => state.lesson);
 
   const {
-    loading,
     quizItems,
     renderColumns,
     renderData,

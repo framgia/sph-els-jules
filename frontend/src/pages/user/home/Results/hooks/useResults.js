@@ -5,7 +5,7 @@ import { message, Tag } from "antd";
 
 import resultApi from "../../../../../api/resultApi.js";
 import { authenticate } from "../../../../../helpers/auth";
-import { setCurrentLesson } from "../../../../../store/lessonSlice";
+import { setLoading, setCurrentLesson } from "../../../../../store/lessonSlice";
 
 export const useResults = () => {
   const navigate = useNavigate();
@@ -13,7 +13,6 @@ export const useResults = () => {
   const { user } = useSelector((state) => state.currentUser);
   const { lessons, currentLesson } = useSelector((state) => state.lesson);
 
-  const [loading, setLoading] = useState(false);
   const [results, setResults] = useState([]);
   const [quizItems, setQuizItems] = useState({ score: 0, itemCount: 0 });
 
@@ -23,7 +22,7 @@ export const useResults = () => {
     if (user.user_type === "admin") return navigate("/admin/lessons");
     if (!currentLesson) return navigate("/lessons");
 
-    setLoading(true);
+    dispatch(setLoading(true));
     resultApi.getResults(
       { user_id: user.id, lesson_id: currentLesson.id },
       (data) => {
@@ -37,7 +36,7 @@ export const useResults = () => {
       }
     );
 
-    setLoading(false);
+    dispatch(setLoading(false));
   }, [navigate, dispatch, user.id, user.user_type, currentLesson]);
 
   const retryLesson = () => {
@@ -101,7 +100,6 @@ export const useResults = () => {
   };
 
   return {
-    loading,
     results,
     quizItems,
     renderColumns,
