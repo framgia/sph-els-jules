@@ -11,8 +11,7 @@ module.exports = {
     const limit = +req.query.limit || 5;
     const offset = limit * (page - 1);
 
-    const count = await Lesson_word.count({ where: { lesson_id } });
-    const lessonWords = await Lesson_word.findAll({
+    const { count, rows } = await Lesson_word.findAndCountAll({
       limit,
       offset,
       where: { lesson_id },
@@ -24,7 +23,7 @@ module.exports = {
         page,
         limit,
         count,
-        words: lessonWords.map((lessonWord) => lessonWord.Word),
+        words: rows.map((lessonWord) => lessonWord.Word),
       })
     );
   },

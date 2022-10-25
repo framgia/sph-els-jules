@@ -126,14 +126,13 @@ module.exports = {
     const limit = +req.query.limit || 5;
     const offset = limit * (page - 1);
 
-    const count = await User.count({ where: { user_type: "user" } });
-    const users = await User.findAll({
+    const { count, rows } = await User.findAndCountAll({
       where: { user_type: "user" },
       limit,
       offset,
     });
 
-    const newUsers = users.map((user) => {
+    const users = rows.map((user) => {
       return ResponseHelper.removePassword(user);
     });
 
@@ -142,7 +141,7 @@ module.exports = {
         page,
         limit,
         count,
-        users: newUsers,
+        users,
       })
     );
   },

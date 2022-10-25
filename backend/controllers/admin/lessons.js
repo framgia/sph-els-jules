@@ -10,11 +10,11 @@ module.exports = {
     const limit = +req.query.limit || 5;
     const offset = limit * (page - 1);
 
-    const count = await Lesson.count({});
-    let lessons = await Lesson.findAll({
+    let { count, rows: lessons } = await Lesson.findAndCountAll({
       limit,
       offset,
       include: { model: Lesson_word, include: { model: Word } },
+      distinct: true,
     });
 
     res.send(

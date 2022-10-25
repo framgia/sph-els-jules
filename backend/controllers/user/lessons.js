@@ -9,15 +9,15 @@ module.exports = {
     const limit = +req.query.limit || 5;
     const offset = limit * (page - 1);
 
-    const count = await Lesson.count({});
-    let lessons = await Lesson.findAll({
+    const { count, rows } = await Lesson.findAndCountAll({
       limit,
       offset,
       include: { model: Lesson_word, include: { model: Word } },
+      distinct: true,
     });
 
-    lessons = await Promise.all(
-      lessons.map(async (lesson) => {
+    const lessons = await Promise.all(
+      rows.map(async (lesson) => {
         const result = await Result.findAll({
           where: { user_id, lesson_id: lesson.id },
         });
