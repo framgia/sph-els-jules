@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import { Card, Empty, List, Spin } from "antd";
+import { Card, Empty, List, Pagination, Spin } from "antd";
 
 import HomeLayout from "../../../shared/layouts/HomeLayout";
 import SearchAdmin from "./components/SearchAdmin";
@@ -11,8 +11,14 @@ const Admins = () => {
   const { loading, user: currentUser } = useSelector(
     (state) => state.currentUser
   );
-  const { filteredAdmins, searchText, setSearchText, filterUsers } =
-    useAdmins();
+  const {
+    adminsMeta,
+    filteredAdmins,
+    searchText,
+    changePage,
+    setSearchText,
+    filterUsers,
+  } = useAdmins();
 
   return (
     <HomeLayout pageTitle="Admins">
@@ -25,7 +31,7 @@ const Admins = () => {
         <Spin />
       ) : (
         <Card>
-          <List className="h-[max(60vh,200px)] overflow-auto px-4">
+          <List className="mb-4 h-[max(60vh,200px)] overflow-auto px-4">
             {filteredAdmins.length ? (
               filteredAdmins.map((admin) => {
                 const isCurrentUser = currentUser.id === admin.id;
@@ -41,6 +47,19 @@ const Admins = () => {
               <Empty />
             )}
           </List>
+          <Pagination
+            showSizeChanger
+            pageSizeOptions={[5, 10, 20, 50]}
+            total={adminsMeta?.count}
+            current={adminsMeta?.page}
+            pageSize={adminsMeta?.limit || 5}
+            onChange={(page, pageSize) => {
+              changePage(page, pageSize);
+            }}
+            showTotal={(total, range) => {
+              return `${range[0]}-${range[1]} of ${total} items`;
+            }}
+          />
         </Card>
       )}
     </HomeLayout>

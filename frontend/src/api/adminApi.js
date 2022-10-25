@@ -2,20 +2,22 @@ import API from "./baseApi";
 
 const adminApi = {
   // Admins
-  getAdmins: () => {
+  getAdmins: (payload) => {
     const options = {
       method: "GET",
       url: "/admins",
+      params: { ...payload },
     };
 
     return API.request(options);
   },
 
   // Lessons
-  getLessons: () => {
+  getLessons: (payload) => {
     const options = {
       method: "GET",
       url: "/admin/lessons",
+      params: { ...payload },
     };
 
     return API.request(options);

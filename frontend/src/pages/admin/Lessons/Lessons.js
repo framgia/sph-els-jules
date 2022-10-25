@@ -1,5 +1,6 @@
 import { Fragment } from "react";
-import { Button, Divider, Table, Typography } from "antd";
+import { useSelector } from "react-redux";
+import { Button, Divider, Pagination, Table, Typography } from "antd";
 import { Link } from "react-router-dom";
 
 import HomeLayout from "../../../shared/layouts/HomeLayout";
@@ -10,7 +11,9 @@ import { useLessons } from "./hooks/useLessons";
 const { Text } = Typography;
 
 const Lessons = () => {
-  const { renderData, onWordsClick, onEditClick, onDeleteClick } = useLessons();
+  const { lessons } = useSelector((state) => state.lesson);
+  const { renderData, changePage, onWordsClick, onEditClick, onDeleteClick } =
+    useLessons();
 
   const columns = [
     {
@@ -80,10 +83,24 @@ const Lessons = () => {
         </Link>
       </div>
       <Table
+        className="mb-4"
         bordered
         dataSource={renderData()}
         columns={columns}
         pagination={false}
+      />
+      <Pagination
+        showSizeChanger
+        pageSizeOptions={[5, 10, 20, 50]}
+        total={lessons?.count}
+        current={lessons?.page}
+        pageSize={lessons?.limit || 5}
+        onChange={(page, pageSize) => {
+          changePage(page, pageSize);
+        }}
+        showTotal={(total, range) => {
+          return `${range[0]}-${range[1]} of ${total} items`;
+        }}
       />
     </HomeLayout>
   );

@@ -7,15 +7,23 @@ const ResponseHelper = require("../../helpers/response");
 module.exports = {
   getWordsByLessonId: async (req, res) => {
     const { lesson_id } = req.query;
+    const page = +req.query.page || 1;
+    const limit = +req.query.limit || 5;
+    const offset = limit * (page - 1);
 
-    const lessonWords = await Lesson_word.findAll({
+    const { count, rows } = await Lesson_word.findAndCountAll({
+      limit,
+      offset,
       where: { lesson_id },
       include: { model: Word },
     });
 
     res.send(
       ResponseHelper.generateResponse(200, "Success", {
-        words: lessonWords.map((lessonWord) => lessonWord.Word),
+        page,
+        limit,
+        count,
+        words: rows.map((lessonWord) => lessonWord.Word),
       })
     );
   },

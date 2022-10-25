@@ -5,12 +5,19 @@ const ResponseHelper = require("../../helpers/response");
 module.exports = {
   getLessons: async (req, res) => {
     const { user_id } = req.query;
-    let lessons = await Lesson.findAll({
+    const page = +req.query.page || 1;
+    const limit = +req.query.limit || 5;
+    const offset = limit * (page - 1);
+
+    const { count, rows } = await Lesson.findAndCountAll({
+      limit,
+      offset,
       include: { model: Lesson_word, include: { model: Word } },
+      distinct: true,
     });
 
-    lessons = await Promise.all(
-      lessons.map(async (lesson) => {
+    const lessons = await Promise.all(
+      rows.map(async (lesson) => {
         const result = await Result.findAll({
           where: { user_id, lesson_id: lesson.id },
         });
@@ -19,6 +26,13 @@ module.exports = {
       })
     );
 
-    res.send(ResponseHelper.generateResponse(200, "Success", { lessons }));
+    res.send(
+      ResponseHelper.generateResponse(200, "Success", {
+        page,
+        limit,
+        count,
+        lessons,
+      })
+    );
   },
 };

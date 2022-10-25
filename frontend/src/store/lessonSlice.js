@@ -8,9 +8,9 @@ import wordApi from "../api/wordApi";
 // Admin
 export const getAdminLessons = createAsyncThunk(
   "admin/lessons/getLessons",
-  async (thunkApi) => {
-    const { data } = await adminApi.getLessons();
-    return data.data.lessons;
+  async (payload, thunkApi) => {
+    const { data } = await adminApi.getLessons(payload);
+    return data.data;
   }
 );
 
@@ -25,9 +25,9 @@ export const getLessonWords = createAsyncThunk(
 // User
 export const getLessonsByUserId = createAsyncThunk(
   "/lesson/getLessons",
-  async (user_id, thunkAPI) => {
-    const { data } = await lessonApi.getLessons({ user_id });
-    return data.data.lessons;
+  async (payload, thunkAPI) => {
+    const { data } = await lessonApi.getLessons(payload);
+    return data.data;
   }
 );
 
@@ -41,7 +41,7 @@ export const submitAnswer = createAsyncThunk(
 
 const initialState = {
   loading: false,
-  lessons: [],
+  lessons: null,
   currentLesson: null,
   lessonWords: [],
   currentQuestion: null,
