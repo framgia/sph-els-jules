@@ -1,4 +1,5 @@
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
 const {
   User,
@@ -208,13 +209,16 @@ module.exports = {
       })
     );
   },
-  getActivityLogsByUserId: async (req, res) => {
-    const { user_id } = req.query;
+  getUserFeed: async (req, res) => {
+    const { currentUserId } = req;
     const followedUsers = await User_follow.findAll({
-      where: { follower_id: user_id, is_followed: true },
+      where: { follower_id: currentUserId, is_followed: true },
     });
 
-    const idList = [+user_id, ...followedUsers.map((user) => user.user_id)];
+    const idList = [
+      +currentUserId,
+      ...followedUsers.map((user) => user.user_id),
+    ];
     let activity_logs = await getActivities(idList);
     activity_logs = activity_logs.sort((a, b) => b.updatedAt - a.updatedAt);
     activity_logs = await addLessonScore(activity_logs);
@@ -329,15 +333,16 @@ module.exports = {
     );
   },
   toggleFollow: async (req, res) => {
-    const { follower_id, following_id } = req.body;
+    const { currentUserId } = req;
+    const { following_id } = req.body;
 
-    if (!follower_id || !following_id) {
+    if (!following_id) {
       return res.send(
-        ResponseHelper.generateResponse(400, "Missing follower or following id")
+        ResponseHelper.generateResponse(400, "Missing following id")
       );
     }
 
-    const follower = await User.findByPk(follower_id);
+    const follower = await User.findByPk(currentUserId);
     if (!follower) {
       return res.send(ResponseHelper.generateNotFoundResponse("Follower"));
     }
@@ -348,19 +353,19 @@ module.exports = {
     }
 
     let user_follow = await User_follow.findOne({
-      where: { user_id: following_id, follower_id },
+      where: { user_id: following_id, follower_id: currentUserId },
     });
     let activity_log;
 
     if (!user_follow) {
       user_follow = await User_follow.create({
         user_id: following_id,
-        follower_id,
+        follower_id: currentUserId,
         is_followed: true,
       });
 
       activity_log = await Activity_log.create({
-        user_id: follower_id,
+        user_id: currentUserId,
         relatable_id: user_follow.id,
         relatable_type: "follow",
       });
@@ -377,7 +382,7 @@ module.exports = {
       await user_follow.save();
 
       activity_log = await Activity_log.create({
-        user_id: follower_id,
+        user_id: currentUserId,
         relatable_id: user_follow.id,
         relatable_type: user_follow.is_followed ? "follow" : "unfollow",
       });

@@ -10,7 +10,8 @@ const ResponseHelper = require("../../helpers/response");
 
 module.exports = {
   getResultByLessonId: async (req, res) => {
-    const { user_id, lesson_id } = req.query;
+    const { currentUserId } = req;
+    const { lesson_id } = req.query;
 
     const lesson = await Lesson.findOne({
       where: { id: lesson_id },
@@ -24,7 +25,7 @@ module.exports = {
     const results = await Result.findAll({
       limit: lesson.Lesson_words.length,
       where: {
-        user_id,
+        user_id: currentUserId,
         lesson_id,
       },
       include: { model: Word },
@@ -40,6 +41,7 @@ module.exports = {
     );
   },
   createResult: async (req, res) => {
+    const { currentUserId } = req;
     let rawResults = req.body;
     rawResults = Object.values(rawResults).map((result) => result);
 
@@ -51,7 +53,7 @@ module.exports = {
     }
 
     const activity_log = await Activity_log.create({
-      user_id: results[0].user_id,
+      user_id: currentUserId,
       relatable_id: results[0].lesson_id,
       relatable_type: "lesson",
     });

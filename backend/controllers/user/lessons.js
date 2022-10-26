@@ -4,7 +4,7 @@ const ResponseHelper = require("../../helpers/response");
 
 module.exports = {
   getLessons: async (req, res) => {
-    const { user_id } = req.query;
+    const { currentUserId } = req;
     const page = +req.query.page || 1;
     const limit = +req.query.limit || 5;
     const offset = limit * (page - 1);
@@ -19,7 +19,7 @@ module.exports = {
     const lessons = await Promise.all(
       rows.map(async (lesson) => {
         const result = await Result.findAll({
-          where: { user_id, lesson_id: lesson.id },
+          where: { user_id: currentUserId, lesson_id: lesson.id },
         });
 
         return { ...lesson.dataValues, result };

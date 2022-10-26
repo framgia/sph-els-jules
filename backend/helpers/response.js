@@ -2,15 +2,8 @@ const _ = require("lodash");
 
 const ResponseHelper = {
   removePassword: (user) => {
-    return {
-      id: user.id,
-      first_name: user.first_name,
-      last_name: user.last_name,
-      email: user.email,
-      avatar_url: user.avatar_url,
-      createdAt: user.createdAt,
-      updatedAt: user.updatedAt,
-    };
+    const { password, ...rest } = user.dataValues;
+    return rest;
   },
   generateResponse: (code, message, data) => {
     const response = { meta: { code, message }, data };
