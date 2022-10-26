@@ -12,7 +12,7 @@ import {
 
 export const useFollow = (query, setFollowers) => {
   const dispatch = useDispatch();
-  const { user, following } = useSelector((state) => state.currentUser);
+  const { following } = useSelector((state) => state.currentUser);
   const [followModal, setFollowModal] = useState({
     name: "",
     show: false,
@@ -29,7 +29,6 @@ export const useFollow = (query, setFollowers) => {
   const handleFollow = async () => {
     dispatch(setLoading(true));
     const data = await userApi.toggleFollow({
-      follower_id: user.id,
       following_id: +query.user_id,
     });
 

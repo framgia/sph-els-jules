@@ -3,7 +3,7 @@ import { createAsyncThunk, createSlice, current } from "@reduxjs/toolkit";
 
 import adminApi from "../api/adminApi";
 import lessonApi from "../api/lessonApi";
-import wordApi from "../api/wordApi";
+import resultApi from "../api/resultApi";
 
 // Admin
 export const getAdminLessons = createAsyncThunk(
@@ -32,9 +32,9 @@ export const getLessonsByUserId = createAsyncThunk(
 );
 
 export const submitAnswer = createAsyncThunk(
-  "/lesson/postAnswer",
+  "/lesson/createResult",
   async (body, thunkAPI) => {
-    const { data } = await wordApi.postAnswer(body);
+    const { data } = await resultApi.createResult(body);
     return data;
   }
 );

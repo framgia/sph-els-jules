@@ -27,6 +27,7 @@ const Lessons = () => {
                 }
                 extra={
                   <Button
+                    disabled={lesson.Lesson_words.length === 0}
                     size="large"
                     shape="round"
                     type="primary"

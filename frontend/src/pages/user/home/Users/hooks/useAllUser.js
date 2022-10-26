@@ -72,7 +72,6 @@ export const useAllUser = () => {
 
   const handleFollow = async (user_id) => {
     const data = await userApi.toggleFollow({
-      follower_id: user.id,
       following_id: user_id,
     });
 

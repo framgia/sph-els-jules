@@ -1,10 +1,13 @@
 import API from "./baseApi";
 
+const accessToken = localStorage.getItem("accessToken");
+
 const userApi = {
   getUsers: (payload) => {
     const options = {
       method: "GET",
       url: "/users",
+      headers: { Authorization: accessToken },
       params: { ...payload },
     };
 
@@ -14,6 +17,7 @@ const userApi = {
     const options = {
       method: "GET",
       url: "/users/id",
+      headers: { Authorization: accessToken },
       params: { ...payload },
     };
 
@@ -24,6 +28,7 @@ const userApi = {
     const options = {
       method: "GET",
       url: "/users/activity-logs",
+      headers: { Authorization: accessToken },
       params: { ...payload },
     };
 
@@ -34,6 +39,7 @@ const userApi = {
     const options = {
       method: "GET",
       url: "/users/learn-count",
+      headers: { Authorization: accessToken },
       params: { ...payload },
     };
 
@@ -44,6 +50,7 @@ const userApi = {
     const options = {
       method: "GET",
       url: "/users/profile",
+      headers: { Authorization: accessToken },
       params: { ...payload },
     };
 
@@ -57,7 +64,10 @@ const userApi = {
     const options = {
       method: "PUT",
       url: "/users/profile",
-      headers: { "Content-Type": "multipart/form-data" },
+      headers: {
+        Authorization: accessToken,
+        "Content-Type": "multipart/form-data",
+      },
       data: { ...payload },
     };
 
@@ -68,6 +78,7 @@ const userApi = {
     const options = {
       method: "POST",
       url: "/users/toggle-follow",
+      headers: { Authorization: accessToken },
       data: { ...payload },
     };
 
