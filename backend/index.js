@@ -4,7 +4,7 @@ const cors = require("cors");
 const multer = require("multer");
 
 const db = require("./models");
-const fileHelper = require("./helpers/fileHelper");
+const fileHelper = require("./helpers/file");
 const authRoutes = require("./routes/auth/auth");
 const usersRoutes = require("./routes/user/users");
 const lessonRoutes = require("./routes/user/lessons");

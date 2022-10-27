@@ -1,4 +1,5 @@
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
 const ResponseHelper = require("../../helpers/response");
 
@@ -10,20 +11,32 @@ module.exports = {
 
     const user = await User.findOne({ where: { email } });
     if (!user) {
-      res.send(
+      return res.send(
         ResponseHelper.generateResponse(401, "Email or password is incorrect.")
       );
-      return;
     }
 
     const passwordCheck = await bcrypt.compare(password, user.password);
     if (!passwordCheck) {
-      res.send(
+      return res.send(
         ResponseHelper.generateResponse(401, "Email or Password is incorrect.")
       );
-      return;
     }
-    res.send(ResponseHelper.generateResponse(200, "Success", { user }));
+
+    const token = jwt.sign(
+      { id: user.id, type: user.user_type },
+      process.env.JWT_SECRET,
+      {
+        expiresIn: 28800,
+      }
+    );
+
+    res.send(
+      ResponseHelper.generateResponse(200, "Success", {
+        token: `Bearer ${token}`,
+        user: ResponseHelper.removePassword(user),
+      })
+    );
   },
   signup: async (req, res) => {
     const { first_name, last_name, email, password } = req.body;
