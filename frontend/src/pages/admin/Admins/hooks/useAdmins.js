@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { message } from "antd";
 
-import { authenticate } from "../../../../helpers/auth";
 import { setLoading } from "../../../../store/currentUserSlice";
 import adminApi from "../../../../api/adminApi";
 
@@ -18,9 +17,6 @@ export const useAdmins = () => {
   const [searchText, setSearchText] = useState("");
 
   useEffect(() => {
-    authenticate(navigate, dispatch);
-    if (!user.id) return;
-
     dispatch(setLoading(true));
     adminApi.getAdmins({}).then(({ data }) => {
       if (data.meta.code === 200) {

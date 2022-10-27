@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Modal } from "antd";
 
-import { authenticate } from "../../../../../helpers/auth";
+import { setDirty } from "../../../../../store/currentUserSlice";
 import {
   setLoading,
   setCurrentQuestion,
@@ -22,8 +22,6 @@ export const useWords = () => {
     useSelector((state) => state.lesson);
 
   useEffect(() => {
-    authenticate(navigate, dispatch);
-    if (!user.id) return;
     if (user.user_type === "admin") return navigate("/admin/lessons");
     if (!currentLesson) return navigate("/");
 
@@ -60,6 +58,7 @@ export const useWords = () => {
       message.success("All answers are submitted");
       dispatch(getLessonsByUserId(user.id));
       dispatch(clearAfterExam());
+      dispatch(setDirty(true));
       navigate("/results");
       return;
     }

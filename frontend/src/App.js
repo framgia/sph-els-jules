@@ -15,9 +15,13 @@ import Users from "./pages/user/home/Users/Users";
 import WordDetails from "./pages/admin/WordDetails/WordDetails";
 import Words from "./pages/user/home/Words/Words";
 
+import useAuth from "./shared/hooks/useAuth";
+
 import "./App.css";
 
 function App() {
+  useAuth();
+
   return (
     <div>
       <Routes>

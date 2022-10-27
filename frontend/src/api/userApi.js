@@ -1,13 +1,10 @@
 import API from "./baseApi";
 
-const accessToken = localStorage.getItem("accessToken");
-
 const userApi = {
   getUsers: (payload) => {
     const options = {
       method: "GET",
       url: "/users",
-      headers: { Authorization: accessToken },
       params: { ...payload },
     };
 
@@ -17,57 +14,44 @@ const userApi = {
     const options = {
       method: "GET",
       url: "/users/id",
-      headers: { Authorization: accessToken },
       params: { ...payload },
     };
 
     const { data } = await API.request(options);
     return callback(data);
   },
-  getUserFeed: async (payload, callback) => {
+  getUserFeed: (payload) => {
     const options = {
       method: "GET",
       url: "/users/activity-logs",
-      headers: { Authorization: accessToken },
       params: { ...payload },
     };
 
-    const { data } = await API.request(options);
-    return callback(data);
+    return API.request(options);
   },
-  getLearnings: async (payload, callback) => {
+  getLearnings: (payload) => {
     const options = {
       method: "GET",
       url: "/users/learn-count",
-      headers: { Authorization: accessToken },
       params: { ...payload },
     };
 
-    const { data } = await API.request(options);
-    return callback(data);
+    return API.request(options);
   },
-  getUserProfile: async (payload, callback) => {
+  getUserProfile: (payload) => {
     const options = {
       method: "GET",
       url: "/users/profile",
-      headers: { Authorization: accessToken },
       params: { ...payload },
     };
 
-    const { data } = await API.request(options);
-    const {
-      data: { followers, following, activity_logs },
-    } = data;
-    return callback(followers, following, activity_logs);
+    return API.request(options);
   },
   editUserProfile: async (payload) => {
     const options = {
       method: "PUT",
       url: "/users/profile",
-      headers: {
-        Authorization: accessToken,
-        "Content-Type": "multipart/form-data",
-      },
+      headers: { "Content-Type": "multipart/form-data" },
       data: { ...payload },
     };
 
@@ -78,7 +62,6 @@ const userApi = {
     const options = {
       method: "POST",
       url: "/users/toggle-follow",
-      headers: { Authorization: accessToken },
       data: { ...payload },
     };
 

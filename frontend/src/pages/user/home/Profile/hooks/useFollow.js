@@ -3,16 +3,13 @@ import { useSelector, useDispatch } from "react-redux";
 import { message } from "antd";
 
 import userApi from "../../../../../api/userApi";
-import {
-  setLoading,
-  addUserFeed,
-  addActivity,
-  updateFollowing,
-} from "../../../../../store/currentUserSlice";
+import { setDirty } from "../../../../../store/currentUserSlice";
 
 export const useFollow = (query, setFollowers) => {
   const dispatch = useDispatch();
   const { following } = useSelector((state) => state.currentUser);
+
+  const [followLoading, setFollowLoading] = useState(false);
   const [followModal, setFollowModal] = useState({
     name: "",
     show: false,
@@ -27,31 +24,24 @@ export const useFollow = (query, setFollowers) => {
   };
 
   const handleFollow = async () => {
-    dispatch(setLoading(true));
+    setFollowLoading(true);
     const data = await userApi.toggleFollow({
       following_id: +query.user_id,
     });
 
-    const {
-      data: { activity_log, user_follow },
-    } = data;
-
-    dispatch(setLoading(false));
     if (data.meta.code === 200) {
-      dispatch(addUserFeed(activity_log));
-      dispatch(addActivity(activity_log));
-      dispatch(updateFollowing(user_follow));
-      await userApi.getUserProfile(
-        { user_id: query.user_id },
-        (followers, following, activity_logs) => {
-          setFollowers(followers);
-        }
-      );
-      return;
-    }
-
-    message.error(data.meta.message);
+      dispatch(setDirty(true));
+      const { data } = await userApi.getUserProfile({ user_id: query.user_id });
+      setFollowers(data.data.followers);
+    } else message.error(data.meta.message);
+    setFollowLoading(false);
   };
 
-  return { followModal, setFollowModal, isFollowed, handleFollow };
+  return {
+    followLoading,
+    followModal,
+    setFollowModal,
+    isFollowed,
+    handleFollow,
+  };
 };

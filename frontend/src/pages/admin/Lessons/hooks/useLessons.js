@@ -1,22 +1,14 @@
-import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { message } from "antd";
 
-import { authenticate } from "../../../../helpers/auth";
 import { getAdminLessons } from "../../../../store/lessonSlice";
 import adminApi from "../../../../api/adminApi";
 
 export const useLessons = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { user } = useSelector((state) => state.currentUser);
   const { lessons } = useSelector((state) => state.lesson);
-
-  useEffect(() => {
-    authenticate(navigate, dispatch);
-    if (!user.id) return;
-  }, [navigate, dispatch, user.id]);
 
   const changePage = (page, limit) => {
     dispatch(getAdminLessons({ page, limit }));

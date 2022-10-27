@@ -2,7 +2,6 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
-import { authenticate } from "../../../../../helpers/auth";
 import {
   getLessonsByUserId,
   setCurrentLesson,
@@ -14,8 +13,6 @@ export const useLessons = () => {
   const { user } = useSelector((state) => state.currentUser);
 
   useEffect(() => {
-    if (!user.id) authenticate(navigate, dispatch);
-    if (!user.id) return;
     if (user.user_type === "admin") return navigate("/admin/lessons");
   }, [navigate, dispatch, user.id, user.user_type]);
 

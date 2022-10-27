@@ -19,7 +19,6 @@ export const useLogin = () => {
       const { data: userData } = data;
       const { token, user } = userData;
 
-      // console.log("token :>> ", token);
       localStorage.setItem("accessToken", token);
       localStorage.setItem("user", JSON.stringify(user));
 

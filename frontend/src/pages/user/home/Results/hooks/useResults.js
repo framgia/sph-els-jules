@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { message, Tag } from "antd";
 
 import resultApi from "../../../../../api/resultApi.js";
-import { authenticate } from "../../../../../helpers/auth";
 import { setLoading, setCurrentLesson } from "../../../../../store/lessonSlice";
 
 export const useResults = () => {
@@ -17,8 +16,6 @@ export const useResults = () => {
   const [quizItems, setQuizItems] = useState({ score: 0, itemCount: 0 });
 
   useEffect(() => {
-    if (!user.id) authenticate(navigate, dispatch);
-    if (!user.id) return;
     if (user.user_type === "admin") return navigate("/admin/lessons");
     if (!currentLesson) return navigate("/lessons");
 
