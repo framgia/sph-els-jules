@@ -17,19 +17,10 @@ export const useLogin = () => {
     dispatch(setLoading(false));
     if (data.meta.code === 200) {
       const { data: userData } = data;
-      const { user } = userData;
+      const { token, user } = userData;
 
-      localStorage.setItem(
-        "user",
-        JSON.stringify({
-          id: user.id,
-          first_name: user.first_name,
-          last_name: user.last_name,
-          email: user.email,
-          user_type: user.user_type,
-          avatar_url: user.avatar_url,
-        })
-      );
+      localStorage.setItem("accessToken", token);
+      localStorage.setItem("user", JSON.stringify(user));
 
       return navigate(user.user_type === "user" ? "/" : "/admin/lessons");
     }

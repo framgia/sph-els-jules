@@ -1,5 +1,7 @@
 import API from "./baseApi";
 
+const accessToken = localStorage.getItem("accessToken");
+
 const adminApi = {
   // Admins
   getAdmins: (payload) => {
@@ -17,6 +19,7 @@ const adminApi = {
     const options = {
       method: "GET",
       url: "/admin/lessons",
+      headers: { Authorization: accessToken },
       params: { ...payload },
     };
 
@@ -26,6 +29,7 @@ const adminApi = {
     const options = {
       method: "GET",
       url: "/admin/lessons/id",
+      headers: { Authorization: accessToken },
       params: { ...payload },
     };
 
@@ -35,6 +39,7 @@ const adminApi = {
     const options = {
       method: "POST",
       url: "/admin/lessons",
+      headers: { Authorization: accessToken },
       data: { ...payload },
     };
 
@@ -44,6 +49,7 @@ const adminApi = {
     const options = {
       method: "PUT",
       url: "/admin/lessons/update/id",
+      headers: { Authorization: accessToken },
       params,
       data,
     };
@@ -54,6 +60,7 @@ const adminApi = {
     const options = {
       method: "DELETE",
       url: "/admin/lessons/delete/id",
+      headers: { Authorization: accessToken },
       params: { ...payload },
     };
 
@@ -65,6 +72,7 @@ const adminApi = {
     const options = {
       method: "GET",
       url: "/admin/words",
+      headers: { Authorization: accessToken },
       params: { ...payload },
     };
 
@@ -74,6 +82,7 @@ const adminApi = {
     const options = {
       method: "GET",
       url: "/admin/words/id",
+      headers: { Authorization: accessToken },
       params: { ...payload },
     };
 
@@ -83,6 +92,7 @@ const adminApi = {
     const options = {
       method: "POST",
       url: "/admin/words",
+      headers: { Authorization: accessToken },
       params,
       data,
     };
@@ -93,6 +103,7 @@ const adminApi = {
     const options = {
       method: "PUT",
       url: "/admin/words/update/id",
+      headers: { Authorization: accessToken },
       params,
       data,
     };
@@ -103,6 +114,7 @@ const adminApi = {
     const options = {
       method: "DELETE",
       url: "/admin/words/delete/id",
+      headers: { Authorization: accessToken },
       params: { ...payload },
     };
 

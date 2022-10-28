@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { message } from "antd";
 
-import { authenticate } from "../../../../helpers/auth";
 import { setLoading, setCurrentLesson } from "../../../../store/lessonSlice";
 import adminApi from "../../../../api/adminApi";
 
@@ -16,9 +15,6 @@ export const useWordDetails = (lessonId, wordId) => {
   const [currentWord, setCurrentWord] = useState(null);
 
   useEffect(() => {
-    if (!user.id) authenticate(navigate, dispatch);
-    if (!user.id) return;
-
     const getWordDetails = async () => {
       const { data } = await adminApi.getWordById({ id: wordId });
 

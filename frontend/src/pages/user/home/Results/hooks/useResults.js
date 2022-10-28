@@ -4,12 +4,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { message, Tag } from "antd";
 
 import resultApi from "../../../../../api/resultApi.js";
-import { authenticate } from "../../../../../helpers/auth";
 import { setLoading, setCurrentLesson } from "../../../../../store/lessonSlice";
 
 export const useResults = () => {
-  const navigate = useNavigate();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { user } = useSelector((state) => state.currentUser);
   const { lessons, currentLesson } = useSelector((state) => state.lesson);
 
@@ -17,8 +16,6 @@ export const useResults = () => {
   const [quizItems, setQuizItems] = useState({ score: 0, itemCount: 0 });
 
   useEffect(() => {
-    if (!user.id) authenticate(navigate, dispatch);
-    if (!user.id) return;
     if (user.user_type === "admin") return navigate("/admin/lessons");
     if (!currentLesson) return navigate("/lessons");
 
@@ -35,7 +32,6 @@ export const useResults = () => {
         message.error(data.meta.message);
       }
     );
-
     dispatch(setLoading(false));
   }, [navigate, dispatch, user.id, user.user_type, currentLesson]);
 
@@ -45,10 +41,10 @@ export const useResults = () => {
   };
 
   const getNextLesson = () => {
-    const lessonIndex = lessons.findIndex(
+    const lessonIndex = lessons?.lessons.findIndex(
       (lesson) => lesson.id === currentLesson.id
     );
-    return lessons[(lessonIndex + 1) % lessons.length];
+    return lessons?.lessons[(lessonIndex + 1) % lessons?.lessons.length];
   };
 
   const toNextLesson = () => {

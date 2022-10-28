@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { message } from "antd";
 
-import { authenticate } from "../../../../../helpers/auth";
 import userApi from "../../../../../api/userApi";
 import {
   setLoading,
@@ -19,8 +18,6 @@ export const useEditProfile = () => {
   const [selectedImg, setSelectedImg] = useState("");
 
   useEffect(() => {
-    if (!user.id) authenticate(navigate, dispatch);
-    if (!user.id) return;
     if (user.user_type === "admin") return navigate("/admin/lessons");
 
     setSelectedImg(user.avatar_url);

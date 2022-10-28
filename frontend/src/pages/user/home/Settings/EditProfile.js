@@ -15,7 +15,7 @@ import { UploadOutlined } from "@ant-design/icons";
 
 import HomeLayout from "../../../../shared/layouts/HomeLayout";
 
-import { checkFileUpload, isValidFile } from "../../../../helpers/imageHelper";
+import { checkFileUpload, isValidFile } from "../../../../helpers/file";
 import { useEditProfile } from "./hooks/useEditProfile";
 
 const EditProfile = () => {

@@ -20,38 +20,32 @@ const userApi = {
     const { data } = await API.request(options);
     return callback(data);
   },
-  getUserFeed: async (payload, callback) => {
+  getUserFeed: (payload) => {
     const options = {
       method: "GET",
       url: "/users/activity-logs",
       params: { ...payload },
     };
 
-    const { data } = await API.request(options);
-    return callback(data);
+    return API.request(options);
   },
-  getLearnings: async (payload, callback) => {
+  getLearnings: (payload) => {
     const options = {
       method: "GET",
       url: "/users/learn-count",
       params: { ...payload },
     };
 
-    const { data } = await API.request(options);
-    return callback(data);
+    return API.request(options);
   },
-  getUserProfile: async (payload, callback) => {
+  getUserProfile: (payload) => {
     const options = {
       method: "GET",
       url: "/users/profile",
       params: { ...payload },
     };
 
-    const { data } = await API.request(options);
-    const {
-      data: { followers, following, activity_logs },
-    } = data;
-    return callback(followers, following, activity_logs);
+    return API.request(options);
   },
   editUserProfile: async (payload) => {
     const options = {

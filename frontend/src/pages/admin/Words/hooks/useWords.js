@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { message } from "antd";
 
-import { authenticate } from "../../../../helpers/auth";
 import {
   setLoading,
   setCurrentLesson,
@@ -19,9 +18,6 @@ export const useWords = (lessonId) => {
   const { currentLesson, lessonWords } = useSelector((state) => state.lesson);
 
   useEffect(() => {
-    authenticate(navigate, dispatch);
-    if (!user.id) return;
-
     const getLessonDetails = async () => {
       dispatch(setLoading(true));
       const { data } = await adminApi.getLessonById({ id: lessonId });

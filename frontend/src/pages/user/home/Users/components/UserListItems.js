@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Avatar, Button, List, Typography } from "antd";
 import { blue } from "@ant-design/colors";
@@ -11,6 +12,7 @@ const UserListItems = ({
   handleFollow,
 }) => {
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
 
   return (
     <List.Item
@@ -28,12 +30,17 @@ const UserListItems = ({
       extra={
         !isCurrentUser && (
           <Button
+            loading={loading}
             danger={isUserFollowed}
-            className={`w-24 ${
+            className={`w-28 ${
               !isUserFollowed && "bg-[theme(colors.primary)]"
             }`}
             type="primary"
-            onClick={() => handleFollow(user.id)}
+            onClick={async () => {
+              setLoading(true);
+              await handleFollow(user.id);
+              setLoading(false);
+            }}
           >
             {isUserFollowed ? "Unfollow" : "Follow"}
           </Button>

@@ -40,7 +40,7 @@ const LessonDetailsForm = ({ lesson, onSubmit }) => {
           },
         ]}
       >
-        <Input.TextArea className="input-text h-48" />
+        <Input.TextArea className="input-text !h-48" />
       </Form.Item>
       <Button
         type="primary"

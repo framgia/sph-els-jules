@@ -3,28 +3,20 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { message } from "antd";
 
-import { authenticate } from "../../../../../helpers/auth";
 import userApi from "../../../../../api/userApi";
-import {
-  setLoading,
-  addUserFeed,
-  addActivity,
-  updateFollowing,
-} from "../../../../../store/currentUserSlice";
+import { setLoading, setDirty } from "../../../../../store/currentUserSlice";
 
 export const useAllUser = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { user, following } = useSelector((state) => state.currentUser);
+
   const [users, setUsers] = useState([]);
   const [usersMeta, setUsersMeta] = useState(null);
   const [filteredUsers, setFilteredUsers] = useState([]);
   const [searchText, setSearchText] = useState("");
 
   useEffect(() => {
-    authenticate(navigate, dispatch);
-    if (!user.id) return;
-
     dispatch(setLoading(true));
     userApi.getUsers().then(({ data }) => {
       if (data.meta.code === 200) {
@@ -72,22 +64,12 @@ export const useAllUser = () => {
 
   const handleFollow = async (user_id) => {
     const data = await userApi.toggleFollow({
-      follower_id: user.id,
       following_id: user_id,
     });
 
-    const {
-      data: { activity_log, user_follow },
-    } = data;
-
     if (data.meta.code === 200) {
-      dispatch(addUserFeed(activity_log));
-      dispatch(addActivity(activity_log));
-      dispatch(updateFollowing(user_follow));
-      return;
-    }
-
-    message.error(data.meta.message);
+      dispatch(setDirty(true));
+    } else message.error(data.meta.message);
   };
 
   return {

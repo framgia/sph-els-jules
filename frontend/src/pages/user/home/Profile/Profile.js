@@ -40,10 +40,13 @@ const Profile = () => {
     setDisplayWords,
   } = useProfileDetails(query);
 
-  const { followModal, setFollowModal, isFollowed, handleFollow } = useFollow(
-    query,
-    setFollowers
-  );
+  const {
+    followLoading,
+    followModal,
+    setFollowModal,
+    isFollowed,
+    handleFollow,
+  } = useFollow(query, setFollowers);
 
   return (
     <HomeLayout pageTitle="Profile">
@@ -118,7 +121,7 @@ const Profile = () => {
                   </Row>
                   {user.id !== +query.user_id && (
                     <Button
-                      loading={loading}
+                      loading={followLoading}
                       shape="round"
                       block
                       className="mt-6 mb-1 bg-[theme(colors.primary)]"

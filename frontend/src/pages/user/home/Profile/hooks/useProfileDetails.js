@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 
-import { authenticate } from "../../../../../helpers/auth";
 import { setLoading } from "../../../../../store/currentUserSlice";
 import userApi from "../../../../../api/userApi";
 
@@ -19,24 +18,21 @@ export const useProfileDetails = (query) => {
   const [displayWords, setDisplayWords] = useState(false);
 
   useEffect(() => {
-    authenticate(navigate, dispatch);
-    if (!user.id) return;
     if (user.user_type === "admin") return navigate("/admin/lessons");
     dispatch(setLoading(true));
     userApi.getUserById({ id: query.user_id }, (data) => {
       setSelectedUser(data.data.user);
     });
 
-    userApi.getUserProfile(
-      { user_id: query.user_id },
-      (followers, following, activity_logs) => {
-        setActivities(activity_logs);
-        setFollowers(followers);
-        setFollowing(following);
-      }
-    );
+    userApi.getUserProfile({ user_id: query.user_id }).then(({ data }) => {
+      const { activity_logs, followers, following } = data.data;
 
-    userApi.getLearnings({ user_id: query.user_id }, (data) => {
+      setActivities(activity_logs);
+      setFollowers(followers);
+      setFollowing(following);
+    });
+
+    userApi.getLearnings({ user_id: query.user_id }).then(({ data }) => {
       setLearnings(data.data);
       dispatch(setLoading(false));
     });

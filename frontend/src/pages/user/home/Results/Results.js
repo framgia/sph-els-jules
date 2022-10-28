@@ -69,6 +69,7 @@ const Results = () => {
               Next Lesson: <Text strong>{nextLesson?.title}</Text>
             </Text>
             <Button
+              disabled={nextLesson?.Lesson_words.length === 0}
               className={
                 nextLesson?.result.length > 0
                   ? "border-none bg-[#389E0D]"
