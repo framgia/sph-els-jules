@@ -1,4 +1,4 @@
-import { createSlice, current } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   loading: false,
@@ -27,33 +27,15 @@ export const currentUserSlice = createSlice({
     setUserFeed: (state, action) => {
       state.userFeed = action.payload;
     },
-    // addUserFeed: (state, action) => {
-    //   state.userFeed.push(action.payload);
-    // },
     setActivities: (state, action) => {
       state.activities = action.payload;
     },
-    // addActivity: (state, action) => {
-    //   state.activities.push(action.payload);
-    // },
     setFollowers: (state, action) => {
       state.followers = action.payload;
     },
     setFollowing: (state, action) => {
       state.following = action.payload;
     },
-    // updateFollowing: (state, action) => {
-    //   const currentState = current(state.following);
-    //   const getIndex = currentState
-    //     .map((user) => user.user_id)
-    //     .indexOf(action.payload.user_id);
-
-    //   if (getIndex !== -1) {
-    //     state.following.splice(getIndex, 1);
-    //   }
-
-    //   if (action.payload.is_followed) state.following.push(action.payload);
-    // },
     setLearnings: (state, action) => {
       state.learnings = action.payload;
     },
@@ -66,12 +48,9 @@ export const {
   setDirty,
   setCurrentUser,
   setUserFeed,
-  // addUserFeed,
   setActivities,
-  // addActivity,
   setFollowers,
   setFollowing,
-  // updateFollowing,
   setLearnings,
   resetState,
 } = currentUserSlice.actions;
