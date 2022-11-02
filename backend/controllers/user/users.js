@@ -1,5 +1,7 @@
+const fs = require("fs");
+
+const appRoot = require("app-root-path");
 const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
 
 const {
   User,
@@ -168,6 +170,7 @@ module.exports = {
       current_password,
       new_password,
     } = req.body;
+    const defaultImg = `${process.env.BACKEND_URL}/images/default_img.jpeg`;
 
     const user = await User.validateUser(user_id, email, current_password, res);
     if (!user) return;
@@ -180,18 +183,32 @@ module.exports = {
 
     let avatar_url;
     if (req.file) {
-      avatar_url =
-        process.env.BACKEND_URL +
-        "/" +
-        req.file.path.replace(/\\/g, "/").split("/").slice(1).join("/");
+      avatar_url = `${process.env.BACKEND_URL}/${req.file.path
+        .replace(/\\/g, "/")
+        .split("/")
+        .slice(1)
+        .join("/")}`;
+
+      if (user.avatar_url !== defaultImg) {
+        const relativePath = user.avatar_url.split(
+          `${process.env.BACKEND_URL}/`
+        )[1];
+        const prevImgPath = `${appRoot}/public/${relativePath}`;
+        fs.unlink(prevImgPath, (err) => {
+          if (err)
+            return res.send(
+              ResponseHelper.generateResponse(400, "Unable to change avatar")
+            );
+        });
+      }
     }
 
     user.set({
-      first_name: first_name ? first_name : user.first_name,
-      last_name: last_name ? last_name : user.last_name,
-      email: email ? email : user.email,
-      password: hash ? hash : user.password,
-      avatar_url: avatar_url ? avatar_url : user.avatar_url,
+      first_name: first_name ?? user.first_name,
+      last_name: last_name ?? user.last_name,
+      email: email ?? user.email,
+      password: hash ?? user.password,
+      avatar_url: avatar_url ?? user.avatar_url,
     });
     await user.save();
 
