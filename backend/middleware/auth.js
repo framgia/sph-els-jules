@@ -22,7 +22,9 @@ module.exports = {
 
     jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
       if (err) {
-        return ResponseHelper.generateResponse(401, "Unauthorized access");
+        return res.send(
+          ResponseHelper.generateResponse(401, "Unauthorized access")
+        );
       }
 
       req.currentUserId = decoded.id;

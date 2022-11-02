@@ -6,6 +6,7 @@ import { message } from "antd";
 import userApi from "../../../../../api/userApi";
 import {
   setLoading,
+  setDirty,
   setCurrentUser,
 } from "../../../../../store/currentUserSlice";
 
@@ -48,6 +49,7 @@ export const useEditProfile = () => {
     if (data.meta.code === 200) {
       message.success("Profile successfully updated!");
       localStorage.setItem("user", JSON.stringify(data.data.user));
+      dispatch(setDirty(true));
       return dispatch(setCurrentUser(data.data.user));
     }
 

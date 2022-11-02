@@ -1,4 +1,5 @@
 const bcrypt = require("bcrypt");
+const { validationResult } = require("express-validator");
 const jwt = require("jsonwebtoken");
 
 const ResponseHelper = require("../../helpers/response");
@@ -9,17 +10,23 @@ module.exports = {
   login: async (req, res) => {
     const { email, password } = req.body;
 
+    if (!(email && password)) {
+      return res.send(
+        ResponseHelper.generateResponse(400, "Some fields are empty")
+      );
+    }
+
     const user = await User.findOne({ where: { email } });
     if (!user) {
       return res.send(
-        ResponseHelper.generateResponse(401, "Email or password is incorrect.")
+        ResponseHelper.generateResponse(400, "Email or password is incorrect")
       );
     }
 
     const passwordCheck = await bcrypt.compare(password, user.password);
     if (!passwordCheck) {
       return res.send(
-        ResponseHelper.generateResponse(401, "Email or Password is incorrect.")
+        ResponseHelper.generateResponse(401, "Email or password is incorrect")
       );
     }
 
@@ -40,13 +47,25 @@ module.exports = {
   },
   signup: async (req, res) => {
     const { first_name, last_name, email, password } = req.body;
-    const existingUser = await User.findOne({ where: { email } });
 
-    if (existingUser) {
-      res.send(
-        ResponseHelper.generateResponse(401, "Email is already in use.")
+    if (!(first_name && last_name && email && password)) {
+      return res.send(
+        ResponseHelper.generateResponse(400, "Some fields are empty")
       );
-      return;
+    }
+
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.send(
+        ResponseHelper.generateResponse(400, errors.errors[0].msg)
+      );
+    }
+
+    const existingUser = await User.findOne({ where: { email } });
+    if (existingUser) {
+      return res.send(
+        ResponseHelper.generateResponse(400, "Email is already in use")
+      );
     }
 
     const salt = 11;
