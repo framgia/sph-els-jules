@@ -1,6 +1,7 @@
 const request = require("supertest");
 
 const app = require("../../../app");
+const { User } = require("../../../models");
 
 describe("POST /signup", () => {
   it("should be able to create an account", async () => {
@@ -10,9 +11,11 @@ describe("POST /signup", () => {
       email: "bill123@gmail.com",
       password: "pass",
     });
+    const user = await User.findOne({ where: { email: "bill123@gmail.com" } });
 
     expect(res.statusCode).toEqual(200);
     expect(res.body.meta.code).toEqual(200);
+    expect(user).not.toBeNull();
   });
 
   it("should not create an account if email is invalid", async () => {
