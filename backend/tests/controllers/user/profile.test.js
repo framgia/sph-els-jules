@@ -1,11 +1,22 @@
 const appRoot = require("app-root-path");
 const bcrypt = require("bcrypt");
+const httpMocks = require("node-mocks-http");
 const request = require("supertest");
 
 const app = require("../../../app");
 const { User } = require("../../../models");
 
+const usersController = require("../../../controllers/user/users");
+
+let req;
+let res;
 let token;
+
+beforeEach(() => {
+  req = httpMocks.createRequest();
+  res = httpMocks.createResponse();
+});
+
 test("login and authorize", async () => {
   const res = await request(app)
     .post("/login")
@@ -22,18 +33,18 @@ test("login and authorize", async () => {
 
 describe("PUT /users/profile", () => {
   it("should update the first name, last name, and email", async () => {
-    const res = await request(app)
-      .put("/users/profile")
-      .set("Authorization", token)
-      .send({
-        user_id: 1,
-        first_name: "John123",
-        last_name: "Doe123",
-        email: "johndoe123@gmail.com",
-      })
-      .expect(200);
-    expect(res.body.meta.code).toEqual(200);
-    expect(res.body.data).toHaveProperty("user");
+    req.body = {
+      user_id: 1,
+      first_name: "John123",
+      last_name: "Doe123",
+      email: "johndoe123@gmail.com",
+    };
+    await usersController.updateProfileById(req, res);
+    const data = res._getData();
+
+    expect(res._getStatusCode()).toEqual(200);
+    expect(data.meta.code).toEqual(200);
+    expect(data.data).toHaveProperty("user");
 
     const user = await User.findByPk(1);
     expect(user.first_name).toEqual("John123");
@@ -42,17 +53,17 @@ describe("PUT /users/profile", () => {
   });
 
   it("should update the password", async () => {
-    const res = await request(app)
-      .put("/users/profile")
-      .set("Authorization", token)
-      .send({
-        user_id: 1,
-        current_password: "pass",
-        new_password: "pass123",
-      })
-      .expect(200);
-    expect(res.body.meta.code).toEqual(200);
-    expect(res.body.data).toHaveProperty("user");
+    req.body = {
+      user_id: 1,
+      current_password: "pass",
+      new_password: "pass123",
+    };
+    await usersController.updateProfileById(req, res);
+    const data = res._getData();
+
+    expect(res._getStatusCode()).toEqual(200);
+    expect(data.meta.code).toEqual(200);
+    expect(data.data).toHaveProperty("user");
 
     const user = await User.findByPk(1);
     const compare = await bcrypt.compare("pass123", user.password);
