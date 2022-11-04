@@ -11,6 +11,11 @@ module.exports = {
     const limit = +req.query.limit || 5;
     const offset = limit * (page - 1);
 
+    const lesson = await Lesson.findByPk(lesson_id);
+    if (!lesson) {
+      return res.send(ResponseHelper.generateNotFoundResponse("Lesson"));
+    }
+
     const { count, rows } = await Lesson_word.findAndCountAll({
       limit,
       offset,
