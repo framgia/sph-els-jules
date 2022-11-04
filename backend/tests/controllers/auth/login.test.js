@@ -16,7 +16,7 @@ describe("POST /login", () => {
 
   it("should not login if email is not found", async () => {
     const res = await request(app).post("/login").send({
-      email: "johndoe123@gmail.com",
+      email: "johndoe12345@gmail.com",
       password: "pass",
     });
 
@@ -27,7 +27,7 @@ describe("POST /login", () => {
 
   it("should not login if password is incorrect", async () => {
     const res = await request(app).post("/login").send({
-      email: "johndoe@gmail.com",
+      email: "jane123@gmail.com",
       password: "wrong_password",
     });
 
