@@ -10,40 +10,69 @@ beforeEach(() => {
   res = httpMocks.createResponse();
 });
 
-describe("User.validateUser()", () => {
-  it("should be able to validate user", async () => {
-    const id = 3;
-    const email = "janedough@gmail.com";
-    const current_password = "test";
+describe("When calling validateUser function", () => {
+  describe("When validation is successful", () => {
+    beforeEach(async () => {
+      const id = 3;
+      const email = "janedough@gmail.com";
+      const current_password = "test";
 
-    await User.validateUser(id, email, current_password, res);
-    expect(res._getData()).toBeFalsy();
+      await User.validateUser(id, email, current_password, res);
+    });
+
+    it("should not return an error response", async () => {
+      expect(res._getData()).toBeFalsy();
+    });
   });
 
-  it("should error if user is not found", async () => {
-    const id = 17;
+  describe("When user is not found", () => {
+    beforeEach(async () => {
+      const id = 17;
 
-    await User.validateUser(id, null, null, res);
-    expect(res._getStatusCode()).toEqual(200);
-    expect(res._getData().meta.code).toEqual(404);
+      await User.validateUser(id, null, null, res);
+    });
+
+    it("should return status of 200", () => {
+      expect(res.statusCode).toEqual(200);
+    });
+
+    it("should return meta code of 404", () => {
+      expect(res._getData().meta.code).toEqual(404);
+    });
   });
 
-  it("should error if email already exists", async () => {
-    const id = 1;
-    const email = "jane123@gmail.com";
+  describe("When email already exists", () => {
+    beforeEach(async () => {
+      const id = 1;
+      const email = "jane123@gmail.com";
 
-    await User.validateUser(id, email, null, res);
-    expect(res._getStatusCode()).toEqual(200);
-    expect(res._getData().meta.code).toEqual(403);
+      await User.validateUser(id, email, null, res);
+    });
+
+    it("should return status of 200", () => {
+      expect(res.statusCode).toEqual(200);
+    });
+
+    it("should return meta code of 403", () => {
+      expect(res._getData().meta.code).toEqual(403);
+    });
   });
 
-  it("should error if password is incorrect", async () => {
-    const id = 1;
-    const email = "johndoe@gmail.com";
-    const current_password = "wrong_password";
+  describe("When password is incorrect", () => {
+    beforeEach(async () => {
+      const id = 1;
+      const email = "johndoe@gmail.com";
+      const current_password = "wrong_password";
 
-    await User.validateUser(id, null, current_password, res);
-    expect(res._getStatusCode()).toEqual(200);
-    expect(res._getData().meta.code).toEqual(401);
+      await User.validateUser(id, null, current_password, res);
+    });
+
+    it("should return status of 200", () => {
+      expect(res.statusCode).toEqual(200);
+    });
+
+    it("should return meta code of 401", () => {
+      expect(res._getData().meta.code).toEqual(401);
+    });
   });
 });
