@@ -20,8 +20,6 @@ beforeEach(() => {
 test("login and authorize", async () => {
   const res = await request(app)
     .post("/login")
-    //! If `profile.test.js` was ran before
-    //! use this - { email: "johndoe123@gmail.com", password: "pass123" }
     .send({ email: "johndoe@gmail.com", password: "pass" })
     .expect(200);
 
@@ -31,57 +29,112 @@ test("login and authorize", async () => {
   token = res.body.data.token;
 });
 
-describe("PUT /users/profile", () => {
-  it("should update the first name, last name, and email", async () => {
-    req.body = {
-      user_id: 1,
-      first_name: "John123",
-      last_name: "Doe123",
-      email: "johndoe123@gmail.com",
-    };
-    await usersController.updateProfileById(req, res);
-    const data = res._getData();
+describe("When calling updateProfileById function", () => {
+  describe("When updating user details is successful", () => {
+    let data;
+    beforeAll(async () => {
+      req.body = {
+        user_id: 1,
+        first_name: "John123",
+        last_name: "Doe123",
+        email: "johndoe123@gmail.com",
+      };
+      await usersController.updateProfileById(req, res);
+      data = res._getData();
+    });
 
-    expect(res._getStatusCode()).toEqual(200);
-    expect(data.meta.code).toEqual(200);
-    expect(data.data).toHaveProperty("user");
+    it("should return status of 200", () => {
+      expect(res.statusCode).toEqual(200);
+    });
 
-    const user = await User.findByPk(1);
-    expect(user.first_name).toEqual("John123");
-    expect(user.last_name).toEqual("Doe123");
-    expect(user.email).toEqual("johndoe123@gmail.com");
+    it("should return meta code of 200", () => {
+      expect(data.meta.code).toEqual(200);
+    });
+
+    it("should have a correct body structure properties", () => {
+      expect(data.data.user).toMatchObject({
+        id: expect.any(Number),
+        first_name: expect.any(String),
+        last_name: expect.any(String),
+        email: expect.any(String),
+        avatar_url: expect.any(String),
+        createdAt: expect.any(Date),
+        updatedAt: expect.any(Date),
+      });
+    });
+
+    it("should be updated in the database", async () => {
+      const user = await User.findByPk(1);
+      expect(user).toMatchObject({
+        first_name: "John123",
+        last_name: "Doe123",
+        email: "johndoe123@gmail.com",
+      });
+    });
   });
 
-  it("should update the password", async () => {
-    req.body = {
-      user_id: 1,
-      current_password: "pass",
-      new_password: "pass123",
-    };
-    await usersController.updateProfileById(req, res);
-    const data = res._getData();
+  describe("When updating password is successful", () => {
+    let data;
+    beforeAll(async () => {
+      req.body = {
+        user_id: 1,
+        current_password: "pass",
+        new_password: "pass123",
+      };
+      await usersController.updateProfileById(req, res);
+      data = res._getData();
+    });
 
-    expect(res._getStatusCode()).toEqual(200);
-    expect(data.meta.code).toEqual(200);
-    expect(data.data).toHaveProperty("user");
+    it("should return status of 200", () => {
+      expect(res.statusCode).toEqual(200);
+    });
 
-    const user = await User.findByPk(1);
-    const compare = await bcrypt.compare("pass123", user.password);
-    expect(compare).toEqual(true);
+    it("should return meta code of 200", () => {
+      expect(data.meta.code).toEqual(200);
+    });
+
+    it("should have a correct body structure properties", () => {
+      expect(data.data.user).toMatchObject({
+        id: expect.any(Number),
+        first_name: expect.any(String),
+        last_name: expect.any(String),
+        email: expect.any(String),
+        avatar_url: expect.any(String),
+        createdAt: expect.any(Date),
+        updatedAt: expect.any(Date),
+      });
+    });
+
+    it("should be updated in the database", async () => {
+      const user = await User.findByPk(1);
+      const compare = await bcrypt.compare("pass123", user.password);
+      expect(compare).toEqual(true);
+    });
   });
 
-  it("should update the profile image", async () => {
-    const res = await request(app)
-      .put("/users/profile")
-      .set("Authorization", token)
-      .field("user_id", 1)
-      .attach("avatar_url", `${appRoot}/tests/images/els.png`)
-      .expect(200);
+  describe("When updating profile image is successful", () => {
+    let res;
+    beforeAll(async () => {
+      res = await request(app)
+        .put("/users/profile")
+        .set("Authorization", token)
+        .field("user_id", 1)
+        .attach("avatar_url", `${appRoot}/tests/images/els.png`)
+        .expect(200);
+    });
 
-    expect(res.body.meta.code).toEqual(200);
-    expect(res.body.data).toHaveProperty("user");
+    it("should return meta code of 200", () => {
+      expect(res.body.meta.code).toEqual(200);
+    });
 
-    const user = await User.findByPk(1);
-    expect(user.avatar_url).toEqual(res.body.data.user.avatar_url);
+    it("should have a correct body structure properties", () => {
+      expect(res.body.data.user).toMatchObject({
+        id: expect.any(Number),
+        first_name: expect.any(String),
+        last_name: expect.any(String),
+        email: expect.any(String),
+        avatar_url: expect.any(String),
+      });
+    });
   });
 });
