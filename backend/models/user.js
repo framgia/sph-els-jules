@@ -57,7 +57,7 @@ module.exports = (sequelize, DataTypes) => {
       const emailExists = await User.findOne({ where: { email } });
       if (emailExists) {
         res.send(
-          ResponseHelper.generateResponse(404, "Email is already in use")
+          ResponseHelper.generateResponse(403, "Email is already in use")
         );
         return;
       }
@@ -70,7 +70,7 @@ module.exports = (sequelize, DataTypes) => {
       );
       if (!passwordIsCorrect) {
         res.send(
-          ResponseHelper.generateResponse(404, "Password is incorrect!")
+          ResponseHelper.generateResponse(401, "Password is incorrect!")
         );
         return;
       }
